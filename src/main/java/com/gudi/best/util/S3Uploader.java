@@ -2,8 +2,8 @@ package com.gudi.best.util;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,18 +26,22 @@ public class S3Uploader {
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;  // S3 버킷 이름
 
-    public String upload(MultipartFile multipartFile) throws Exception {
+    public HashMap<String, Object> upload(MultipartFile multipartFile) throws Exception {
         File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
                 .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
         return upload(uploadFile);
     }
 
     // S3로 파일 업로드하기
-    private String upload(File uploadFile) {
-        String fileName =  "imgs/" + UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
-        String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
+    private HashMap<String, Object> upload(File uploadFile) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        String fileName = UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
+        String path = putS3(uploadFile, "imgs/" + fileName); // s3로 업로드
         removeNewFile(uploadFile);
-        return uploadImageUrl;
+        map.put("path", path);
+        map.put("oriFileName", uploadFile.getName());
+        map.put("newFileName", fileName);
+        return map;
     }
 
     // S3로 업로드
@@ -64,5 +69,13 @@ public class S3Uploader {
             return Optional.of(convertFile);
         }
         return Optional.empty();
+    }
+
+    // s3 파일 삭제하기
+    public void delete(String newFileName) {
+        boolean isExistObject = amazonS3Client.doesObjectExist(bucket, "imgs/" + newFileName);
+        if (isExistObject == true) {
+            amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, "imgs/" + newFileName));
+        }
     }
 }
