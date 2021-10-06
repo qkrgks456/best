@@ -22,7 +22,7 @@ public class MemberController {
     S3Uploader s3Uploader;
 
     @GetMapping(value = "/")
-    public String loginForm() {
+    public String loginForm(Model model) {
         return "startForm/loginForm";
     }
 
