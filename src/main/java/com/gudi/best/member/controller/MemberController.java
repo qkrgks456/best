@@ -44,6 +44,7 @@ public class MemberController {
         return "startForm/loginForm";
     }
 
+    // 로그인
     @PostMapping(value = "/member/login")
     public String login(HttpSession session, Model model, String id, String pw) {
         String enc_pass = memberService.login(id);

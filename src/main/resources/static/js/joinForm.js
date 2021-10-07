@@ -73,6 +73,7 @@ $("#pwCheck").on("change keyup paste input", function () {
         $(this).nextAll('div.invalid-feedback').text('다시 입력해주세요');
     }
 });
+// 이메일 인증
 $("#emailSendBtn").on('click', function () {
     let emailSender = $("#emailSender").val();
     $("#emailSender").attr("class", "form-control is-valid");
@@ -97,6 +98,7 @@ $("#emailSendBtn").on('click', function () {
         }
     })
 });
+// 이메일 인증 번호 확인
 $('#emailNumCheckBtn').on('click', function () {
     let code = $('#code').val();
     $.ajax({
