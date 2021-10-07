@@ -4,7 +4,7 @@
 <body>
 <img src="/img/love.jpg" id="bg" class="img-fluid">
 <div class="d-flex justify-content-center container">
-    <form method="post" th:action="@{/member/login}" class="w-75 border p-3 bg-light shadow rounded"
+    <form method="post" th:action="@{/member/login}" class="w-75 border p-3 bg-white shadow rounded"
           style="margin-top: 200px">
         <div class="d-inline-flex">
             <img class="img-fluid" src="/img/love-icon.png" style="width: 60px;height: 60px">
@@ -19,15 +19,23 @@
             <label for="pw" class="form-label">비밀번호</label>
             <input type="password" class="form-control" id="pw" name="pw" placeholder="비밀번호를 입력해주세요">
         </div>
-        <div th:if="${loginSuc}" class="alert alert-danger d-flex align-items-center justify-content-center" role="alert">
+        <div th:if="${loginSuc}" class="alert alert-danger d-flex align-items-center justify-content-center"
+             role="alert">
             <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
                 <use xlink:href="#exclamation-triangle-fill"/>
             </svg>
             <div>정보가 틀리거나 없는 아이디입니다</div>
         </div>
-        <a th:href="@{/kakaoLogin}">
-            <img src="/img/kakao_login.png">
-        </a>
+        <div>
+            <a th:href="@{/kakaoLogin}">
+                <img src="/img/kakao_login2.png">
+            </a>
+        </div>
+        <div>
+            <a th:href="@{/googleLogin}">
+                <img src="/img/google_login.png">
+            </a>
+        </div>
         <div class="text-center mt-3">
             <button type="submit" class="btn btn-danger rounded-0 me-1">로그인</button>
             <a th:href="@{/member/joinForm}" class="btn btn-danger rounded-0">회원가입</a>
