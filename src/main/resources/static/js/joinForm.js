@@ -78,6 +78,7 @@ $("#emailSendBtn").on('click', function () {
     let emailSender = $("#emailSender").val();
     $("#emailSender").attr("class", "form-control is-valid");
     $("#emailSender").nextAll('.valid-feedback').text("전송중입니다 잠시 기다려주세요..");
+    $(this).attr("disabled", "disabled");
     $.ajax({
         type: "GET",
         url: "/member/emailCheck",
@@ -87,9 +88,11 @@ $("#emailSendBtn").on('click', function () {
         dataType: 'JSON',
         success: function (suc) {
             if (suc) {
+                $("#emailSendBtn").removeAttr("disabled");
                 $("#emailSender").nextAll('.valid-feedback').text("전송되었습니다");
                 $("#emailSender").attr("class", "form-control is-valid");
             } else {
+                $("#emailSendBtn").removeAttr("disabled");
                 $("#emailSender").attr("class", "form-control is-invalid");
             }
         },

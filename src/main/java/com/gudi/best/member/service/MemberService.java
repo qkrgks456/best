@@ -38,7 +38,7 @@ public class MemberService {
             String toMail = email;
             String title = "저희 Lovegame을 방문해주셔서 감사합니다 인증 코드 입니다";
             String content =
-                    "<img src='https://hansol-bucket.s3.ap-northeast-2.amazonaws.com/imgs/20211007_002451.png'>" +
+                    "<img src='https://hansol-bucket.s3.ap-northeast-2.amazonaws.com/imgs/20211007_115236.png'>" +
                             "<h1>홈페이지를 방문해주셔서 감사합니다</h1>" +
                             "<br>" +
                             "<h3>인증 번호는 " + emailCheckNum + "입니다.</h3>" +
