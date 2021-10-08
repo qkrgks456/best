@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!-- Sidebar  -->
+<nav id="sidebar">
+    <div class="sidebar-header">
+        <a th:href="@{/main}">
+            <div class="d-inline-flex mt-2">
+                <img class="img-fluid" src="/img/love-icon.png" style="width: 45px;height: 45px">
+                <h3 class="ms-2 fw-bold text-white">Lovegame</h3>
+            </div>
+        </a>
+    </div>
+    <ul class="list-unstyled components">
+        <li>
+            <a href="#">지금 사랑한다면</a>
+        </li>
+        <li>
+            <a href="#">사랑을 찾아서</a>
+        </li>
+        <li>
+            <a href="#">사랑을 나눠요</a>
+        </li>
+        <li>
+            <a href="#pageSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">내 정보</a>
+            <ul class="collapse list-unstyled" id="pageSubmenu">
+                <li>
+                    <a href="#">내 프로필</a>
+                </li>
+                <li>
+                    <a href="#">비밀번호 변경</a>
+                </li>
+                <li>
+                    <a href="#">관심리스트</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <ul class="list-unstyled CTAs">
+        <a class="btn btn-danger btn-sm rounded-0">로그아웃</a>
+        여기에 알림표시 쪽지표시 들어갈 예정입니다
+
+    </ul>
+</nav>
+</html>

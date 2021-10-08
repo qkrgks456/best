@@ -55,7 +55,7 @@ public class MemberController {
                 String adminCheck = memberService.adminCheck(id);
                 session.setAttribute("admin", adminCheck);
                 session.setAttribute("loginId", id);
-                return "mainPage/main";
+                return "redirect:/main";
             } else {
                 model.addAttribute("loginSuc", true);
             }
