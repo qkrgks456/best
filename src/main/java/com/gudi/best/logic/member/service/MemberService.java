@@ -1,6 +1,6 @@
-package com.gudi.best.member.service;
+package com.gudi.best.logic.member.service;
 
-import com.gudi.best.member.mapper.MemberMapper;
+import com.gudi.best.logic.member.mapper.MemberMapper;
 import com.gudi.best.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;

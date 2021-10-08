@@ -1,4 +1,4 @@
-package com.gudi.best.member.mapper;
+package com.gudi.best.logic.member.mapper;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;

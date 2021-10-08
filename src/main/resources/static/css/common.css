@@ -128,6 +128,12 @@ a:focus {
     display: block;
 }
 
+#sidebar ul li div {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
 #sidebar ul li a:hover {
     color: black;
     background: #fff;
@@ -136,7 +142,7 @@ a:focus {
 #sidebar ul li.active > a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: #a52834;
+    background: #bb2d3b;
 }
 
 a[data-toggle="collapse"] {

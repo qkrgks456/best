@@ -12,33 +12,51 @@
     </div>
     <ul class="list-unstyled components">
         <li>
-            <a href="#">지금 사랑한다면</a>
+            <a href="#coupleMenu" data-bs-toggle="collapse">지금 사랑한다면</a>
+            <ul class="collapse list-unstyled" id="coupleMenu">
+                <li>
+                    <a th:href="@{/couple/loveCalender}">사랑일지</a>
+                </li>
+                <li>
+                    <a th:href="@{/couple/loveTalk}">러브톡</a>
+                </li>
+                <li>
+                    <a th:href="@{/couple/loveInfo}">데이트정보</a>
+                </li>
+            </ul>
         </li>
         <li>
-            <a href="#">사랑을 찾아서</a>
+            <a href="#loveFind" data-bs-toggle="collapse">사랑을 찾아서</a>
+            <ul class="collapse list-unstyled" id="loveFind">
+                <li>
+                    <a th:href="@{/matching/matchingMain}">좋은사람찾기</a>
+                </li>
+                <li>
+                    <a>대화</a>
+                </li>
+                <li>
+                    <a>관심리스트</a>
+                </li>
+            </ul>
         </li>
         <li>
-            <a href="#">사랑을 나눠요</a>
-        </li>
-        <li>
-            <a href="#pageSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">내 정보</a>
-            <ul class="collapse list-unstyled" id="pageSubmenu">
+            <a href="#myInfoMenu" data-bs-toggle="collapse">내 정보</a>
+            <ul class="collapse list-unstyled" id="myInfoMenu">
                 <li>
                     <a href="#">내 프로필</a>
                 </li>
                 <li>
                     <a href="#">비밀번호 변경</a>
                 </li>
-                <li>
-                    <a href="#">관심리스트</a>
-                </li>
             </ul>
+        </li>
+        <li>
+            <a href="#">사랑게시판</a>
         </li>
     </ul>
     <ul class="list-unstyled CTAs">
         <a class="btn btn-danger btn-sm rounded-0">로그아웃</a>
         여기에 알림표시 쪽지표시 들어갈 예정입니다
-
     </ul>
 </nav>
 </html>

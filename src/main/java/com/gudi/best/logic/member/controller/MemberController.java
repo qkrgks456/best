@@ -1,23 +1,16 @@
-package com.gudi.best.member.controller;
+package com.gudi.best.logic.member.controller;
 
-import com.gudi.best.member.service.MemberService;
-import com.gudi.best.util.EmailUtil;
-import com.gudi.best.util.S3Uploader;
+import com.gudi.best.logic.member.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
-import java.util.Random;
 
 @Controller
 public class MemberController {
