@@ -10,16 +10,16 @@ public class CoupleController {
 
     @GetMapping("/loveCalender")
     public String loveCalender() {
-        return "couple/loveCalender";
+        return "logic/couple/loveCalender";
     }
 
     @GetMapping("/loveInfo")
     public String loveInfo() {
-        return "couple/loveInfo";
+        return "logic/couple/loveInfo";
     }
 
-    @GetMapping("/loveTalk")
-    public String loveTalk() {
-        return "couple/loveTalk";
+    @GetMapping("/loveMemory")
+    public String loveMemory() {
+        return "logic/couple/loveMemory";
     }
 }

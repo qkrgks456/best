@@ -12,12 +12,14 @@
             </button>
         </nav>
         <!-- 여기서 부터 내용 넣으세요 -->
-        사랑일지
+        커플둘만 이용할 수 있는 게시판
     </div>
 </div>
 </body>
 <th:block th:replace="fix/fixFooter.html"></th:block>
 <script>
-
+    $('#coupleMenuBtn').attr("aria-expanded", "true");
+    $('#coupleMenu').addClass("show");
+    $('#coupleMenu').children("li").eq(1).addClass("active");
 </script>
 </html>

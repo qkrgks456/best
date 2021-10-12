@@ -9,6 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MatchingController {
     @GetMapping("/matchingMain")
     public String matchingMain() {
-        return "matching/matchingMain";
+        return "logic/matching/matchingMain";
+    }
+
+    @GetMapping("/loveTalk")
+    public String message() {
+        return "logic/matching/loveTalk";
+    }
+
+    @GetMapping("/goodList")
+    public String goodList() {
+        return "logic/matching/goodList";
     }
 }

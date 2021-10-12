@@ -12,13 +12,13 @@
     </div>
     <ul class="list-unstyled components">
         <li>
-            <a href="#coupleMenu" data-bs-toggle="collapse">지금 사랑한다면</a>
+            <a id="coupleMenuBtn" href="#coupleMenu" data-bs-toggle="collapse">지금 사랑한다면</a>
             <ul class="collapse list-unstyled" id="coupleMenu">
                 <li>
                     <a th:href="@{/couple/loveCalender}">사랑일지</a>
                 </li>
                 <li>
-                    <a th:href="@{/couple/loveTalk}">러브톡</a>
+                    <a th:href="@{/couple/loveMemory}">추억나누기</a>
                 </li>
                 <li>
                     <a th:href="@{/couple/loveInfo}">데이트정보</a>
@@ -26,37 +26,68 @@
             </ul>
         </li>
         <li>
-            <a href="#loveFind" data-bs-toggle="collapse">사랑을 찾아서</a>
+            <a id="loveFindBtn" href="#loveFind" data-bs-toggle="collapse">사랑을 찾아서</a>
             <ul class="collapse list-unstyled" id="loveFind">
                 <li>
                     <a th:href="@{/matching/matchingMain}">좋은사람찾기</a>
                 </li>
                 <li>
-                    <a>대화</a>
+                    <a th:href="@{/matching/loveTalk}">러브톡</a>
                 </li>
                 <li>
-                    <a>관심리스트</a>
+                    <a th:href="@{/matching/goodList}">관심리스트</a>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="#myInfoMenu" data-bs-toggle="collapse">내 정보</a>
-            <ul class="collapse list-unstyled" id="myInfoMenu">
-                <li>
-                    <a href="#">내 프로필</a>
-                </li>
-                <li>
-                    <a href="#">비밀번호 변경</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">사랑게시판</a>
+            <a id="loveBoardBtn" th:href="@{/loveBoard/list}">사랑게시판</a>
         </li>
     </ul>
     <ul class="list-unstyled CTAs">
-        <a class="btn btn-danger btn-sm rounded-0">로그아웃</a>
-        여기에 알림표시 쪽지표시 들어갈 예정입니다
+        <a th:href="@{/myInfo/myInfoDetail}" class="btn btn-danger btn-sm rounded-0">내 정보</a>
+        <a th:href="@{/member/logOut}" class="btn btn-danger btn-sm rounded-0">로그아웃</a>
+    </ul>
+    <ul class="list-unstyled d-flex justify-content-center">
+        <button type="button" class="btn btn-danger rounded-0" data-bs-toggle="modal" data-bs-target="#alarmModal">
+            알림 <span class="badge bg-light text-dark">4</span>
+        </button>
+        <button type="button" class="btn btn-danger rounded-0 ms-2" data-bs-toggle="modal" data-bs-target="#noteModal">
+            쪽지 <span class="badge bg-light text-dark">4</span>
+        </button>
     </ul>
 </nav>
+<!-- 알림 모달창 -->
+<div class="modal fade" id="alarmModal" tabindex="-1" aria-labelledby="alarmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="alarmModalLabel">알림창</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 쪽지 모달창 -->
+<div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="noteModalLabel">쪽지창</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
 </html>
