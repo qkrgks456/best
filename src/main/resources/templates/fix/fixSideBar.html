@@ -44,15 +44,15 @@
         </li>
     </ul>
     <ul class="list-unstyled CTAs">
-        <a th:href="@{/myInfo/myInfoDetail}" class="btn btn-danger btn-sm rounded-0">내 정보</a>
+        <a th:href="@{/myInfo/myInfoUpdate}" class="btn btn-danger btn-sm rounded-0">내 정보</a>
         <a th:href="@{/member/logOut}" class="btn btn-danger btn-sm rounded-0">로그아웃</a>
     </ul>
     <ul class="list-unstyled d-flex justify-content-center">
         <button type="button" class="btn btn-danger rounded-0" data-bs-toggle="modal" data-bs-target="#alarmModal">
-            알림 <span class="badge bg-light text-dark">4</span>
+            <i class="bi bi-bell-fill me-1"></i><span class="badge bg-light text-dark">4</span>
         </button>
         <button type="button" class="btn btn-danger rounded-0 ms-2" data-bs-toggle="modal" data-bs-target="#noteModal">
-            쪽지 <span class="badge bg-light text-dark">4</span>
+            <i class="bi bi-chat-quote-fill me-1"></i><span class="badge bg-light text-dark">4</span>
         </button>
     </ul>
 </nav>
@@ -78,7 +78,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="noteModalLabel">쪽지창</h5>
+                <h5 class="modal-title" id="noteModalLabel">쪽지함</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

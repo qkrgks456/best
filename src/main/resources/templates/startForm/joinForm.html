@@ -4,7 +4,8 @@
 <body>
 <img src="/img/love.jpg" id="bg" class="img-fluid">
 <div class="d-flex justify-content-center container h-100">
-    <form th:action="@{/member/join}" class="w-75 border p-3 bg-white shadow rounded align-self-center" method="post" id="joinForm">
+    <form th:action="@{/member/join}" class="w-75 border p-3 bg-white shadow rounded align-self-center" method="post"
+          id="joinForm">
         <div class="d-inline-flex">
             <img class="img-fluid" src="/img/love-icon.png" style="width: 60px;height: 60px">
             <h1 class="ms-2 fw-bold">Lovegame</h1>
@@ -37,6 +38,24 @@
             <button id="emailCheckBtn" class="btn btn-danger btn-sm rounded-0 mt-2" type="button"
                     data-bs-target="#emailModal" data-bs-toggle="modal">이메일인증
             </button>
+        </div>
+        <div class="form-label">성별</div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="gender" id="men" value="Y" checked>
+            <label class="form-check-label" for="men">남</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="gender" id="girl" value="N">
+            <label class="form-check-label" for="girl">여</label>
+        </div>
+        <div class="form-label mt-2">알림여부</div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="alarmCheck" id="alarmYes" value="Y" checked>
+            <label class="form-check-label" for="alarmYes">동의</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="alarmCheck" id="alarmNo" value="N">
+            <label class="form-check-label" for="alarmNo">거부</label>
         </div>
         <div class="text-center mt-3">
             <a th:href="@{/}" class="btn btn-danger rounded-0">이전으로</a>

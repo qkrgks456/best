@@ -7,9 +7,14 @@
     <div id="content">
         <th:block th:include="fix/fixMyInfo"></th:block>
         <!-- 여기서 부터 내용 넣으세요 -->
-        내 정보
+        <div class="d-flex justify-content-center">
+         여기는 내 정보
+        </div>
     </div>
 </div>
 </body>
 <th:block th:replace="fix/fixFooter.html"></th:block>
+<script>
+    $(".hobbyPickBtn").addClass('btn btn-outline-danger rounded-0 my-1');
+</script>
 </html>

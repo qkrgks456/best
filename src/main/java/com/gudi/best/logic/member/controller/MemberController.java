@@ -1,6 +1,7 @@
 package com.gudi.best.logic.member.controller;
 
 import com.gudi.best.logic.member.service.MemberService;
+import com.gudi.best.logic.myInfo.service.MyInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class MemberController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     MemberService memberService;
+    @Autowired
+    MyInfoService myInfoService;
 
     @GetMapping(value = "/")
     public String loginForm() {
@@ -45,6 +48,10 @@ public class MemberController {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             boolean check = encoder.matches(pw, enc_pass);
             if (check) {
+                String proFileCheck = myInfoService.proFileCheck(id);
+                if (proFileCheck != null) {
+                    session.setAttribute("proFile", true);
+                }
                 String adminCheck = memberService.adminCheck(id);
                 session.setAttribute("admin", adminCheck);
                 session.setAttribute("loginId", id);
@@ -94,5 +101,13 @@ public class MemberController {
         }
         map.put("email", "없음");
         return map;
+    }
+
+    @GetMapping("/member/logOut")
+    public String logOut(HttpSession session) {
+        session.removeAttribute("loginId");
+        session.removeAttribute("admin");
+        session.removeAttribute("proFile");
+        return "startForm/loginForm";
     }
 }
