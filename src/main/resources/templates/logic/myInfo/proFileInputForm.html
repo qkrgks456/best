@@ -8,23 +8,48 @@
         <th:block th:replace="fix/fixMyInfo"></th:block>
         <!-- 여기서 부터 내용 넣으세요 -->
         <div class="d-flex justify-content-center">
-            <form th:if="${check}" th:action="@{/myInfo/proFileInput}" class="w-75 bg-white" method="post"
+            <form th:action="@{/myInfo/proFileInput}" class="w-75 bg-white" method="post"
                   enctype="multipart/form-data">
-                <h3>프로필 등록</h3>
+                <h3>내 프로필</h3>
                 <h6 class="text-muted">자세히 작성할수록 진짜 사랑을 찾기 쉬워요!</h6>
                 <div class="text-center mt-1">
-                    <img id="proFileImg" src="/img/noImg.png" class="rounded-circle border img-fluid"
-                         style="cursor: pointer;width: 500px;height: 500px">
+                    <th:block th:if="${dto ne null}">
+                        <img th:src="${dto.imgPath}"
+                             class="rounded-circle border img-fluid proFileImg"
+                             style="cursor: pointer;width: 500px;height: 500px">
+                    </th:block>
+                    <th:block th:if="${dto eq null}">
+                        <img th:src="@{/img/noImg.png}"
+                             class="rounded-circle border img-fluid proFileImg"
+                             style="cursor: pointer;width: 500px;height: 500px">
+                    </th:block>
                 </div>
                 <h6 class="text-muted text-center">클릭해서 이미지를 등록하세요</h6>
                 <input class="form-control" id="imgBtn" type="file" name="proFileImg" hidden>
                 <div class="mb-3">
-                    <label for="intro" class="form-label">자기소개(1000자이내)</label>
-                    <textarea class="form-control" name="intro" id="intro" rows="9" style="resize: none"></textarea>
+                    <label class="form-label">자기소개(1000자이내)</label>
+                    <th:block th:if="${dto ne null}">
+                    <textarea th:text="${dto.intro}" class="form-control" name="intro" rows="9"
+                              style="resize: none"></textarea>
+                    </th:block>
+                    <th:block th:if="${dto eq null}">
+                        <textarea class="form-control" name="intro" rows="9"
+                                  style="resize: none"></textarea>
+                    </th:block>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback"></div>
                 </div>
-                <label class="form-label">관심사</label>
+                <th:block th:if="${dto ne null}">
+                    <div th:if="${dto.hobby ne null}">
+                        <label class="form-label">선택한 관심사</label>
+                    </div>
+                    <th:block th:each="hobby : ${#strings.arraySplit(dto.hobby,',')}">
+                        <button class="btn btn-danger rounded-0" th:text="${hobby}" disabled></button>
+                    </th:block>
+                </th:block>
+                <div class="mt-2">
+                    <label class="form-label">관심사</label>
+                </div>
                 <div class="mb-3">
                     <input name="hobby" type="checkbox" id="btn1" class="btn-check" value="90년대 바이브">
                     <label class="hobbyPickBtn" for="btn1">90년대 바이브</label>
@@ -110,14 +135,21 @@
                     <label class="hobbyPickBtn" for="btn43">애묘인</label>
                     <input name="hobby" type="checkbox" id="btn44" class="btn-check" value="아웃도어 액티비티">
                     <label class="hobbyPickBtn" for="btn44">아웃도어 액티비티</label>
+                    <input name="hobby" type="checkbox" id="btn45" class="btn-check" value="바">
+                    <label class="hobbyPickBtn" for="btn45">바</label>
+                    <input name="hobby" type="checkbox" id="btn46" class="btn-check" value="피트니스">
+                    <label class="hobbyPickBtn" for="btn46">피트니스</label>
+                    <input name="hobby" type="checkbox" id="btn47" class="btn-check" value="넷플릭스">
+                    <label class="hobbyPickBtn" for="btn47">넷플릭스</label>
+                    <input name="hobby" type="checkbox" id="btn48" class="btn-check" value="디저트">
+                    <label class="hobbyPickBtn" for="btn48">디저트</label>
+                    <input name="hobby" type="checkbox" id="btn49" class="btn-check" value="동네 산책">
+                    <label class="hobbyPickBtn" for="btn49">동네 산책</label>
                 </div>
                 <div class="text-center mt-3">
                     <button type="submit" class="btn btn-danger rounded-0">프로필 등록</button>
                 </div>
             </form>
-            <div class="text-center text-muted" th:unless="${check}">
-                이미 프로필 등록을 하였습니다!
-            </div>
         </div>
     </div>
 </div>
@@ -125,30 +157,29 @@
 <th:block th:replace="fix/fixFooter.html"></th:block>
 <script>
     $(".hobbyPickBtn").addClass('btn btn-outline-danger rounded-0 my-1');
-    $('#proFileImg').on('click', function () {
+    $('.proFileImg').on('click', function () {
         $('#imgBtn').click();
     })
 
     // 콘텐츠 수정 :: 사진 수정 시 이미지 미리보기 및 유효성 체크
     $("input[name='proFileImg']").on('change', function () {
         let fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/;
-        if (!$(this).val().match(fileForm)) {
-            alert("이미지 파일만 업로드 해주세요");
-            $('#proFileImg').attr('src', '/img/noImg.png');
-            return;
+        if (this.files.length > 0) {
+            if (!$(this).val().match(fileForm)) {
+                alert("이미지 파일만 업로드 해주세요");
+                $('.proFileImg').attr('src', '/img/noImg.png');
+                return;
+            }
+            $('#imgViewArea').css({'display': ''});
+            readURL(this);
         }
-        if ($(this).val() == '') {
-            $('#proFileImg').attr('src', '/img/noImg.png');
-        }
-        $('#imgViewArea').css({'display': ''});
-        readURL(this);
     });
 
     function readURL(input) {
         if (input.files && input.files[0]) {
             let reader = new FileReader();
             reader.onload = function (e) {
-                $('#proFileImg').attr('src', e.target.result);
+                $('.proFileImg').attr('src', e.target.result);
             }
             reader.readAsDataURL(input.files[0]);
         }

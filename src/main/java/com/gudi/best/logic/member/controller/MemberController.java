@@ -48,10 +48,6 @@ public class MemberController {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             boolean check = encoder.matches(pw, enc_pass);
             if (check) {
-                String proFileCheck = myInfoService.proFileCheck(id);
-                if (proFileCheck != null) {
-                    session.setAttribute("proFile", true);
-                }
                 String adminCheck = memberService.adminCheck(id);
                 session.setAttribute("admin", adminCheck);
                 session.setAttribute("loginId", id);
@@ -107,7 +103,6 @@ public class MemberController {
     public String logOut(HttpSession session) {
         session.removeAttribute("loginId");
         session.removeAttribute("admin");
-        session.removeAttribute("proFile");
         return "startForm/loginForm";
     }
 }

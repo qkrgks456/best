@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
@@ -18,11 +19,14 @@ public class MyInfoService {
     MyInfoMapper mapper;
     @Autowired
     S3Uploader s3Uploader;
-    HashMap<String, Object> map = null;
 
-    // 프로필 데이터 넣기
+    // 프로필 확인해서 업데이트 아니면 인풋
+    @Transactional
     public void proFileInput(String[] hobby, String intro, MultipartFile proFileImg, String id) {
+        HashMap<String, Object> map = null;
         String hobbyText = "";
+        // 프로필 있는지 확인
+        String check = mapper.proFileCheck(id);
         // 체크박스 값 받아서 쉼표 단위로 문자열 하나로 합치기
         if (hobby != null) {
             StringBuilder stringBuilder = new StringBuilder();
@@ -35,25 +39,37 @@ public class MyInfoService {
         if (!proFileImg.isEmpty()) {
             // 업로드 하기
             try {
+                // 포토 테이블에 사진이 있을경우 파일삭제 + DB삭제
+                String newFileName = mapper.photoCheck(id);
+                if (newFileName != null) {
+                    s3Uploader.delete(newFileName);
+                    mapper.photoDelete(id);
+                }
                 map = s3Uploader.upload(proFileImg);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            map.put("hobby", hobbyText);
-            map.put("intro", intro);
             map.put("id", id);
-            // 포토 테이블
+            // 포토 테이블 넣기
             mapper.photoInput(map);
         } else {
             map = new HashMap<String, Object>();
-            map.put("hobby", hobbyText);
-            map.put("intro", intro);
             map.put("id", id);
-            map.put("path", "/img/noImg.png");
+            if (check == null) {
+                map.put("path", "/img/noImg.png");
+            }
+            map.put("path", "");
         }
-        // 프로필 테이블
-        mapper.proFileInput(map);
+        map.put("hobby", hobbyText);
+        map.put("intro", intro);
 
+        if (check == null) {
+            // 프로필 테이블 넣기
+            mapper.proFileInput(map);
+        } else {
+            // 프로필 테이블 업데이트
+            mapper.proFileUpdate(map);
+        }
     }
 
     // 프로필 상세
@@ -65,4 +81,5 @@ public class MyInfoService {
     public String proFileCheck(String id) {
         return mapper.proFileCheck(id);
     }
+
 }

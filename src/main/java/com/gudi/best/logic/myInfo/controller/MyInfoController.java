@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,11 +30,12 @@ public class MyInfoController {
     @GetMapping("/proFileInputForm")
     public String proFileInputForm(Model model, HttpSession session) {
         String id = (String) session.getAttribute("loginId");
-        String check = myInfoService.proFileCheck(id);
-        if (check == null) {
-            model.addAttribute("check", true);
-        } else {
-            model.addAttribute("check", false);
+        ProFileDTO dto = myInfoService.proFileDetail(id);
+        if (dto != null) {
+            if (StringUtils.isEmpty(dto.getImgPath())) {
+                dto.setImgPath("/img/noImg.png");
+            }
+            model.addAttribute("dto", dto);
         }
         return "logic/myInfo/proFileInputForm";
     }
@@ -41,16 +43,7 @@ public class MyInfoController {
     @PostMapping("/proFileInput")
     public String proFileInput(String[] hobby, String intro, MultipartFile proFileImg, HttpSession session) {
         String id = (String) session.getAttribute("loginId");
-        session.setAttribute("proFile", true);
         myInfoService.proFileInput(hobby, intro, proFileImg, id);
-        return "redirect:/myInfo/proFileDetail";
-    }
-
-    @GetMapping("/proFileDetail")
-    public String proFileDetail(HttpSession session, Model model) {
-        String id = (String) session.getAttribute("loginId");
-        ProFileDTO dto = myInfoService.proFileDetail(id);
-        model.addAttribute("dto", dto);
-        return "logic/myInfo/proFileDetail";
+        return "redirect:/myInfo/proFileInputForm";
     }
 }

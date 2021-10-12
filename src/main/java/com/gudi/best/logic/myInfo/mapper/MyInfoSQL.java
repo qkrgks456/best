@@ -9,20 +9,38 @@ public class MyInfoSQL {
             "INSERT INTO photo(id,division,oriFileName,newFileName,path) "
                     + "VALUES(#{id},'proFile',#{oriFileName},#{newFileName},#{path})";
 
-    public String nullCheck(HashMap<String, Object> map) {
-
+    public String insertNullCheck(HashMap<String, Object> map) {
         return new SQL() {{
             INSERT_INTO("proFile");
             INTO_COLUMNS("id", "imgPath");
-            INTO_VALUES("'" + map.get("id") + "'", "'" + map.get("path") + "'");
+            INTO_VALUES("#{id}", "#{path}");
             if (!map.get("hobby").equals("")) {
                 INTO_COLUMNS("hobby");
-                INTO_VALUES("'" + map.get("hobby") + "'");
+                INTO_VALUES("#{hobby}");
             }
             if (!map.get("intro").equals("")) {
                 INTO_COLUMNS("intro");
-                INTO_VALUES("'" + map.get("intro") + "'");
+                INTO_VALUES("#{intro}");
             }
+
+        }}.toString();
+    }
+
+    public String updateNullCheck(HashMap<String, Object> map) {
+        return new SQL() {{
+            UPDATE("proFile");
+            if (!map.get("path").equals("")) {
+                SET("imgPath = #{path}");
+            }
+            if (!map.get("hobby").equals("")) {
+                SET("hobby = #{hobby}");
+            }
+            if (!map.get("intro").equals("")) {
+                SET("intro = #{intro}");
+            } else {
+                SET("intro = null");
+            }
+            WHERE("id = #{id}");
         }}.toString();
     }
 }
