@@ -6,6 +6,7 @@ import com.gudi.best.util.S3Uploader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -84,4 +85,15 @@ public class MyInfoService {
         return mapper.proFileCheck(id);
     }
 
+    // 비밀번호 변경
+    public boolean pwChange(String id, String pw, String changePw) {
+        String enc_pass = mapper.getPw(id);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        boolean check = encoder.matches(pw, enc_pass);
+        if (check) {
+            String change_enc_pass = encoder.encode(changePw);
+            mapper.pwChange(id, change_enc_pass);
+        }
+        return check;
+    }
 }

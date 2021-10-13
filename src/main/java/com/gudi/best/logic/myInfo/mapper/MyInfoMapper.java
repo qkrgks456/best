@@ -27,4 +27,10 @@ public interface MyInfoMapper {
 
     @UpdateProvider(type = MyInfoSQL.class, method = "updateNullCheck")
     void proFileUpdate(HashMap<String, Object> map);
+
+    @Select("SELECT pw FROM member WHERE id = #{id}")
+    String getPw(String id);
+
+    @Update("UPDATE member SET pw = #{param2} WHERE id = #{param1}")
+    void pwChange(String id, String change_enc_pass);
 }

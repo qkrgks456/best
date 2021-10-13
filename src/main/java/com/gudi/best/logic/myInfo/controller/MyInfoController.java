@@ -10,10 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("/myInfo")
@@ -22,9 +24,23 @@ public class MyInfoController {
     @Autowired
     MyInfoService myInfoService;
 
-    @GetMapping("/myInfoUpdate")
-    public String myInfoUpdate() {
-        return "/logic/myInfo/myInfoUpdate";
+    @GetMapping("/pwChangeForm")
+    public String pwChangeForm() {
+        return "/logic/myInfo/pwChange";
+    }
+
+    @PostMapping("/pwChange")
+    public String pwChange(Model model, HttpSession session, String pw, String changePw) {
+        String id = (String) session.getAttribute("loginId");
+        boolean check = myInfoService.pwChange(id, pw, changePw);
+        if (check) {
+            session.removeAttribute("loginId");
+            session.removeAttribute("admin");
+            return "startForm/loginForm";
+        } else {
+            model.addAttribute("suc", false);
+            return "/logic/myInfo/pwChange";
+        }
     }
 
     @GetMapping("/proFile")

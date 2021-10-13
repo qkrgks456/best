@@ -1,7 +1,8 @@
-
 // 자기소개,이름 글자수 보여주기
-$('.nameNum').text($("input[name='name']").val().length + "/100");
-$('.textareaNum').text($(".intro").val().length + "/1000");
+$(document).ready(function () {
+    $('.nameNum').text($("input[name='name']").val().length + "/100");
+    $('#textareaNum').text($("textarea").text().length + "/1000");
+})
 
 // 버튼 전체 디자인 추가
 $(".hobbyPickBtn").addClass('btn btn-outline-danger rounded-0 my-1');
@@ -50,6 +51,7 @@ function readURL(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
 // 이름 유효성 검사
 $("input[name='name']").on("change keyup paste input", function () {
     if ($(this).val().trim().length > 0) {

@@ -5,7 +5,8 @@
         <button type="button" id="sidebarCollapse" class="btn btn-danger">
             <i class="navbar-toggler-icon"></i>
         </button>
-        <button class="btn btn-danger d-inline-block d-lg-none ml-auto rounded-0" type="button" data-bs-toggle="collapse"
+        <button class="btn btn-danger d-inline-block d-lg-none ml-auto rounded-0" type="button"
+                data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
             <span>내 정보</span>
@@ -16,7 +17,7 @@
                     <a class="nav-link" th:href="@{/myInfo/proFile}">내 프로필</a>
                 </li>
                 <li class="nav-item mx-2 fs-5">
-                    <a class="nav-link" href="#">비밀번호변경</a>
+                    <a class="nav-link" th:href="@{/myInfo/pwChangeForm}">비밀번호변경</a>
                 </li>
                 <li class="nav-item mx-2 fs-5">
                     <a class="nav-link" href="#">작성한 게시글</a>
