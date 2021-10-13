@@ -27,8 +27,8 @@ public class MyInfoController {
         return "logic/myInfo/myInfoUpdate";
     }
 
-    @GetMapping("/proFileInputForm")
-    public String proFileInputForm(Model model, HttpSession session) {
+    @GetMapping("/proFile")
+    public String proFile(Model model, HttpSession session) {
         String id = (String) session.getAttribute("loginId");
         ProFileDTO dto = myInfoService.proFileDetail(id);
         if (dto != null) {
@@ -37,13 +37,13 @@ public class MyInfoController {
             }
             model.addAttribute("dto", dto);
         }
-        return "logic/myInfo/proFileInputForm";
+        return "/logic/myInfo/proFile";
     }
 
     @PostMapping("/proFileInput")
     public String proFileInput(String[] hobby, String intro, MultipartFile proFileImg, HttpSession session) {
         String id = (String) session.getAttribute("loginId");
         myInfoService.proFileInput(hobby, intro, proFileImg, id);
-        return "redirect:/myInfo/proFileInputForm";
+        return "redirect:/myInfo/proFile";
     }
 }

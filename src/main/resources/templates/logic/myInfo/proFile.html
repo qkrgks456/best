@@ -9,42 +9,50 @@
         <!-- 여기서 부터 내용 넣으세요 -->
         <div class="d-flex justify-content-center">
             <form th:action="@{/myInfo/proFileInput}" class="w-75 bg-white" method="post"
-                  enctype="multipart/form-data">
+                  enctype="multipart/form-data" id="proFileInputForm">
                 <h3>내 프로필</h3>
                 <h6 class="text-muted">자세히 작성할수록 진짜 사랑을 찾기 쉬워요!</h6>
                 <div class="text-center mt-1">
                     <th:block th:if="${dto ne null}">
                         <img th:src="${dto.imgPath}"
                              class="rounded-circle border img-fluid proFileImg"
-                             style="cursor: pointer;width: 500px;height: 500px">
+                             style="cursor: pointer;width: 400px;height: 400px">
                     </th:block>
                     <th:block th:if="${dto eq null}">
                         <img th:src="@{/img/noImg.png}"
                              class="rounded-circle border img-fluid proFileImg"
-                             style="cursor: pointer;width: 500px;height: 500px">
+                             style="cursor: pointer;width: 400px;height: 400px">
                     </th:block>
                 </div>
-                <h6 class="text-muted text-center">클릭해서 이미지를 등록하세요</h6>
+                <div id="emailHelp" class="form-text text-center">클릭해서 이미지를 등록하세요</div>
                 <input class="form-control" id="imgBtn" type="file" name="proFileImg" hidden>
+               <!-- <div class="mb-3">
+                    <label for="name" class="form-label">이름</label>
+                    <input type="text" class="form-control" id="name" name="name">
+                    <div id="nameNum" class="form-text">0/100</div>
+                </div>
                 <div class="mb-3">
-                    <label class="form-label">자기소개(1000자이내)</label>
+                    <label for="age" class="form-label">나이</label>
+                    <input type="text" class="form-control" id="age" name="age">
+                </div>-->
+                <div class="mb-3">
+                    <label class="form-label">자기소개</label>
                     <th:block th:if="${dto ne null}">
-                    <textarea th:text="${dto.intro}" class="form-control" name="intro" rows="9"
+                    <textarea th:text="${dto.intro}" class="form-control intro" name="intro" rows="9"
                               style="resize: none"></textarea>
                     </th:block>
                     <th:block th:if="${dto eq null}">
-                        <textarea class="form-control" name="intro" rows="9"
+                        <textarea class="form-control intro" name="intro" rows="9"
                                   style="resize: none"></textarea>
                     </th:block>
-                    <div class="valid-feedback"></div>
-                    <div class="invalid-feedback"></div>
+                    <div id="textareaNum" class="form-text">0/1000</div>
                 </div>
                 <th:block th:if="${dto ne null}">
                     <div th:if="${dto.hobby ne null}">
                         <label class="form-label">선택한 관심사</label>
                     </div>
                     <th:block th:each="hobby : ${#strings.arraySplit(dto.hobby,',')}">
-                        <button class="btn btn-danger rounded-0" th:text="${hobby}" disabled></button>
+                        <button class="btn btn-danger rounded-0 my-1" th:text="${hobby}" disabled></button>
                     </th:block>
                 </th:block>
                 <div class="mt-2">
@@ -147,7 +155,7 @@
                     <label class="hobbyPickBtn" for="btn49">동네 산책</label>
                 </div>
                 <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-danger rounded-0">프로필 등록</button>
+                    <button id="proFileInputBtn" type="button" class="btn btn-danger rounded-0">프로필 등록</button>
                 </div>
             </form>
         </div>
@@ -159,6 +167,10 @@
     $(".hobbyPickBtn").addClass('btn btn-outline-danger rounded-0 my-1');
     $('.proFileImg').on('click', function () {
         $('#imgBtn').click();
+    })
+    $('#proFileInputBtn').on('click', function () {
+        alert("프로필 수정 완료!");
+        $('#proFileInputForm').submit();
     })
 
     // 콘텐츠 수정 :: 사진 수정 시 이미지 미리보기 및 유효성 체크
@@ -185,5 +197,13 @@
         }
     }
 
+    $('#name').on("change keyup paste input", function () {
+        $('#nameNum').text($(this).val().length + "/100");
+    })
+    $('.intro').on("change keyup paste input", function () {
+        $('#textareaNum').text($(this).val().length + "/1000");
+    })
+    $('#nameNum').text($('#name').val().length + "/100");
+    $('#textareaNum').text($(".intro").val().length + "/1000");
 </script>
 </html>

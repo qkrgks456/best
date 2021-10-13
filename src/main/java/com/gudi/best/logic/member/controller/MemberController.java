@@ -2,6 +2,7 @@ package com.gudi.best.logic.member.controller;
 
 import com.gudi.best.logic.member.service.MemberService;
 import com.gudi.best.logic.myInfo.service.MyInfoService;
+import com.gudi.best.util.NewApiUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,16 @@ public class MemberController {
 
     @GetMapping(value = "/")
     public String loginForm() {
+
+        HashMap<String, String> header = new HashMap<String, String>();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("ServiceKey", "YRc1yhIuj+SEq19P4LqBXRmFAtACpby0jiZKx+pSOyMnQ+5EX18dxJ+heYZ+4Ls/hYTVS6+FqoIZDjj2XmsmRg==");
+        params.put("numOfRows", "5");
+        params.put("pageNo", "1");
+        params.put("MobileOS", "ETC");
+        params.put("MobileApp", "test");
+        String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaCode";
+        String response = NewApiUtil.sendSeverMsg(url, header, params, "GET");
         return "startForm/loginForm";
     }
 

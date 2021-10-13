@@ -8,6 +8,7 @@ public class MainController {
 
     @GetMapping("/main")
     public String main() {
+
         return "logic/mainPage/main";
     }
 }
