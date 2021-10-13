@@ -22,7 +22,8 @@ public class MyInfoService {
 
     // 프로필 확인해서 업데이트 아니면 인풋
     @Transactional
-    public void proFileInput(String[] hobby, String intro, MultipartFile proFileImg, String id) {
+    public void proFileInput(String[] hobby, String intro, MultipartFile proFileImg,
+                             String id, String name, String age) {
         HashMap<String, Object> map = null;
         String hobbyText = "";
         // 프로필 있는지 확인
@@ -62,7 +63,8 @@ public class MyInfoService {
         }
         map.put("hobby", hobbyText);
         map.put("intro", intro);
-
+        map.put("name", name);
+        map.put("age", age);
         if (check == null) {
             // 프로필 테이블 넣기
             mapper.proFileInput(map);

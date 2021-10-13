@@ -24,7 +24,7 @@ public class MyInfoController {
 
     @GetMapping("/myInfoUpdate")
     public String myInfoUpdate() {
-        return "logic/myInfo/myInfoUpdate";
+        return "/logic/myInfo/myInfoUpdate";
     }
 
     @GetMapping("/proFile")
@@ -41,9 +41,10 @@ public class MyInfoController {
     }
 
     @PostMapping("/proFileInput")
-    public String proFileInput(String[] hobby, String intro, MultipartFile proFileImg, HttpSession session) {
+    public String proFileInput(String[] hobby, String name, String age, String intro,
+                               MultipartFile proFileImg, HttpSession session) {
         String id = (String) session.getAttribute("loginId");
-        myInfoService.proFileInput(hobby, intro, proFileImg, id);
+        myInfoService.proFileInput(hobby, intro, proFileImg, id, name, age);
         return "redirect:/myInfo/proFile";
     }
 }

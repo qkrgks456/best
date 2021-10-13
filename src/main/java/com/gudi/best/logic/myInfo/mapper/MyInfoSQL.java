@@ -12,8 +12,8 @@ public class MyInfoSQL {
     public String insertNullCheck(HashMap<String, Object> map) {
         return new SQL() {{
             INSERT_INTO("proFile");
-            INTO_COLUMNS("id", "imgPath");
-            INTO_VALUES("#{id}", "#{path}");
+            INTO_COLUMNS("id", "imgPath", "name", "age");
+            INTO_VALUES("#{id}", "#{path}", "#{name}", "#{age}");
             if (!map.get("hobby").equals("")) {
                 INTO_COLUMNS("hobby");
                 INTO_VALUES("#{hobby}");
@@ -29,6 +29,8 @@ public class MyInfoSQL {
     public String updateNullCheck(HashMap<String, Object> map) {
         return new SQL() {{
             UPDATE("proFile");
+            SET("age = #{age}");
+            SET("name = #{name}");
             if (!map.get("path").equals("")) {
                 SET("imgPath = #{path}");
             }

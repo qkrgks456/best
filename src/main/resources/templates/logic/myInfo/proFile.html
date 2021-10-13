@@ -26,15 +26,32 @@
                 </div>
                 <div id="emailHelp" class="form-text text-center">클릭해서 이미지를 등록하세요</div>
                 <input class="form-control" id="imgBtn" type="file" name="proFileImg" hidden>
-               <!-- <div class="mb-3">
-                    <label for="name" class="form-label">이름</label>
-                    <input type="text" class="form-control" id="name" name="name">
-                    <div id="nameNum" class="form-text">0/100</div>
+                <div class="mb-3" th:if="${dto eq null}">
+                    <label class="form-label">이름(*)</label>
+                    <input type="text" class="form-control" name="name" placeholder="필수 정보 입니다">
+                    <div class="form-text nameNum">0/100</div>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback"></div>
                 </div>
-                <div class="mb-3">
-                    <label for="age" class="form-label">나이</label>
-                    <input type="text" class="form-control" id="age" name="age">
-                </div>-->
+                <div class="mb-3" th:if="${dto ne null}">
+                    <label class="form-label">이름(*)</label>
+                    <input th:value="${dto.name}" type="text" class="form-control" name="name" placeholder="필수 정보 입니다">
+                    <div class="form-text nameNum">0/100</div>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback"></div>
+                </div>
+                <div class="mb-3" th:if="${dto eq null}">
+                    <label class="form-label">나이(*)</label>
+                    <input type="number" class="form-control" name="age" placeholder="필수 정보 입니다">
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">숫자만 입력해주세요</div>
+                </div>
+                <div class="mb-3" th:if="${dto ne null}">
+                    <label class="form-label">나이(*)</label>
+                    <input th:value="${dto.age}" type="number" class="form-control" name="age" placeholder="필수 정보 입니다">
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">숫자만 입력해주세요</div>
+                </div>
                 <div class="mb-3">
                     <label class="form-label">자기소개</label>
                     <th:block th:if="${dto ne null}">
@@ -163,47 +180,5 @@
 </div>
 </body>
 <th:block th:replace="fix/fixFooter.html"></th:block>
-<script>
-    $(".hobbyPickBtn").addClass('btn btn-outline-danger rounded-0 my-1');
-    $('.proFileImg').on('click', function () {
-        $('#imgBtn').click();
-    })
-    $('#proFileInputBtn').on('click', function () {
-        alert("프로필 수정 완료!");
-        $('#proFileInputForm').submit();
-    })
-
-    // 콘텐츠 수정 :: 사진 수정 시 이미지 미리보기 및 유효성 체크
-    $("input[name='proFileImg']").on('change', function () {
-        let fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/;
-        if (this.files.length > 0) {
-            if (!$(this).val().match(fileForm)) {
-                alert("이미지 파일만 업로드 해주세요");
-                $('.proFileImg').attr('src', '/img/noImg.png');
-                return;
-            }
-            $('#imgViewArea').css({'display': ''});
-            readURL(this);
-        }
-    });
-
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                $('.proFileImg').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    $('#name').on("change keyup paste input", function () {
-        $('#nameNum').text($(this).val().length + "/100");
-    })
-    $('.intro').on("change keyup paste input", function () {
-        $('#textareaNum').text($(this).val().length + "/1000");
-    })
-    $('#nameNum').text($('#name').val().length + "/100");
-    $('#textareaNum').text($(".intro").val().length + "/1000");
-</script>
+<script th:src="@{/js/proFile.js}"></script>
 </html>

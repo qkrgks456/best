@@ -12,7 +12,7 @@ public interface MemberMapper {
     @Select("SELECT id FROM member WHERE id = #{param1}")
     String idCheck(String id);
 
-    @Insert("INSERT INTO member(id,pw,email,admin,delCheck,gender,alarmCheck) VALUES(#{id},#{pw},#{email},'N','N',#{gender},#{alarmCheck})")
+    @Insert("INSERT INTO member(id,pw,email,admin,delCheck,gender) VALUES(#{id},#{pw},#{email},'N','N',#{gender})")
     void join(HashMap<String, String> params);
 
     @Select("SELECT pw FROM member WHERE id = #{param1}")
