@@ -38,6 +38,12 @@ public class BoardController {
     @PostMapping("/boardWrite")
     public int boardWrite(HttpSession session, String title, String content, MultipartFile[] files) {
         String id = (String) session.getAttribute("loginId");
-        return boardService.boardWrite(title, content, files, id);
+        if (files != null) {
+            if (files.length > 16) {
+                return 0;
+            }
+        }
+        int boardNum = boardService.boardWrite(title, content, files, id);
+        return boardNum;
     }
 }
