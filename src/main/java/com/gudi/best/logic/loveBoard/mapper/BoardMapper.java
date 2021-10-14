@@ -36,4 +36,7 @@ public interface BoardMapper {
 
     @Update("UPDATE board SET title=#{param2},content=#{param3} WHERE boardNum=#{param1}")
     void boardUpdate(String boardNum, String title, String content);
+
+    @Update("UPDATE board SET boardHit = boardHit + 1 WHERE boardNum = #{boardNum}")
+    void boardHit(int boardNum);
 }

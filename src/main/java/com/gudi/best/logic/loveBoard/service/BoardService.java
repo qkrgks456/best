@@ -51,6 +51,7 @@ public class BoardService {
 
     @Transactional
     public HashMap<String, Object> boardDetail(int boardNum) {
+        mapper.boardHit(boardNum);
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("dto", mapper.boardDetail(boardNum));
         map.put("photoList", mapper.boardPhoto(boardNum));
@@ -66,6 +67,7 @@ public class BoardService {
         return photoCount;
     }
 
+    @Transactional
     public void boardUpdate(String title, String content, MultipartFile[] files, String boardNum, String id) {
         mapper.boardUpdate(boardNum, title, content);
         photoUpload(files, Integer.parseInt(boardNum), id);
