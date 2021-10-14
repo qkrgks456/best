@@ -1,126 +1,86 @@
-let uploadFiles = [];
-$('#loveBoardBtn').attr("aria-expanded", "true");
-
-// 글자수 체킹 해주는거 및 유효성
-$('#contents').on("change keyup paste input", function () {
-    if ($(this).val().trim().length > 0) {
-        $(this).attr("class", "form-control is-valid");
+// 글쓰기
+$(document).on('click', '#boardWriteBtn', function () {
+    let check = 0;
+    $.each(uploadFiles, function (i, file) {
+        if (file != 'disable') {
+            check++;
+        }
+    });
+    if (check > 16) {
+        alert('이미지는 16장까지만 등록가능합니다!')
     } else {
-        $(this).nextAll('.invalid-feedback').text('한글자 이상 작성해주세요');
-        $(this).attr("class", "form-control is-invalid");
-    }
-    if ($(this).val().trim().length >= 2000) {
-        $(this).nextAll('.invalid-feedback').text('2000 글자 미만으로 작성해주세요');
-        $(this).attr("class", "form-control is-invalid");
-    }
-    $('#contentNum').text($(this).val().trim().length + "/2000");
-})
-$('#title').on("change keyup paste input", function () {
-    if ($(this).val().trim().length > 0) {
-        $(this).attr("class", "form-control is-valid");
-    } else {
-        $(this).nextAll('.invalid-feedback').text('한글자 이상 작성해주세요');
-        $(this).attr("class", "form-control is-invalid");
-    }
-    if ($(this).val().trim().length >= 100) {
-        $(this).nextAll('.invalid-feedback').text('100 글자 미만으로 작성해주세요');
-        $(this).attr("class", "form-control is-invalid");
-    }
-    $('#titleNum').text($(this).val().trim().length + "/100");
-})
-
-// 드래그 이벤트 주기
-$(document).on("dragleave", "#drop", function (e) { //드래그 요소가 나갔을때
-    $(this).removeClass('bg-light');
-    e.stopPropagation();
-    e.preventDefault();
-}).on("dragover", "#drop", function (e) { // 드래그 요소가 들어왔을때
-    $(this).addClass('bg-light');
-    e.stopPropagation();
-    e.preventDefault();
-}).on('drop', "#drop", function (e) { //드래그한 항목을 떨어뜨렸을때
-    e.preventDefault();
-    $(this).removeClass('bg-light');
-    let fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
-    let files = e.originalEvent.dataTransfer.files;
-    for (let i = 0; i < files.length; i++) {
-        let file = files[i];
-        if (file.name.match(fileForm)) {
-            $('#imgText').remove();
-            let size = uploadFiles.push(file); //업로드 목록에 추가
-            preview(file, size - 1); //미리보기 만들기
+        let title = $('#title').val().trim();
+        let contents = $('#contents').val().trim();
+        if ($('#title').hasClass('is-valid') && $('#contents').hasClass('is-valid')) {
+            LoadingWithMask();
+            let formData = new FormData();
+            // 파일 넣기
+            $.each(uploadFiles, function (i, file) {
+                if (file != 'disable') {
+                    formData.append('files', file, file.name);
+                }
+            });
+            // 파라미터 넣기
+            formData.append("title", title);
+            formData.append("content", contents);
+            $.ajax({
+                url: '/loveBoard/boardWrite',
+                enctype: 'multipart/form-data',
+                data: formData,
+                type: 'post',
+                contentType: false,
+                processData: false,
+                success: function (suc) {
+                    closeLoadingWithMask();
+                    alert("등록 성공!")
+                    location.href = '/loveBoard/boardDetail/' + suc + '/1'
+                }
+            });
         } else {
-            alert("이미지 파일만 등록해주세요!")
-            $('#thumbnails').empty();
-            return;
+            if (title == "") {
+                $('#title').nextAll('.invalid-feedback').text('한글자 이상 작성해주세요');
+                $('#title').attr('class', 'form-control is-invalid');
+            }
+            if (contents == "") {
+                $('#contents').nextAll('.invalid-feedback').text('한글자 이상 작성해주세요');
+                $('#contents').attr('class', 'form-control is-invalid');
+            }
         }
     }
-});
+})
 
-// 이미지 띄우기라는데 이해안됨 걍 복붙 ㅅㄱ
-function preview(file, idx) {
-    let reader = new FileReader();
-    reader.onload = (function (f, idx) {
-        return function (e) {
-            let content = "";
-            content += '<div class="d-flex flex-column close" data-idx="' + idx + '" style="cursor: pointer">';
-            content += '<div class="thumb">';
-            content += '<img style="width: 150px;height: 150px;" class="img-fluid img-count" src="' + e.target.result + '" title="' + escape(f.name) + '"/>';
-            content += '</div>';
-            content += '<div class="text-center">';
-            content += '<i class="bi bi-x-lg fs-3"></i>';
-            content += '</div>';
-            content += '</div>';
-            $("#thumbnails").append(content);
-        };
-    })(file, idx);
-    reader.readAsDataURL(file);
+// 로딩창
+function LoadingWithMask() {
+    //화면의 높이와 너비를 구합니다.
+    let maskHeight = $(document).height();
+    let maskWidth = window.document.body.clientWidth;
+
+    //화면에 출력할 마스크를 설정해줍니다.
+    let mask = "<div id='mask' style='position:absolute; z-index:9000; display:none; left:0; top:0;'></div>";
+    let loadingImg = '';
+
+    loadingImg += "<div id='loadingImg' class='h-100 d-flex justify-content-center align-items-center'>";
+    loadingImg += "<img src='/img/loadingImg.gif' style='position: relative; display: block; margin: 0px auto;'/>";
+    loadingImg += "</div>";
+
+    //화면에 레이어 추가
+    $('body').append(mask)
+    $('#mask').append(loadingImg)
+    //마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채웁니다.
+    $('#mask').css({
+        'width': maskWidth
+        , 'height': maskHeight
+        , 'opacity': '0.3'
+    });
+    //마스크 표시
+    $('#mask').show();
+
+    //로딩중 이미지 표시
+    $('#loadingImg').show();
 }
 
-// 이미지 삭제
-$(document).on("click", ".close", function (e) {
-    let idx = $(this).attr('data-idx');
-    uploadFiles[idx] = 'disable'; //삭제시 자기 배열에 disable 첨가
-    $(this).remove(); //이미지 삭제
-});
-// 글쓰기
-$('#boardWriteBtn').on('click', function () {
-    let title = $('#title').val().trim();
-    let contents = $('#contents').val().trim();
-    if ($('#title').hasClass('is-valid') && $('#contents').hasClass('is-valid')) {
-        let formData = new FormData();
-        // 파일 넣기
-        $.each(uploadFiles, function (i, file) {
-            if (file.upload != 'disable') {
-                formData.append('files', file, file.name);
-            }
-        });
-        // 파라미터 넣기
-        formData.append("title", title);
-        formData.append("content", contents);
-        $.ajax({
-            url: '/loveBoard/boardWrite',
-            enctype: 'multipart/form-data',
-            data: formData,
-            type: 'post',
-            contentType: false,
-            processData: false,
-            success: function (suc) {
-                if (suc == 0) {
-                    alert("이미지는 16장이내만 등록해주세요!")
-                } else {
-                    alert("등록 성공!")
-                }
-            }
-        });
-    } else {
-        if (title == "") {
-            $('#title').nextAll('.invalid-feedback').text('한글자 이상 작성해주세요');
-            $('#title').attr('class', 'form-control is-invalid');
-        }
-        if (contents == "") {
-            $('#contents').nextAll('.invalid-feedback').text('한글자 이상 작성해주세요');
-            $('#contents').attr('class', 'form-control is-invalid');
-        }
-    }
-})
+// 로딩창 멈추기
+function closeLoadingWithMask() {
+    $('#mask, #loadingImg').hide();
+    $('#mask, #loadingImg').remove();
+}
