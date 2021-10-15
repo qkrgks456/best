@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="fix/fixHead.html"></th:block>
+<body>
+<div class="wrapper">
+    <th:block th:include="fix/fixSideBar"></th:block>
+    <div id="content">
+        <!-- 사이드바 토글 버튼 -->
+        <nav class="navbar-light my-2">
+            <button type="button" id="sidebarCollapse" class="btn btn-danger">
+                <i class="navbar-toggler-icon"></i>
+            </button>
+        </nav>
+        <!-- 여기서 부터 내용 넣으세요 -->
+        <div class="d-flex justify-content-center">
+            <div class="w-75 mt-2">
+                <h3 class="px-2" th:text="${map.get('dto').title}"></h3>
+                <div class="d-flex justify-content-end">
+                    <div class="mx-1" th:text="'작성자 : '+${map.get('dto').id}"></div>
+                    <div class="mx-1 border-start border-end border-dark px-2"
+                         th:text="'조회수 : '+${map.get('dto').boardHit}"></div>
+                    <div class="mx-1">추천수 : 0</div>
+                </div>
+                <hr/>
+                <div class="px-2" th:text="${map.get('dto').content}" style="height: 400px"></div>
+                <hr/>
+                <th:block th:if="${#lists.size(map.get('photoList')) > 0 }">
+                    <div class="d-flex justify-content-center flex-wrap">
+                        <th:block th:each="photo : ${map.get('photoList')}">
+                            <a th:href="${photo.path}" data-fancybox="responsive">
+                                <img class="mx-1 my-1" th:src="${photo.path}" style="width: 200px;height: 200px"/>
+                            </a>
+                        </th:block>
+                    </div>
+                    <hr/>
+                </th:block>
+                <div class="text-center">
+                    <a th:href="@{/loveBoard/list/{page}(page=${page})}" class="btn btn-danger rounded-0">리스트로</a>
+                    <a class="btn btn-danger rounded-0">추천</a>
+                    <a class="btn btn-danger rounded-0"
+                       th:if="${map.get('dto').id eq session.loginId}"
+                       th:href="@{/loveBoard/boardUpdateForm/{boardNum}/{page}(boardNum=${map.get('dto').boardNum},page=${page})}">수정</a>
+                    <a th:if="${map.get('dto').id eq session.loginId}" class="btn btn-danger rounded-0"
+                       id="boardDel" th:attr="boardNum=${map.get('dto').boardNum}">삭제</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+<th:block th:replace="fix/fixFooter.html"></th:block>
+<script th:src="@{/js/loading.js}"></script>
+<script>
+    $('#loveBoardBtn').attr("aria-expanded", "true");
+    $('#boardDel').on('click', function () {
+        let boardNum = $(this).attr('boardNum');
+        let confirmFlag = confirm("작성된 게시글,댓글,이미지 모두 복구가 불가합니다. 정말 게시글을 삭제하시겠습니까? ");
+        if (confirmFlag) {
+            LoadingWithMask();
+            $.ajax({
+                url: '/loveBoard/boardDelete/' + boardNum,
+                type: 'get',
+                success: function (suc) {
+                    alert('삭제완료');
+                    location.href = "/loveBoard/list/1"
+                }
+            });
+        }
+    })
+</script>
+</html>

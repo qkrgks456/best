@@ -1,6 +1,7 @@
 package com.gudi.best.logic.loveBoard.service;
 
 import com.gudi.best.dto.BoardDTO;
+import com.gudi.best.dto.PhotoDTO;
 import com.gudi.best.logic.loveBoard.mapper.BoardMapper;
 import com.gudi.best.util.PageNation;
 import com.gudi.best.util.S3Uploader;
@@ -45,6 +46,36 @@ public class BoardService {
         dto.setTitle(title);
         mapper.boardWrite(dto);
         int boardNum = dto.getBoardNum();
+        photoUpload(files, boardNum, id);
+        return boardNum;
+    }
+
+    @Transactional
+    public HashMap<String, Object> boardDetail(int boardNum) {
+        mapper.boardHit(boardNum);
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("dto", mapper.boardDetail(boardNum));
+        map.put("photoList", mapper.boardPhoto(boardNum));
+        map.put("photoCount", mapper.photoCount(boardNum));
+        return map;
+    }
+
+    @Transactional
+    public int imgDel(String newFileName, String photoNum, String boardNum) {
+        uploader.delete(newFileName);
+        mapper.photoDel(Integer.parseInt(photoNum));
+        int photoCount = mapper.photoCount(Integer.parseInt(boardNum));
+        return photoCount;
+    }
+
+    @Transactional
+    public void boardUpdate(String title, String content, MultipartFile[] files, String boardNum, String id) {
+        mapper.boardUpdate(boardNum, title, content);
+        photoUpload(files, Integer.parseInt(boardNum), id);
+    }
+
+    // 사진 업로드 및 포토 테이블 삽입 메서드
+    public void photoUpload(MultipartFile[] files, int boardNum, String id) {
         if (files != null) {
             // 파일 업로드 하기
             ArrayList<HashMap<String, Object>> imgMapList = new ArrayList<HashMap<String, Object>>();
@@ -63,6 +94,17 @@ public class BoardService {
                 mapper.photoInsert(map);
             }
         }
-        return boardNum;
+    }
+
+    @Transactional
+    public void boardDelete(int boardNum) {
+        ArrayList<PhotoDTO> photoList = mapper.boardPhoto(boardNum);
+        if (photoList.size() > 0 && photoList != null) {
+            for (PhotoDTO dto : photoList) {
+                uploader.delete(dto.getNewFileName());
+                mapper.photoDel(dto.getPhotoNum());
+            }
+        }
+        mapper.boardDelete(boardNum);
     }
 }

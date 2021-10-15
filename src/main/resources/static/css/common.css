@@ -19,7 +19,7 @@ html, body {
 .target {
     /* 한 줄 자르기 */
     display: inline-block;
-    width: 150px;
+    width: 570px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -47,6 +47,14 @@ html, body {
     opacity: 0.3;
 }
 
+hr {
+    border-top: 4px solid #dc3545;
+    border-bottom: white;
+    border-left: white;
+    border-right: white;
+    text-align: center;
+}
+
 /* 사이드바 css ~ */
 p {
     font-size: 1.1em;
@@ -61,6 +69,10 @@ a:focus {
     color: inherit;
     text-decoration: none;
     transition: all 0.3s;
+}
+
+.boardDetail:hover {
+    text-decoration: underline;
 }
 
 .navbar {

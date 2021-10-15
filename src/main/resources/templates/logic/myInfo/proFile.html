@@ -15,11 +15,13 @@
                 <div class="text-center mt-1">
                     <th:block th:if="${dto ne null}">
                         <img th:src="${dto.imgPath}"
+                             onerror="src='/img/noImg.png'"
                              class="rounded-circle border img-fluid proFileImg"
                              style="cursor: pointer;width: 400px;height: 400px">
                     </th:block>
                     <th:block th:if="${dto eq null}">
                         <img th:src="@{/img/noImg.png}"
+                             onerror="src='/img/noImg.png'"
                              class="rounded-circle border img-fluid proFileImg"
                              style="cursor: pointer;width: 400px;height: 400px">
                     </th:block>

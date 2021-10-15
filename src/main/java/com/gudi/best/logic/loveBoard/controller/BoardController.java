@@ -26,6 +26,22 @@ public class BoardController {
         return "logic/loveBoard/boardWrite";
     }
 
+    @GetMapping("/boardUpdateForm/{boardNum}/{page}")
+    public String boardUpdateForm(@PathVariable int boardNum, @PathVariable int page, Model model) {
+        HashMap<String, Object> map = boardService.boardDetail(boardNum);
+        model.addAttribute("map", map);
+        model.addAttribute("page", page);
+        return "logic/loveBoard/boardUpdate";
+    }
+
+    @GetMapping("/boardDetail/{boardNum}/{page}")
+    public String boardDetail(@PathVariable int boardNum, @PathVariable int page, Model model) {
+        HashMap<String, Object> map = boardService.boardDetail(boardNum);
+        model.addAttribute("map", map);
+        model.addAttribute("page", page);
+        return "logic/loveBoard/boardDetail";
+    }
+
     @GetMapping("/list/{page}")
     public String list(@PathVariable int page, Model model) {
         HashMap<String, Object> map = boardService.list(page);
@@ -38,12 +54,28 @@ public class BoardController {
     @PostMapping("/boardWrite")
     public int boardWrite(HttpSession session, String title, String content, MultipartFile[] files) {
         String id = (String) session.getAttribute("loginId");
-        if (files != null) {
-            if (files.length > 16) {
-                return 0;
-            }
-        }
         int boardNum = boardService.boardWrite(title, content, files, id);
         return boardNum;
+    }
+
+    @ResponseBody
+    @PostMapping("/boardUpdate")
+    public int boardUpdate(HttpSession session, String boardNum, String title, String content, MultipartFile[] files) {
+        String id = (String) session.getAttribute("loginId");
+        boardService.boardUpdate(title, content, files, boardNum, id);
+        return 0;
+    }
+
+    @ResponseBody
+    @GetMapping("/boardDelete/{boardNum}")
+    public boolean boardDelete(@PathVariable int boardNum) {
+        boardService.boardDelete(boardNum);
+        return true;
+    }
+
+    @ResponseBody
+    @PostMapping("/imgDel")
+    public int imgDel(String newFileName, String photoNum, String boardNum) {
+        return boardService.imgDel(newFileName, photoNum, boardNum);
     }
 }
