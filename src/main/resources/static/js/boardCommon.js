@@ -83,3 +83,4 @@ function preview(file, idx) {
     })(file, idx);
     reader.readAsDataURL(file);
 }
+

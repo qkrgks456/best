@@ -32,11 +32,17 @@ public interface BoardMapper {
     int photoCount(int boardNum);
 
     @Delete("DELETE FROM photo WHERE photoNum=#{photoNum}")
-    void photoDel(String photoNum);
+    void photoDel(int photoNum);
 
     @Update("UPDATE board SET title=#{param2},content=#{param3} WHERE boardNum=#{param1}")
     void boardUpdate(String boardNum, String title, String content);
 
     @Update("UPDATE board SET boardHit = boardHit + 1 WHERE boardNum = #{boardNum}")
     void boardHit(int boardNum);
+
+    @Select("SELECT newFileName FROM photo WHERE divisionNum=#{boardNum}")
+    ArrayList<String> photoNewFileName(int boardNum);
+
+    @Delete("DELETE FROM board WHERE boardNum=#{boardNum}")
+    void boardDelete(int boardNum);
 }

@@ -1,6 +1,7 @@
 package com.gudi.best.logic.loveBoard.service;
 
 import com.gudi.best.dto.BoardDTO;
+import com.gudi.best.dto.PhotoDTO;
 import com.gudi.best.logic.loveBoard.mapper.BoardMapper;
 import com.gudi.best.util.PageNation;
 import com.gudi.best.util.S3Uploader;
@@ -62,7 +63,7 @@ public class BoardService {
     @Transactional
     public int imgDel(String newFileName, String photoNum, String boardNum) {
         uploader.delete(newFileName);
-        mapper.photoDel(photoNum);
+        mapper.photoDel(Integer.parseInt(photoNum));
         int photoCount = mapper.photoCount(Integer.parseInt(boardNum));
         return photoCount;
     }
@@ -93,5 +94,17 @@ public class BoardService {
                 mapper.photoInsert(map);
             }
         }
+    }
+
+    @Transactional
+    public void boardDelete(int boardNum) {
+        ArrayList<PhotoDTO> photoList = mapper.boardPhoto(boardNum);
+        if (photoList.size() > 0 && photoList != null) {
+            for (PhotoDTO dto : photoList) {
+                uploader.delete(dto.getNewFileName());
+                mapper.photoDel(dto.getPhotoNum());
+            }
+        }
+        mapper.boardDelete(boardNum);
     }
 }

@@ -67,6 +67,13 @@ public class BoardController {
     }
 
     @ResponseBody
+    @GetMapping("/boardDelete/{boardNum}")
+    public boolean boardDelete(@PathVariable int boardNum) {
+        boardService.boardDelete(boardNum);
+        return true;
+    }
+
+    @ResponseBody
     @PostMapping("/imgDel")
     public int imgDel(String newFileName, String photoNum, String boardNum) {
         return boardService.imgDel(newFileName, photoNum, boardNum);
