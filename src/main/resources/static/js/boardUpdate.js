@@ -64,7 +64,7 @@ $(document).on('click', '#boardUpdateBtn', function () {
                 success: function (suc) {
                     closeLoadingWithMask();
                     alert("수정 성공!")
-                    location.href = '/loveBoard/boardDetail/' + boardNum + '/' + page
+                    location.href = '/loveBoard/boardDetail/' + boardNum + '/' + page + '/all'
                 }
             });
         } else {

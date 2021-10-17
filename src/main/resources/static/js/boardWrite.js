@@ -33,7 +33,7 @@ $(document).on('click', '#boardWriteBtn', function () {
                 success: function (suc) {
                     closeLoadingWithMask();
                     alert("등록 성공!")
-                    location.href = '/loveBoard/boardDetail/' + suc + '/1'
+                    location.href = '/loveBoard/boardDetail/' + suc + '/1/all'
                 }
             });
         } else {

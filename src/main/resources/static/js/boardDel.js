@@ -9,7 +9,7 @@ $('#boardDel').on('click', function () {
             type: 'get',
             success: function (suc) {
                 alert('삭제완료');
-                location.href = "/loveBoard/list/1"
+                location.href = "/loveBoard/list/all/1"
             }
         });
     }
