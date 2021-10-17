@@ -27,16 +27,18 @@ public class BoardController {
     }
 
     @GetMapping("/boardUpdateForm/{boardNum}/{page}")
-    public String boardUpdateForm(@PathVariable int boardNum, @PathVariable int page, Model model) {
-        HashMap<String, Object> map = boardService.boardDetail(boardNum);
+    public String boardUpdateForm(HttpSession session, @PathVariable int boardNum, @PathVariable int page, Model model) {
+        String loginId = (String) session.getAttribute("loginId");
+        HashMap<String, Object> map = boardService.boardDetail(boardNum, loginId);
         model.addAttribute("map", map);
         model.addAttribute("page", page);
         return "logic/loveBoard/boardUpdate";
     }
 
     @GetMapping("/boardDetail/{boardNum}/{page}")
-    public String boardDetail(@PathVariable int boardNum, @PathVariable int page, Model model) {
-        HashMap<String, Object> map = boardService.boardDetail(boardNum);
+    public String boardDetail(HttpSession session, @PathVariable int boardNum, @PathVariable int page, Model model) {
+        String loginId = (String) session.getAttribute("loginId");
+        HashMap<String, Object> map = boardService.boardDetail(boardNum, loginId);
         model.addAttribute("map", map);
         model.addAttribute("page", page);
         return "logic/loveBoard/boardDetail";
