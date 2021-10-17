@@ -22,7 +22,8 @@
 		</div>
 		
 		<form th:action="@{/chat/room}" method="post">
-			<input type="text" name="roomName" class="form-control" />
+			방이름:<input type="text" name="roomName" class="form-control" />
+			상대방ID:<input type="text" name="person" class="form-control" />
 			<button class="btn btn-secondary btn-create">개설하기</button>
 		</form>
 		

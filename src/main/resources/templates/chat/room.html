@@ -4,10 +4,10 @@
 <body>
 		<div class="container">
 			<div class="col-6">
-				<h1></h1>
+				<h1 th:text="${room.roomName}">방이름</h1>
 			</div>
 			<div>
-				<div th:attr="roomNum=${room.roomNum}, roomName=${room.roomName}, username=${room.username}" id="msgArea" class="col"></div>
+				<div th:attr="roomNum=${room.roomNum}, roomName=${room.roomName}, userId=${room.id}" id="msgArea" class="col"></div>
 				<div class="col-6">
 					<div class="input-group mb-3">
 						<input type="text" id="msg" class="form-control">
@@ -21,11 +21,12 @@
 		</div>
 	</body>
 	<th:block th:replace="fix/fixFooter.html"></th:block>
+	
 <script>
 let roomNum = $("#msgArea").attr("roomNum");
 let roomName = $("#msgArea").attr("roomName");
-let username = $("#msgArea").attr("username");
-console.log(roomNum +" / " + roomName + " / " + username);
+let id = $("#msgArea").attr("userId");
+console.log(roomNum +" / " + roomName + " / " + id);
 
 $(document).ready(function(){
 
@@ -42,11 +43,11 @@ $(document).ready(function(){
 			console.log(chat)
 			var content = JSON.parse(chat.body);
 			console.log(content)
-			var writer = content.username;
+			var writer = content.id;
 			
 			var str = '';
 			
-			if(writer == username){
+			if(writer == id){
 			 	str = "<div class='col-6'>";
 				str += "<div class='alert alert-secondary'>";
 				str += "<b>" + content.message + "</b>";
@@ -62,14 +63,15 @@ $(document).ready(function(){
 		
 		});
 		//3. send(path, header, message) 로 메세지를 보낼 수 있음
-		 stomp.send('/pub/chat/enter', {},JSON.stringify({roomNum: roomNum, username: username}))	
+		 stomp.send('/pub/chat/enter', {},JSON.stringify({roomNum: roomNum, id: id}))	
 		});
+	
 	
 		$("#button-send").on("click",function(e){
 			var msg = document.getElementById("msg");
 			
-			console.log(username+ ":" + msg.value);
-			stomp.send('/pub/chat/message', {}, JSON.stringify({roomNum: roomNum, message: msg.value, username: username}));
+			console.log(id+ ":" + msg.value);
+			stomp.send('/pub/chat/message', {}, JSON.stringify({roomNum: roomNum, message: msg.value, id: id}));
 			msg.value='';
 		});
 });
