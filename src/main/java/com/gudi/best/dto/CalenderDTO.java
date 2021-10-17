@@ -10,4 +10,5 @@ public class CalenderDTO {
     private String end;
     private String title;
     private String content;
+    private String color;
 }

@@ -28,6 +28,7 @@ public class CoupleService {
 		Cdto.setEnd(param.get("end"));
 		Cdto.setTitle(param.get("title"));
 		Cdto.setContent(param.get("content"));
+		Cdto.setColor(param.get("color"));
 		mapper.calenderEnter(Cdto);
 	}
 
@@ -78,6 +79,7 @@ public class CoupleService {
 		Cdto.setEnd(param.get("end"));
 		Cdto.setTitle(param.get("title"));
 		Cdto.setContent(param.get("content"));
+		Cdto.setColor(param.get("color"));
 		mapper.calenderUpdate(Cdto);
 		
 	}

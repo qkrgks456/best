@@ -13,7 +13,9 @@
             </button>
         </nav>
         <!-- 여기서 부터 내용 넣으세요 -->
-        사랑일지
+        <div class="mt-4">
+                    <h5 class="text-muted">추억과 일정을 기록하세요!</h5>
+                </div>
         <div id='calendar' style="width: auto;"></div>
         <form action="loveCalenderEnterForm" id="hidden" method="POST">
         <input type='hidden' name="start" id="start"/>
@@ -47,14 +49,14 @@
             locale: "ko",
             droppable: false,
             eventLimit: true,
+            dayMaxEvents: true,
         eventLimitText: "more",
-        eventLimitClick: "popover",
           events:function(info, successCallback, failureCallback){
             $.ajax({
                   url:"readCalender",
                    dataType: 'json',
                    success: function(result) {
- 	//console.log(result);
+ 	
                            var events = [];
                          
                            if(result!=null){
@@ -64,13 +66,17 @@
                                     if(e==null){
                                         e=element.start;
                                     }
-                                    
+                                    if(element.color==null){
+                                    	element.color="#bb2d3b";
+                                    }
+                                    e = plus(e);
                                     var s=element.start;
                                         events.push({
                                                title: element.title,
                                                start: s,
                                                end: e,
-                                                  url: "/couple/CalenderDetail/"+element.cnum
+                                               color :element.color,
+                                                 url: "/couple/CalenderDetail/"+element.cnum
                                             }); //.push()
                                }); //.each()
                                
@@ -103,6 +109,15 @@ function format(date) {
         month = month >= 10 ? month : '0' + month;
         day = day >= 10 ? day : '0' + day;
         return date.getFullYear() + '-' + month + '-' + day;
+}
+
+function plus(e){
+	let date = new Date(e);
+	let month = date.getMonth()+1;
+    let day = date.getDate()+1;
+    month = month >= 10 ? month : '0' + month;
+    day = day >= 10 ? day : '0' + day;
+    return date.getFullYear() + '-' + month + '-' + day;
 }
 
 //read();

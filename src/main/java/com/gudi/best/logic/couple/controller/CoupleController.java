@@ -53,7 +53,7 @@ public class CoupleController {
     
     @PostMapping("/loveCalenderEnter")
     public String loveCalenderEnter(@RequestParam HashMap<String , String> param, HttpSession session) {
-    	//System.out.println("입력데이터"+param);
+    	System.out.println("입력데이터"+param);
     	 String id = (String) session.getAttribute("loginId");
     	 if(param.get("sTime")!=null) {
     		param.put("start", param.get("start")+"T"+param.get("sTime"));
