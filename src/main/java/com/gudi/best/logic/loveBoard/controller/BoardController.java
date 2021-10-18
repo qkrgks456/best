@@ -2,9 +2,11 @@ package com.gudi.best.logic.loveBoard.controller;
 
 import com.gudi.best.dto.BoardDTO;
 import com.gudi.best.logic.loveBoard.service.BoardService;
+import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Controller
+@Log4j2
 @RequestMapping("/loveBoard")
 public class BoardController {
-    Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     BoardService boardService;
 
@@ -27,27 +29,36 @@ public class BoardController {
     }
 
     @GetMapping("/boardUpdateForm/{boardNum}/{page}")
-    public String boardUpdateForm(@PathVariable int boardNum, @PathVariable int page, Model model) {
-        HashMap<String, Object> map = boardService.boardDetail(boardNum);
+    public String boardUpdateForm(HttpSession session, @PathVariable int boardNum, @PathVariable int page, Model model) {
+        String loginId = (String) session.getAttribute("loginId");
+        HashMap<String, Object> map = boardService.boardDetail(boardNum, loginId);
         model.addAttribute("map", map);
         model.addAttribute("page", page);
         return "logic/loveBoard/boardUpdate";
     }
 
-    @GetMapping("/boardDetail/{boardNum}/{page}")
-    public String boardDetail(@PathVariable int boardNum, @PathVariable int page, Model model) {
-        HashMap<String, Object> map = boardService.boardDetail(boardNum);
+    @GetMapping("/boardDetail/{boardNum}/{page}/{division}")
+    public String boardDetail(HttpSession session, @PathVariable String division, @PathVariable int boardNum, @PathVariable int page, Model model) {
+        String loginId = (String) session.getAttribute("loginId");
+        HashMap<String, Object> map = boardService.boardDetail(boardNum, loginId);
         model.addAttribute("map", map);
         model.addAttribute("page", page);
+        model.addAttribute("division", division);
         return "logic/loveBoard/boardDetail";
     }
 
-    @GetMapping("/list/{page}")
-    public String list(@PathVariable int page, Model model) {
-        HashMap<String, Object> map = boardService.list(page);
+    @GetMapping("/list/{division}/{page}")
+    public String list(@PathVariable String division, @PathVariable int page, Model model) {
+        HashMap<String, Object> map = boardService.list(page, division);
         model.addAttribute("map", map);
         model.addAttribute("page", page);
         return "logic/loveBoard/boardList";
+    }
+
+    @PostMapping("/search")
+    public String search(String searchText, String option) {
+        log.info(searchText + " " + option + " 이거 테스트");
+        return null;
     }
 
     @ResponseBody

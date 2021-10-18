@@ -22,9 +22,15 @@ public class BoardService {
     BoardMapper mapper;
     @Autowired
     S3Uploader uploader;
+    @Autowired
+    CmService cmService;
 
     @Transactional
-    public HashMap<String, Object> list(int page) {
+    public HashMap<String, Object> list(int page, String division) {
+        String path = "all";
+        if (!division.equals("all")) {
+            path = "boardHit";
+        }
         int total = mapper.boardTotal();
         int start = 0;
         HashMap<String, Object> map = PageNation.pagination(page, 15, total);
@@ -33,7 +39,8 @@ public class BoardService {
         } else {
             start = (page - 1) * 15;
         }
-        map.put("list", mapper.list(start));
+        map.put("list", mapper.list(start, division));
+        map.put("path", path);
         return map;
     }
 
@@ -51,9 +58,9 @@ public class BoardService {
     }
 
     @Transactional
-    public HashMap<String, Object> boardDetail(int boardNum) {
+    public HashMap<String, Object> boardDetail(int boardNum, String loginId) {
         mapper.boardHit(boardNum);
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = cmService.cmList(1, boardNum, loginId);
         map.put("dto", mapper.boardDetail(boardNum));
         map.put("photoList", mapper.boardPhoto(boardNum));
         map.put("photoCount", mapper.photoCount(boardNum));
