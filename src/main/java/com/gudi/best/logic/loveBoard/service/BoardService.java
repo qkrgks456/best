@@ -26,7 +26,11 @@ public class BoardService {
     CmService cmService;
 
     @Transactional
-    public HashMap<String, Object> list(int page) {
+    public HashMap<String, Object> list(int page, String division) {
+        String path = "all";
+        if (!division.equals("all")) {
+            path = "boardHit";
+        }
         int total = mapper.boardTotal();
         int start = 0;
         HashMap<String, Object> map = PageNation.pagination(page, 15, total);
@@ -35,7 +39,8 @@ public class BoardService {
         } else {
             start = (page - 1) * 15;
         }
-        map.put("list", mapper.list(start));
+        map.put("list", mapper.list(start, division));
+        map.put("path", path);
         return map;
     }
 

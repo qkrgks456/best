@@ -1,38 +1,46 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<!-- 부가적인 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-</head>
+<th:block th:include="fix/fixHead.html"></th:block>
 <body>
-	<th:block th:fragment="content">
+<div class="wrapper">
+    <th:block th:include="fix/fixSideBar"></th:block>
+    <div id="content">
+        <!-- 사이드바 토글 버튼 -->
+        <nav class="navbar-light my-2">
+            <button type="button" id="sidebarCollapse" class="btn btn-danger">
+                <i class="navbar-toggler-icon"></i>
+            </button>
+        </nav>
+       
 		<div class="container">
-			<div>
+		<div class="row">
+			
+			<div class="col">
+			<form th:action="@{/chat/room}" method="post">
+				방이름:<input type="text" name="roomName" class="form-control" />
+				상대방ID:<input type="text" name="person" class="form-control" />
+				<button class="btn btn-secondary btn-create">개설하기</button>
+			</form>
+			</div>
+			
+			<div class="col">
 				<ul th:each="room : ${list}">
-					<li><a th:href="@{/chat/room(roomNum=${room.roomNum})}">[[${room.roomName}]]</a></li>
+					<li><a th:href="@{/chat/room(roomNum=${room.roomNum}, roomName=${room.roomName})}">[[${room.roomName}]]</a></li>
 				</ul>
 			</div>
+			
+				
+		</div>
 		</div>
 		
-		<form th:action="@{/chat/room}" method="post">
-			<input type="text" name="roomName" class="form-control" />
-			<button class="btn btn-secondary btn-create">개설하기</button>
-		</form>
 		
 	</th:block>
+	</div>
+	</div>
 </body>
-
+<th:block th:replace="fix/fixFooter.html"></th:block>
 <script th:inline="javascript">
 
- 	$(document).ready(function(){
- 	
  		var roomName = [[${roomName}]];
  		
  		if(roomName != null){
@@ -52,10 +60,7 @@
  			
  		});
  		
- 	});
-
-
-
+ 	
 </script>
 
 </html>

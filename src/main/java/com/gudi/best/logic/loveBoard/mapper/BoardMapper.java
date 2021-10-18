@@ -12,8 +12,8 @@ public interface BoardMapper {
     @Select("SELECT COUNT(boardNum) FROM board")
     int boardTotal();
 
-    @Select("SELECT * FROM board ORDER BY boardNum DESC LIMIT ${start},15")
-    ArrayList<BoardDTO> list(int start);
+    @SelectProvider(type = BoardSQL.class, method = "boardPick")
+    ArrayList<BoardDTO> list(int start, String division);
 
     @Insert(BoardSQL.BOARD_PHOTO_INSERT)
     void photoInsert(HashMap<String, Object> map);

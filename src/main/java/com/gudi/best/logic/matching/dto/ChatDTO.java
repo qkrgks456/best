@@ -3,13 +3,11 @@ package com.gudi.best.logic.matching.dto;
 import lombok.Data;
 
 @Data
-public class ChatRoomDTO {
+public class ChatDTO {
 	
 	private Integer roomNum;
-	private String roomName;
 	private String id;
-	private String person;
+	private String message;
 	private String dates;
-	private String lastChatDates;
-	
+
 }
