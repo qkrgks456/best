@@ -1,5 +1,7 @@
 package com.gudi.best.logic.couple.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gudi.best.logic.couple.service.CoupleService;
+import com.gudi.best.util.NewApiUtil;
 
 @Controller
 @RequestMapping("/couple")
@@ -105,10 +108,7 @@ public class CoupleController {
     }
     
     
-    @GetMapping("/loveInfo")
-    public String loveInfo() {
-        return "logic/couple/loveInfo";
-    }
+    
 
     @GetMapping("/loveMemory")
     public String loveMemory() {

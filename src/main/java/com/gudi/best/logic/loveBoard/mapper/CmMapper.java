@@ -11,7 +11,7 @@ public interface CmMapper {
     @Select("SELECT COUNT(cmNum) FROM cm WHERE division='loveBoard' AND divisionNum=#{boardNum} AND delCheck='N'")
     int cmTotal(int boardNum);
 
-    @Select("SELECT * FROM cm WHERE division='loveBoard' AND divisionNum=#{param2} AND delCheck='N' ORDER BY cmNum DESC LIMIT ${start},8")
+    @Select("SELECT * FROM cm WHERE division='loveBoard' AND divisionNum=#{param2} AND delCheck='N' ORDER BY cmNum DESC LIMIT #{param1},8")
     ArrayList<CmDTO> cmList(int start, int boardNum);
 
     @Insert("INSERT INTO cm(id,content,division,divisionNum) VALUES(#{id},#{content},#{division},#{divisionNum})")

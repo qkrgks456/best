@@ -16,12 +16,12 @@ public class BoardSQL {
                 SELECT("*");
                 FROM("board");
                 ORDER_BY("boardNum DESC");
-                LIMIT("${start},15");
+                LIMIT("#{param1},15");
             } else {
                 SELECT("*");
                 FROM("board");
                 ORDER_BY("boardHit DESC");
-                LIMIT("${start},15");
+                LIMIT("#{param1},15");
             }
         }}.toString();
     }
