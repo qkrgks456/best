@@ -33,7 +33,7 @@ public interface ChatMapper {
 	void lastChatDatesUpdate(Integer roomNum);
 
 	@Select("SELECT * FROM\r\n"
-			+ "(SELECT roomnum, id, message, TIME(dates) AS dates FROM chat WHERE roomNum = 1) AS sub\r\n"
+			+ "(SELECT roomnum, id, message, TIME(dates) AS dates FROM chat WHERE roomNum = #{param1}) AS sub\r\n"
 			+ "ORDER BY dates ASC")
 	List<ChatDTO> chatFind(String roomNum);
 	

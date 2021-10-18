@@ -13,15 +13,15 @@
         </nav>
 		<div class="container">
 			<div class="col-6">
-				<h1 th:text="${room.roomName}">방이름</h1>
+				<h3 th:text="${room.roomName}">방이름</h3>
 			</div>
 			<div>
 				<div th:attr="roomNum=${room.roomNum}, roomName=${room.roomName}, userId=${room.id}, loginId=${loginId}" id="msgArea" class="col">
 				
-				<div th:each="chat : ${chatDTO}" class='col-6'>
-				<div th:if="${chat.id.toString().equals(loginId)}" class="alert alert-secondary"><b th:text="${chat.message}"></b></div>
-				<div th:unless="${chat.id.toString().equals(loginId)}" class="alert alert-warning"><b th:text="${chat.message}"></b></div>
-				</div>
+					<div th:each="chat : ${chatDTO}" class='col-6'>
+						<div th:if="${chat.id.toString().equals(loginId)}" class="alert alert-secondary"><b th:text="${chat.message}"></b></div>
+						<div th:unless="${chat.id.toString().equals(loginId)}" class="alert alert-warning"><b th:text="${chat.message}"></b></div>
+					</div>
 					
 				</div>
 				<div class="col-6">
@@ -47,7 +47,7 @@ let id = $("#msgArea").attr("userId");
 
 let loginId = $("#msgArea").attr("loginId");
 
-console.log(roomNum +" / " + roomName + " / " + id);
+console.log(roomNum +" / " + roomName + " / " + id + " / " + loginId);
 
 $(document).ready(function(){
 
