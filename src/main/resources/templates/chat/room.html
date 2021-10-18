@@ -2,6 +2,15 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:include="fix/fixHead.html"></th:block>
 <body>
+<div class="wrapper">
+    <th:block th:include="fix/fixSideBar"></th:block>
+    <div id="content">
+        <!-- 사이드바 토글 버튼 -->
+        <nav class="navbar-light my-2">
+            <button type="button" id="sidebarCollapse" class="btn btn-danger">
+                <i class="navbar-toggler-icon"></i>
+            </button>
+        </nav>
 		<div class="container">
 			<div class="col-6">
 				<h1 th:text="${room.roomName}">방이름</h1>
@@ -25,6 +34,8 @@
 				</div>
 			</div>
 			<div class="col-6"></div>
+		</div>
+		</div>
 		</div>
 	</body>
 	<th:block th:replace="fix/fixFooter.html"></th:block>
