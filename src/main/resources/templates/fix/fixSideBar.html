@@ -44,6 +44,9 @@
         </li>
     </ul>
     <ul class="list-unstyled CTAs">
+    <th:block th:if ="${session.admin == 'Y'}">
+   	 <a  th:href="@{/admin/main}" class="btn btn-danger btn-sm rounded-0">관리자</a>
+    </th:block>
         <a th:href="@{/myInfo/proFile}" class="btn btn-danger btn-sm rounded-0">내 프로필</a>
         <a th:href="@{/member/logOut}" class="btn btn-danger btn-sm rounded-0">로그아웃</a>
     </ul>
@@ -91,3 +94,9 @@
     </div>
 </div>
 </html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$('#sidebar').on("doubleclick",function(){
+	console.log("실행");
+});
+</script>

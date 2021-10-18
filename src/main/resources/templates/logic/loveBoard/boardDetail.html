@@ -40,7 +40,7 @@
                     <a class="btn btn-danger rounded-0"
                        th:if="${map.get('dto').id eq session.loginId}"
                        th:href="@{/loveBoard/boardUpdateForm/{boardNum}/{page}(boardNum=${map.get('dto').boardNum},page=${page})}">수정</a>
-                    <a th:if="${map.get('dto').id eq session.loginId}" class="btn btn-danger rounded-0"
+                    <a th:if="${map.get('dto').id eq session.loginId or sesseion.admin =='Y'}" class="btn btn-danger rounded-0"
                        id="boardDel" th:attr="boardNum=${map.get('dto').boardNum}">삭제</a>
                 </div>
                 <h3>댓글</h3>
