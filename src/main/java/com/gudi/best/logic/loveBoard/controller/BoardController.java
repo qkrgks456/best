@@ -55,10 +55,11 @@ public class BoardController {
         return "logic/loveBoard/boardList";
     }
 
-    @PostMapping("/search")
-    public String search(String searchText, String option) {
-        log.info(searchText + " " + option + " 이거 테스트");
-        return null;
+    @GetMapping("/search/{page}")
+    public String search(@PathVariable int page, Model model, String searchText, String option) {
+        model.addAttribute("map", boardService.search(searchText, option, page));
+        model.addAttribute("page", page);
+        return "logic/loveBoard/boardList";
     }
 
     @ResponseBody
