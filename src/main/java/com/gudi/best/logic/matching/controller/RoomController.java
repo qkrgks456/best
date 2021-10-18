@@ -17,7 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.gudi.best.logic.matching.dto.ChatDTO;
 import com.gudi.best.logic.matching.dto.ChatMessageDTO;
+import com.gudi.best.logic.matching.dto.ChatRoomDTO;
 import com.gudi.best.logic.matching.mapper.ChatMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -52,15 +54,13 @@ public class RoomController {
 		if(RequestContextUtils.getInputFlashMap(request) != null) {
 			Map<String, ?> reqMap = RequestContextUtils.getInputFlashMap(request);
 			String loginId = (String) reqMap.get("loginId");	
-			List<ChatMessageDTO> result = chatMapper.findAllRooms(loginId);
-			Collections.reverse(result);
+			List<ChatRoomDTO> result = chatMapper.findAllRooms(loginId);
 			mav.addObject("list", result);
 			return mav;
 		//url 로 진입시
 		} else {
 			String loginId = (String) session.getAttribute("loginId");
-			List<ChatMessageDTO> result = chatMapper.findAllRooms(loginId);
-			Collections.reverse(result);
+			List<ChatRoomDTO> result = chatMapper.findAllRooms(loginId);
 			mav.addObject("list", result);
 			return mav;
 		}
@@ -69,16 +69,20 @@ public class RoomController {
 
 	//개인 채팅방 들어가기
 	@GetMapping("/room")
-	public String getRoom(String roomNum, Model model, HttpSession session) {
+	public String getRoom(String roomNum, String roomName, Model model, HttpSession session) {
 		String loginId = (String) session.getAttribute("loginId");
+		model.addAttribute("loginId", loginId);
 		
-		ChatMessageDTO dto = chatMapper.findRoomByNum(roomNum);
+		ChatRoomDTO dto = chatMapper.findRoomByNum(roomNum);
 		log.info("dto 속을보자::" + dto);
 		dto.setId(loginId);
 		model.addAttribute("room",dto);
 		
 		//이전 채팅기록도 담아서 뿌려줘야함!
 		//내거, 상대방 메세지 구분 필요함
+		List<ChatDTO> chatDTO =  chatMapper.chatFind(roomNum);
+		log.info("List ChatDTO 의 형태를 보자!! :: " + chatDTO);
+		model.addAttribute("chatDTO", chatDTO);
 		
 		return "chat/room";
 	}

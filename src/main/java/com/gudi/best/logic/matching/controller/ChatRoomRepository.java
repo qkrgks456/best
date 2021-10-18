@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Repository;
 
-import com.gudi.best.logic.matching.dto.ChatRoomDTO;
+import com.gudi.best.logic.matching.dto.ChatRoomDTOTEST;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -18,31 +18,31 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class ChatRoomRepository {
 
-	private Map<String, ChatRoomDTO> chatRoomDTOMap;
+	private Map<String, ChatRoomDTOTEST> chatRoomDTOMap;
 	
 	@PostConstruct
 	private void init() {
 		chatRoomDTOMap = new LinkedHashMap<>();
 	}
 	
-	public List<ChatRoomDTO> findAllRooms(){
+	public List<ChatRoomDTOTEST> findAllRooms(){
 		//채팅방 생성 순서 최근 순으로 반환
-		List<ChatRoomDTO> result = new ArrayList<>(chatRoomDTOMap.values());
+		List<ChatRoomDTOTEST> result = new ArrayList<>(chatRoomDTOMap.values());
 		Collections.reverse(result);
 		
 		return result;
 	}
 	
-	public ChatRoomDTO findRoomByNum(String num) {
-		ChatRoomDTO dto = new ChatRoomDTO();
+	public ChatRoomDTOTEST findRoomByNum(String num) {
+		ChatRoomDTOTEST dto = new ChatRoomDTOTEST();
 		dto.setRoomName("임시방");
 		dto.setRoomNum(num);
 		return dto;
 	}
 	
-	public ChatRoomDTO createChatRoomDTO(String roomName) {
+	public ChatRoomDTOTEST createChatRoomDTO(String roomName) {
 
-		ChatRoomDTO room = ChatRoomDTO.create(roomName);
+		ChatRoomDTOTEST room = ChatRoomDTOTEST.create(roomName);
 		chatRoomDTOMap.put(room.getRoomNum(), room);
 		
 		return room;

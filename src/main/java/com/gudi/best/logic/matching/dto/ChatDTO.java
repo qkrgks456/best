@@ -3,7 +3,7 @@ package com.gudi.best.logic.matching.dto;
 import lombok.Data;
 
 @Data
-public class Chat {
+public class ChatDTO {
 	
 	private Integer roomNum;
 	private String id;

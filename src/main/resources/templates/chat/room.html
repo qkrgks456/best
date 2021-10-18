@@ -7,7 +7,14 @@
 				<h1 th:text="${room.roomName}">방이름</h1>
 			</div>
 			<div>
-				<div th:attr="roomNum=${room.roomNum}, roomName=${room.roomName}, userId=${room.id}" id="msgArea" class="col"></div>
+				<div th:attr="roomNum=${room.roomNum}, roomName=${room.roomName}, userId=${room.id}, loginId=${loginId}" id="msgArea" class="col">
+				
+				<div th:each="chat : ${chatDTO}" class='col-6'>
+				<div th:if="${chat.id.toString().equals(loginId)}" class="alert alert-secondary"><b th:text="${chat.message}"></b></div>
+				<div th:unless="${chat.id.toString().equals(loginId)}" class="alert alert-warning"><b th:text="${chat.message}"></b></div>
+				</div>
+					
+				</div>
 				<div class="col-6">
 					<div class="input-group mb-3">
 						<input type="text" id="msg" class="form-control">
@@ -26,6 +33,9 @@
 let roomNum = $("#msgArea").attr("roomNum");
 let roomName = $("#msgArea").attr("roomName");
 let id = $("#msgArea").attr("userId");
+
+let loginId = $("#msgArea").attr("loginId");
+
 console.log(roomNum +" / " + roomName + " / " + id);
 
 $(document).ready(function(){
@@ -40,9 +50,9 @@ $(document).ready(function(){
 		console.log(e);		
 		//4. subscribe(path, callback) 으로 메세지 받을 수 있음
 		stomp.subscribe("/sub/chat/room/" + roomNum, function(chat){
-			console.log(chat)
+			//console.log("콜백함수를 보자!!:: ",chat);
 			var content = JSON.parse(chat.body);
-			console.log(content)
+			//console.log(content)
 			var writer = content.id;
 			
 			var str = '';
@@ -63,7 +73,7 @@ $(document).ready(function(){
 		
 		});
 		//3. send(path, header, message) 로 메세지를 보낼 수 있음
-		 stomp.send('/pub/chat/enter', {},JSON.stringify({roomNum: roomNum, id: id}))	
+		 stomp.send('/pub/chat/enter', {},JSON.stringify({roomNum: roomNum, id: id, roomName: roomName}))	
 		});
 	
 	
@@ -71,7 +81,7 @@ $(document).ready(function(){
 			var msg = document.getElementById("msg");
 			
 			console.log(id+ ":" + msg.value);
-			stomp.send('/pub/chat/message', {}, JSON.stringify({roomNum: roomNum, message: msg.value, id: id}));
+			stomp.send('/pub/chat/message', {}, JSON.stringify({roomNum: roomNum, message: msg.value, id: id, roomName: roomName}));
 			msg.value='';
 		});
 });
