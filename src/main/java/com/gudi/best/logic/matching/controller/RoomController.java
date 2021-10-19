@@ -33,14 +33,26 @@ public class RoomController {
 	
 	//채팅방 개설
 		@PostMapping(value = "/room")
-		public String create(@RequestParam String roomName, @RequestParam String person, HttpSession session, RedirectAttributes rttr) {
+		public String create(@RequestParam String person, HttpSession session, RedirectAttributes rttr, Model model) {
 			String loginId = (String) session.getAttribute("loginId");
-			log.info("# create chat room , loginID, roomName: " + loginId + " / " + person + " / " + roomName);
-			chatMapper.createRoom(loginId,person,roomName);
-			rttr.addFlashAttribute("loginId" , loginId);
-			//rttr.addFlashAttribute("roomName" , repository.createChatRoomDTO(roomName).getRoomName());
-			return "redirect:/chat/rooms";
-		}
+			log.info("# create chat room , loginID, roomName: " + loginId + " / " + person + " / ");
+				
+			//동일한 방 생성불가능
+			//상대방 아이디가 멤버에 존재하지 않는 경우도 방생성 불가능
+			//나-상대방, 상대방-나 => 두개의 방이 아니라, 하나의 방으로 만들어야함
+			if(chatMapper.findOverlap(loginId, person).size()>0 || chatMapper.findPerson(person)==null) {
+				log.info("***방생성 불가능!!***");
+				rttr.addFlashAttribute("loginId" , loginId);
+				rttr.addFlashAttribute("errorMsg" , "상대방이 존재하지 않는 아이디이거나, 이미 생성된 채팅방 입니다.");
+				return "redirect:/chat/rooms";
+			}else{
+				log.info("***방생성 쌉가능!!***");
+				chatMapper.createRoom(loginId,person);
+				rttr.addFlashAttribute("loginId" , loginId);
+				return "redirect:/chat/rooms";
+				}
+			}
+
 	
 	//채팅방 목록 조회
 	@GetMapping(value = "/rooms")

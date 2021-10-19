@@ -7,18 +7,19 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.gudi.best.dto.memberDTO;
 import com.gudi.best.logic.matching.dto.ChatDTO;
 import com.gudi.best.logic.matching.dto.ChatRoomDTO;
 
 @Mapper
 public interface ChatMapper {
 	
-	@Insert("INSERT INTO chatRoom(id, person, roomName, dates, lastChatDates) VALUES(#{param1}, #{param2}, #{param3}, SYSDATE(), SYSDATE())")
-	void createRoom(String loginId, String person,String roomName);
+	@Insert("INSERT INTO chatRoom(id, person, dates, lastChatDates) VALUES(#{param1}, #{param2}, SYSDATE(), SYSDATE())")
+	void createRoom(String loginId, String person);
 
 	@Select("SELECT *\r\n"
 			+ "FROM\r\n"
-			+ "(SELECT roomNum, roomName, id, person, dates, DATE(lastChatDates) AS lastChatDates, lastMessage  FROM chatRoom WHERE id = #{param1}  OR person = #{param1} ) AS sub\r\n"
+			+ "(SELECT roomNum, id, person, dates, DATE(lastChatDates) AS lastChatDates, lastMessage  FROM chatRoom WHERE id = #{param1}  OR person = #{param1} ) AS sub\r\n"
 			+ "ORDER BY lastChatDates DESC\r\n")
 	List<ChatRoomDTO> findAllRooms(String loginId);
 
@@ -38,5 +39,13 @@ public interface ChatMapper {
 
 	@Update("UPDATE chatRoom SET lastMessage = #{param2} WHERE roomNum = #{param1}")
 	void lastMessageUpdate(Integer integer, String message);
+
+	@Select("SELECT * FROM chatRoom WHERE (id = #{param1} AND person = #{param2}) OR (id = #{param2} AND person = #{param1})")
+	List<ChatRoomDTO> findOverlap(String loginId, String person);
+
+	@Select("SELECT * FROM member WHERE id = #{param1}")
+	memberDTO findPerson(String person);
+
+	
 	
 }
