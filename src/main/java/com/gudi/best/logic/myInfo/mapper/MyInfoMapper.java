@@ -1,8 +1,10 @@
 package com.gudi.best.logic.myInfo.mapper;
 
+import com.gudi.best.dto.BoardDTO;
 import com.gudi.best.dto.ProFileDTO;
 import org.apache.ibatis.annotations.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Mapper
@@ -33,4 +35,13 @@ public interface MyInfoMapper {
 
     @Update("UPDATE member SET pw = #{param2} WHERE id = #{param1}")
     void pwChange(String id, String change_enc_pass);
+
+    @Select("SELECT COUNT(boardNum) FROM board WHERE id = #{param1}")
+    int myBoardTotal(String loginId);
+
+    @Select("SELECT *,(SELECT COUNT(goodNum) FROM good WHERE boardNum=divisionNum)goodCount FROM board WHERE id =#{param2} ORDER BY boardNum DESC LIMIT #{param1},15")
+    ArrayList<BoardDTO> myBoardList(int start, String loginId);
+
+    @Update("UPDATE member SET delCheck = 'Y' WHERE id=#{id}")
+    void memberDrop(String id);
 }

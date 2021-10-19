@@ -4,7 +4,7 @@ let division = "loveBoard";
 $('#cmInsertBtn').on('click', function () {
     // 여기에 받을 변수 써주세용
     let cmContent = $('#commentContent').val();
-    if (cmContent.trim() != "") {
+    if (cmContent.trim() != "" && cmContent.length < 1000) {
         $('#commentContent').removeClass('is-invalid');
         $.ajax({
             type: "POST",//방식
@@ -68,7 +68,7 @@ $(document).on('click', '.page-info', function () {
 $(document).on('click', '.cmUpdateBtn', function () {
     let cmNum = $(this).attr('cmNum');
     let cmUpdateContent = $(this).parent().prev().children('.cmUpdateContent').val();
-    if (cmUpdateContent.trim() != "") {
+    if (cmUpdateContent.trim() != "" && cmUpdateContent.length < 1000) {
         $.ajax({
             type: "POST",//방식
             url: "/cm/cmUpdate",//주소
@@ -118,7 +118,7 @@ function commentList(map) {
         content += '<div class="form-floating flex-grow-1 px-2">'
         content += '<textarea class="cmUpdateContent form-control rounded-0" style="height: 100px; resize: none;">' + dto.content + '</textarea>'
         content += '<label>수정할 댓글을 작성하세요</label>'
-        content += '<div class="invalid-feedback">1자 이상 입력해주세요</div>'
+        content += '<div class="invalid-feedback">1자 이상 1000자 미만 입력해주세요</div>'
         content += '</div>'
         content += '<div class="d-flex justify-content-end mt-2">'
         content += '<a cmNum="' + dto.cmNum + '" class="cmUpdateBtn btn btn-danger rounded-0 btn-sm">등록</a>'

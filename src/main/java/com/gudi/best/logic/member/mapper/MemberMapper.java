@@ -15,7 +15,7 @@ public interface MemberMapper {
     @Insert("INSERT INTO member(id,pw,email,admin,delCheck,gender) VALUES(#{id},#{pw},#{email},'N','N',#{gender})")
     void join(HashMap<String, String> params);
 
-    @Select("SELECT pw FROM member WHERE id = #{param1}")
+    @Select("SELECT pw FROM member WHERE id = #{param1} AND delCheck='N'")
     String login(String id);
 
     @Select("SELECT admin FROM member WHERE id = #{param1}")

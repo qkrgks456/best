@@ -2,6 +2,7 @@ package com.gudi.best.logic.myInfo.service;
 
 import com.gudi.best.dto.ProFileDTO;
 import com.gudi.best.logic.myInfo.mapper.MyInfoMapper;
+import com.gudi.best.util.PageNation;
 import com.gudi.best.util.S3Uploader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,5 +96,20 @@ public class MyInfoService {
             mapper.pwChange(id, change_enc_pass);
         }
         return check;
+    }
+
+    public HashMap<String, Object> myBoardList(int page, String loginId) {
+        int total = mapper.myBoardTotal(loginId);
+        int start = 0;
+        HashMap<String, Object> map = PageNation.pagination(page, 15, total);
+        if (page == 1) {
+            start = 0;
+        } else {
+            start = (page - 1) * 15;
+        }
+        map.put("list", mapper.myBoardList(start, loginId));
+        map.put("division", "all");
+        map.put("page", "1");
+        return map;
     }
 }
