@@ -66,4 +66,31 @@
 </div>
 </body>
 <th:block th:replace="fix/fixFooter.html"></th:block>
+<script>
+$(".btn").on("click",function(){
+	var btn =$(this).parents('td');
+	var id = $(this).parents('tr').children('td').first().text();
+	console.log(btn);
+$.ajax({
+		url:"/admin/change",
+		type:"get",
+		dateType:"json",
+		data:{id:id},
+		success: function(data){
+			//console.log(data.chk);
+			if(data.chk =='Y'){
+				btn.empty();
+				btn.append('<button type="button" class="btn btn-danger">관리자 해제</button>')
+			}	else if(data.chk =='N'){
+				btn.empty();
+				btn.append('<button type="button" class="btn btn-success">관리자 설정</button>')
+			}
+		},
+		error: function(e){
+			console.log(e);
+		}
+	});
+});
+
+</script>
 </html>

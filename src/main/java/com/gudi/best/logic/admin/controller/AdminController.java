@@ -7,10 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gudi.best.logic.admin.service.AdminService;
 
+import ch.qos.logback.classic.Logger;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -36,5 +40,15 @@ public class AdminController {
         return "logic/admin/main";
     }
 	
+	@ResponseBody
+	@GetMapping("/change")
+    public HashMap<String,Object> change(String id) {
+		//System.out.println("실행 : "+id);
+	 String chk = service.change(id);
+	 HashMap<String, Object> map = new HashMap<String, Object>();
+	 map.put("chk", chk );
+	 System.out.println(map);
+		return map;
+    }
 	
 }

@@ -30,5 +30,17 @@ public class AdminService {
 		map.put("list", list);
 		return map;
 	}
+
+	public String change(String id) {
+		 String chk = mapper.admincheck(id);
+		 if(chk.equals("Y")) {
+			 chk = "N";
+			 mapper.change(chk,id);
+		 } else {
+			 chk = "Y";
+			 mapper.change(chk,id);
+		 }
+		 return chk;
+	}
 	
 }
