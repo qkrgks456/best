@@ -34,7 +34,6 @@ public class ApiUtil {
             sb.append(url);// StringBuffer 에 붙인다.(문자열을 붙을때 이 방법을 쓰면 객체 낭비를 막는다.)
             // 만약 위 방법이 싫다면 Strign url += url 방식으로 해도 된다.
         }
-
         try {
             URL url = new URL(sb.toString());// SttinrBuffer 에서 문자열을 꺼내 URL 객체로 만들고...
             // 이 객체를 이용해 대상 서버와 연결 한다.

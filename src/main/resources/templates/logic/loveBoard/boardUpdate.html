@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <a th:href="@{/loveBoard/boardDetail/{boardNum}/{page}(boardNum=${map.get('dto').boardNum},page=${page})}"
+                    <a th:href="@{/loveBoard/boardDetail/{boardNum}/{page}/all(boardNum=${map.get('dto').boardNum},page=${page})}"
                        class="btn btn-danger rounded-0">이전으로</a>
                     <button th:attr="page=${page},boardNum=${map.get('dto').boardNum},photoCount=${map.get('photoCount')}"
                             id="boardUpdateBtn" type="button"
