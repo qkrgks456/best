@@ -49,8 +49,6 @@ let loginId = $("#msgArea").attr("loginId");
 
 console.log(roomNum +" / " + roomName + " / " + id + " / " + loginId);
 
-$(document).ready(function(){
-
 	var sockJs = new SockJS("/stomp/chat");
 	//1. SockJS 가 내부에 들고있는 stomp 를 내어줌
 	var stomp = Stomp.over(sockJs);
@@ -95,7 +93,7 @@ $(document).ready(function(){
 			stomp.send('/pub/chat/message', {}, JSON.stringify({roomNum: roomNum, message: msg.value, id: id, roomName: roomName}));
 			msg.value='';
 		});
-});
+
 </script>
 
 

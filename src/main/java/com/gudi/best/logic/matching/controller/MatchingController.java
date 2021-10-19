@@ -37,7 +37,7 @@ public class MatchingController {
     	String loginId = (String) session.getAttribute("loginId");
     	log.info("현재 로그인 ID :: " + loginId);
     	model.addAttribute("loginId",loginId);
-    	return "chat/rooms";
+    	return "chat/chatMain";
     }
     
     

@@ -11,5 +11,6 @@ public class ChatRoomDTO {
 	private String person;
 	private String dates;
 	private String lastChatDates;
+	private String lastMessage;
 	
 }

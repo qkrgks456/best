@@ -1,6 +1,5 @@
 package com.gudi.best.logic.matching.controller;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.gudi.best.logic.matching.dto.ChatDTO;
-import com.gudi.best.logic.matching.dto.ChatMessageDTO;
 import com.gudi.best.logic.matching.dto.ChatRoomDTO;
 import com.gudi.best.logic.matching.mapper.ChatMapper;
 
@@ -48,7 +46,7 @@ public class RoomController {
 	@GetMapping(value = "/rooms")
 	public ModelAndView rooms(HttpServletRequest request, HttpSession session) {
 		log.info("# all chat rooms");
-		ModelAndView mav = new ModelAndView("chat/rooms");
+		ModelAndView mav = new ModelAndView("chat/chatMain");
 		
 		//redirect 로 진입시
 		if(RequestContextUtils.getInputFlashMap(request) != null) {
@@ -56,12 +54,14 @@ public class RoomController {
 			String loginId = (String) reqMap.get("loginId");	
 			List<ChatRoomDTO> result = chatMapper.findAllRooms(loginId);
 			mav.addObject("list", result);
+			mav.addObject("loginId", loginId);
 			return mav;
 		//url 로 진입시
 		} else {
 			String loginId = (String) session.getAttribute("loginId");
 			List<ChatRoomDTO> result = chatMapper.findAllRooms(loginId);
 			mav.addObject("list", result);
+			mav.addObject("loginId", loginId);
 			return mav;
 		}
 	}
@@ -69,7 +69,7 @@ public class RoomController {
 
 	//개인 채팅방 들어가기
 	@GetMapping("/room")
-	public String getRoom(String roomNum, String roomName, Model model, HttpSession session) {
+	public String getRoom(String roomNum, Model model, HttpSession session) {
 		String loginId = (String) session.getAttribute("loginId");
 		model.addAttribute("loginId", loginId);
 		
