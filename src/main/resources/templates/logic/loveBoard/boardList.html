@@ -60,7 +60,7 @@
                     <td th:text="${dto.id}" class="align-middle"></td>
                     <td th:text="${#strings.substring(dto.date,0,10)}" class="align-middle"></td>
                     <td th:text="${dto.boardHit}" class="align-middle"></td>
-                    <td class="align-middle">0</td>
+                    <td th:text="${dto.goodCount}" class="align-middle"></td>
                 </tr>
                 </tbody>
             </table>

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Service
+
 public class BoardService {
     Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
@@ -24,6 +25,8 @@ public class BoardService {
     S3Uploader uploader;
     @Autowired
     CmService cmService;
+    @Autowired
+    GoodService goodService;
 
     @Transactional
     public HashMap<String, Object> list(int page, String division) {
@@ -65,6 +68,8 @@ public class BoardService {
         map.put("dto", mapper.boardDetail(boardNum));
         map.put("photoList", mapper.boardPhoto(boardNum));
         map.put("photoCount", mapper.photoCount(boardNum));
+        map.put("goodCheck", goodService.goodCheck(boardNum, loginId));
+        map.put("goodCount", goodService.goodCount(boardNum));
         return map;
     }
 

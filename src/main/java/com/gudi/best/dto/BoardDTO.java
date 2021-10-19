@@ -10,4 +10,5 @@ public class BoardDTO {
     private String title;
     private String date;
     private int boardHit;
+    private int goodCount;
 }

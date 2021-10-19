@@ -9,26 +9,33 @@ public class BoardSQL {
     public static final String CM_PAGE_CHECK = "SELECT e.id FROM " +
             "(SELECT * FROM cm WHERE divisionNum = #{param1} AND delCheck='N' ORDER BY cmNum DESC LIMIT #{param3},8) e " +
             "WHERE cmNum = #{param2}";
+    String goodCount = new SQL() {{
+        SELECT("COUNT(goodNum)");
+        FROM("good");
+        WHERE("boardNum=divisionNum");
+    }}.toString();
 
     public String boardPick(int start, String division) {
         return new SQL() {{
             if (division.equals("all")) {
-                SELECT("*");
+                SELECT("boardNum", "id", "content", "title", "date", "boardHit");
+                SELECT("(" + goodCount + ")goodCount");
                 FROM("board");
                 ORDER_BY("boardNum DESC");
-                LIMIT("#{param1},15");
             } else {
-                SELECT("*");
+                SELECT("boardNum", "id", "content", "title", "date", "boardHit");
+                SELECT("(" + goodCount + ")goodCount");
                 FROM("board");
                 ORDER_BY("boardHit DESC");
-                LIMIT("#{param1},15");
             }
+            LIMIT("#{param1},15");
         }}.toString();
     }
 
     public String boardSearch(int start, String searchText, String option) {
         return new SQL() {{
-            SELECT("*");
+            SELECT("boardNum", "id", "content", "title", "date", "boardHit");
+            SELECT("(" + goodCount + ")goodCount");
             FROM("board");
             if (option.equals("제목+내용")) {
                 WHERE("title LIKE CONCAT('%',#{param2},'%')");
