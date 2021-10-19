@@ -1,19 +1,14 @@
 package com.gudi.best.logic.loveBoard.controller;
 
-import com.gudi.best.dto.BoardDTO;
 import com.gudi.best.logic.loveBoard.service.BoardService;
 import lombok.extern.log4j.Log4j2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @Controller
@@ -55,10 +50,11 @@ public class BoardController {
         return "logic/loveBoard/boardList";
     }
 
-    @PostMapping("/search")
-    public String search(String searchText, String option) {
-        log.info(searchText + " " + option + " 이거 테스트");
-        return null;
+    @GetMapping("/search/{page}")
+    public String search(@PathVariable int page, Model model, String searchText, String option) {
+        model.addAttribute("map", boardService.search(searchText, option, page));
+        model.addAttribute("page", page);
+        return "logic/loveBoard/boardList";
     }
 
     @ResponseBody

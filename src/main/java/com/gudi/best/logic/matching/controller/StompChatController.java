@@ -5,7 +5,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import com.gudi.best.logic.matching.dto.ChatDTO;
-import com.gudi.best.logic.matching.dto.ChatMessageDTO;
 import com.gudi.best.logic.matching.mapper.ChatMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -29,13 +28,13 @@ public class StompChatController {
 	@MessageMapping(value = "/chat/message")
 	public void message(ChatDTO message) {
 		log.info("message 의 형태를 보자!!:: " + message); //ChatMessageDTO(roomNum=1, id=qkrgks456, dates=null, message=123, roomName=테스트)
-		message.getRoomNum();
-		message.getId();
-		message.getMessage();
 		
 		//chat 테이블에 대화기록하고, chatroom 의 마지막 대화일인 lastChatDates 를 SYSDATE 로 업뎃해주자
 		chatMapper.chatInsert(message.getRoomNum(),message.getId(),message.getMessage());
 		chatMapper.lastChatDatesUpdate(message.getRoomNum());
+		
+		//lastMessage 도 업데이트 해주자!! (chatMain 에서 표시해주기 위함)
+		chatMapper.lastMessageUpdate(message.getRoomNum(), message.getMessage());
 		
 		template.convertAndSend("/sub/chat/room/"+message.getRoomNum(), message);
 	}

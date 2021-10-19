@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.gudi.best.logic.matching.dto.ChatDTO;
-import com.gudi.best.logic.matching.dto.ChatMessageDTO;
 import com.gudi.best.logic.matching.dto.ChatRoomDTO;
 
 @Mapper
@@ -19,8 +18,8 @@ public interface ChatMapper {
 
 	@Select("SELECT *\r\n"
 			+ "FROM\r\n"
-			+ "(SELECT roomnum, roomname, id, person, dates, TIME(lastchatdates) AS lcd  FROM chatRoom WHERE id = #{param1}  OR person = #{param1} ) AS sub\r\n"
-			+ "ORDER BY lcd DESC\r\n")
+			+ "(SELECT roomNum, roomName, id, person, dates, DATE(lastChatDates) AS lastChatDates, lastMessage  FROM chatRoom WHERE id = #{param1}  OR person = #{param1} ) AS sub\r\n"
+			+ "ORDER BY lastChatDates DESC\r\n")
 	List<ChatRoomDTO> findAllRooms(String loginId);
 
 	@Select("SELECT * FROM chatRoom WHERE roomNum = #{param1}")
@@ -33,8 +32,11 @@ public interface ChatMapper {
 	void lastChatDatesUpdate(Integer roomNum);
 
 	@Select("SELECT * FROM\r\n"
-			+ "(SELECT roomnum, id, message, TIME(dates) AS dates FROM chat WHERE roomNum = #{param1}) AS sub\r\n"
+			+ "(SELECT roomnum, id, message, DATE(dates) AS dates FROM chat WHERE roomNum = #{param1}) AS sub\r\n"
 			+ "ORDER BY dates ASC")
 	List<ChatDTO> chatFind(String roomNum);
+
+	@Update("UPDATE chatRoom SET lastMessage = #{param2} WHERE roomNum = #{param1}")
+	void lastMessageUpdate(Integer integer, String message);
 	
 }

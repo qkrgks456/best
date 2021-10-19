@@ -45,4 +45,10 @@ public interface BoardMapper {
 
     @Delete("DELETE FROM board WHERE boardNum=#{boardNum}")
     void boardDelete(int boardNum);
+
+    @SelectProvider(type = BoardSQL.class, method = "boardSearch")
+    ArrayList<BoardDTO> search(int start, String searchText, String option);
+
+    @SelectProvider(type = BoardSQL.class, method = "boardSearchCount")
+    int boardSearchTotal(String searchText, String option);
 }

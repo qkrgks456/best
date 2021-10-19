@@ -16,22 +16,43 @@
 		<div class="row">
 			
 			<div class="col">
+				<ul th:each="room : ${list}">
+					<li><a th:href="@{/chat/room(roomNum=${room.roomNum}, roomName=${room.roomName})}">[[${room.roomName}]]</a></li>
+				</ul>
+			</div>
+			
+			<div class="col">
+				<div th:attr="roomNum=${room.roomNum}, roomName=${room.roomName}, userId=${room.id}, loginId=${loginId}" id="msgArea">
+				
+					<div th:each="chat : ${chatDTO}" class='col-6'>
+						<div th:if="${chat.id.toString().equals(loginId)}" class="alert alert-secondary"><b th:text="${chat.message}"></b></div>
+						<div th:unless="${chat.id.toString().equals(loginId)}" class="alert alert-warning"><b th:text="${chat.message}"></b></div>
+					</div>
+					
+				</div>
+				
+					<div class="input-group mb-3">
+						<input type="text" id="msg" class="form-control">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
+						</div>
+					</div>
+				
+			</div>
+			
+				
+		</div>
+		
+			<div class="col">
 			<form th:action="@{/chat/room}" method="post">
 				방이름:<input type="text" name="roomName" class="form-control" />
 				상대방ID:<input type="text" name="person" class="form-control" />
 				<button class="btn btn-secondary btn-create">개설하기</button>
 			</form>
 			</div>
-			
-			<div class="col">
-				<ul th:each="room : ${list}">
-					<li><a th:href="@{/chat/room(roomNum=${room.roomNum}, roomName=${room.roomName})}">[[${room.roomName}]]</a></li>
-				</ul>
-			</div>
-			
-				
+		
 		</div>
-		</div>
+		
 		
 	</div>
 	</div>

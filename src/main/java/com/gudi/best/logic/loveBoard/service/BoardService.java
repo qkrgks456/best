@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Service
+
 public class BoardService {
     Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
@@ -24,12 +25,14 @@ public class BoardService {
     S3Uploader uploader;
     @Autowired
     CmService cmService;
+    @Autowired
+    GoodService goodService;
 
     @Transactional
     public HashMap<String, Object> list(int page, String division) {
-        String path = "all";
+        String path = "/loveBoard/list/all";
         if (!division.equals("all")) {
-            path = "boardHit";
+            path = "/loveBoard/list/boardHit";
         }
         int total = mapper.boardTotal();
         int start = 0;
@@ -41,6 +44,7 @@ public class BoardService {
         }
         map.put("list", mapper.list(start, division));
         map.put("path", path);
+        map.put("division", division);
         return map;
     }
 
@@ -64,6 +68,8 @@ public class BoardService {
         map.put("dto", mapper.boardDetail(boardNum));
         map.put("photoList", mapper.boardPhoto(boardNum));
         map.put("photoCount", mapper.photoCount(boardNum));
+        map.put("goodCheck", goodService.goodCheck(boardNum, loginId));
+        map.put("goodCount", goodService.goodCount(boardNum));
         return map;
     }
 
@@ -113,5 +119,22 @@ public class BoardService {
             }
         }
         mapper.boardDelete(boardNum);
+    }
+
+    public HashMap<String, Object> search(String searchText, String option, int page) {
+        int total = mapper.boardSearchTotal(searchText, option);
+        int start = 0;
+        HashMap<String, Object> map = PageNation.pagination(page, 15, total);
+        if (page == 1) {
+            start = 0;
+        } else {
+            start = (page - 1) * 15;
+        }
+        map.put("list", mapper.search(start, searchText, option));
+        map.put("path", "/loveBoard/search");
+        map.put("option", option);
+        map.put("searchText", searchText);
+        map.put("division", "all");
+        return map;
     }
 }
