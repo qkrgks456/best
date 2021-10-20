@@ -91,7 +91,7 @@ public class MyInfoController {
             }
             model.addAttribute("dto", dto);
         }
-        return "/logic/myInfo/proFile";
+        return "/logic/myInfo/myProFile";
     }
 
     @PostMapping("/proFileInput")

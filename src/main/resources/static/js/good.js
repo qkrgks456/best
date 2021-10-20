@@ -16,7 +16,7 @@ $(document).on('click', '#good', function () {
                 $("#good").attr("goodCheck", "true");
                 $("#good").attr("class", "btn btn-danger rounded-0");
             }
-            $('#goodCount').text('추천수 : ' + map.goodCount);
+            $('#goodCount').text('좋아요 : ' + map.goodCount);
         },
         error: function (e) { //실패시
             console.log(e);

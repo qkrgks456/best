@@ -19,10 +19,9 @@
                     <div class="mx-1" th:text="'작성자 : '+${map.get('dto').id}"></div>
                     <div class="mx-1 border-start border-end border-dark px-2"
                          th:text="'조회수 : '+${map.get('dto').boardHit}"></div>
-                    <div id="goodCount" th:text="'추천수 : '+${map.goodCount}" class="mx-1"></div>
+                    <div id="goodCount" th:text="'좋아요 : '+${map.goodCount}" class="mx-1"></div>
                 </div>
                 <hr/>
-                <div class="px-2" th:text="${map.get('dto').content}" style="height: 400px"></div>
                 <th:block th:if="${#lists.size(map.get('photoList')) > 0 }">
                     <div class="d-flex justify-content-center flex-wrap">
                         <th:block th:each="photo : ${map.get('photoList')}">
@@ -32,16 +31,17 @@
                         </th:block>
                     </div>
                 </th:block>
+                <div class="mt-1 px-2 text-center" th:text="${map.get('dto').content}"></div>
                 <div class="text-center my-3">
                     <div th:attr="goodCheck=${map.goodCheck}" id="good" class="btn btn-outline-danger rounded-0">
-                        <i class="bi bi-hand-thumbs-up-fill me-1"></i>추천
+                        <i class="bi bi-hand-thumbs-up-fill me-1"></i>좋아요
                     </div>
                     <a th:href="@{/loveBoard/list/{division}/{page}(page=${page},division=${division})}"
                        class="btn btn-danger rounded-0">리스트로</a>
                     <a class="btn btn-danger rounded-0"
                        th:if="${map.get('dto').id eq session.loginId}"
                        th:href="@{/loveBoard/boardUpdateForm/{boardNum}/{page}(boardNum=${map.get('dto').boardNum},page=${page})}">수정</a>
-                    <a th:if="${map.get('dto').id eq session.loginId or sesseion.admin =='Y'}"
+                    <a th:if="${map.get('dto').id eq session.loginId}"
                        class="btn btn-danger rounded-0"
                        id="boardDel" th:attr="boardNum=${map.get('dto').boardNum}">삭제</a>
                 </div>

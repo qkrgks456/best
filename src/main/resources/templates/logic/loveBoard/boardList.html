@@ -15,8 +15,8 @@
         <div class="container">
             <div class="d-flex justify-content-between my-1">
                 <div class="mt-2">
-                    <h2>사랑게시판</h2>
-                    <h5 class="text-muted">여러분들의 사랑을 나누세요!</h5>
+                    <h2>일상, 기록</h2>
+                    <h5 class="text-muted">소중한 일상을 다른 사람에게 공유하세요!</h5>
                 </div>
                 <div class="mt-2">
                     <a th:href="@{/loveBoard/list/all/1}" class="btn btn-danger rounded-0 mt-1">전체글</a>
@@ -42,28 +42,39 @@
                     </div>
                 </form>
             </div>
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th class="col-6">제목</th>
-                    <th class="col-2">글쓴이</th>
-                    <th class="col-2">작성일</th>
-                    <th class="col-1">조회수</th>
-                    <th class="col-1">추천수</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="dto : ${map.get('list')}">
-                    <td class="py-2"><a class="align-middle target boardDetail"
-                                        th:href="@{/loveBoard/boardDetail/{boardNum}/{page}/{division}(division=${map.division},boardNum=${dto.boardNum},page=${page})}"
-                                        th:text="${dto.title}"></a></td>
-                    <td th:text="${dto.id}" class="align-middle"></td>
-                    <td th:text="${#strings.substring(dto.date,0,10)}" class="align-middle"></td>
-                    <td th:text="${dto.boardHit}" class="align-middle"></td>
-                    <td th:text="${dto.goodCount}" class="align-middle"></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="row row-cols-1 row-cols-md-3 g-4 my-2">
+                <div th:each="dto : ${map.get('list')}" class="col">
+                    <div class="card h-100">
+                        <a th:href="@{/loveBoard/boardDetail/{boardNum}/{page}/{division}(division=${map.division},boardNum=${dto.boardNum},page=${page})}">
+                            <img th:src="@{${dto.path}}" class="card-img-top" alt="..." style="height: 300px">
+                            <div class="card-body" style="height: 180px">
+                                <h5 th:text="${dto.title}" class="card-title target"></h5>
+                                <p th:text="${dto.content}" class="card-text targets"></p>
+                            </div>
+                        </a>
+                        <div class="card-footer d-flex justify-content-between">
+                            <th:block th:if="${session.loginId ne dto.id}">
+                                <a th:href="@{/member/proFileDetail(id=${dto.id})}">
+                                    <img onerror="src='/img/noImg.png'" th:src="@{${dto.imgPath}}"
+                                         style="height: 50px;width: 50px" class="rounded-circle">
+                                    <small th:text="${dto.id}" class="text-muted ms-1"></small>
+                                </a>
+                            </th:block>
+                            <th:block th:if="${session.loginId eq dto.id}">
+                                <div>
+                                    <img onerror="src='/img/noImg.png'" th:src="@{${dto.imgPath}}"
+                                         style="height: 50px;width: 50px" class="rounded-circle">
+                                    <small th:text="${dto.id}" class="text-muted ms-1"></small>
+                                </div>
+                            </th:block>
+                            <div class="d-flex align-items-center">
+                                <small th:text="'조회수 '+${dto.boardHit}" class="text-muted"></small>
+                                <small th:text="'좋아요 '+${dto.goodCount}" class="text-muted ms-2"></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:if="${map.get('startPage') ne 1}">
                     <a aria-label="Previous" class="page-link rounded-0"
