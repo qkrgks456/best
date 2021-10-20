@@ -16,16 +16,18 @@
 		
 		<div class="row" style="border: solid #CD7070 3px; height:100%;">
 			
-			<div class="col-3" style="border-right: solid #CD7070 3px; padding: 0px;">
+			<div class="col-3" style="border-right: solid #CD7070 3px;">
 				
 				<div class="row">
-					<h4 th:text="${loginId}" style="border-bottom: solid #CD7070 3px; margin-top: 30px; margin-bottom: 15px; padding-bottom: 30px; text-align: center; font-weight: bold;">내 아이디</h4>
+					<h4 th:text="${loginId}" style="border-bottom: solid #CD7070 3px; margin-top: 30px; margin-bottom: 0px; padding-bottom: 30px; text-align: center; font-weight: bold;">내 아이디</h4>
 				</div>
 				
-				<div class="row" style="height: 100%; overflow: hidden auto;">
-					<ul th:each="room : ${list}" style="list-style: none; padding-left:0px;">
-						<li>
-							<div style="border-bottom: solid 2px lightgray; padding-bottom: 15px">
+		
+				
+				<div style="height: 540px; overflow: hidden auto;">
+					<th:block th:each="room : ${list}">
+					
+							<div style="border-bottom: solid 2px lightgray; padding-bottom: 20px; padding-top: 20px">
 							
 								<div class="col-3" style="text-align: center; padding-top: 10px; float: left;">
 									<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -55,12 +57,13 @@
 							</div>
 							
 							
-						</li>
-					</ul>
+						</th:block>
+				
 				</div>
+				
 			</div>
 			
-			<div class="col-9" style="padding:0px; height:100%">
+			<div class="col-9" style="height:100%">
 			
 				<!-- 상단(아이디표시) -->
 				<div class="row" style="border-bottom: solid #CD7070 3px; margin-top: 30px; margin-bottom: 15px; padding-bottom: 21px; padding-right:30px; margin-right:0px; text-align: right; font-weight: bold;">
@@ -69,10 +72,18 @@
 				</div>
 				
 					<!-- 중단(메세지표시) -->
-					<div class="row" th:attr="roomNum=${room.roomNum}, roomName=${room.roomName}, userId=${room.id}, loginId=${loginId}" id="msgArea" style="height: 540px; overflow: hidden auto;">
+					<div th:attr="roomNum=${room.roomNum}, roomName=${room.roomName}, userId=${room.id}, loginId=${loginId}" id="msgArea" style="height: 540px; overflow: hidden auto;">
 						<th:block data-th-each="chat : ${chatDTO}">
-								<div th:if="${chat.id.toString().equals(loginId)}"  class="alert alert-warning" th:text="${chat.message}"></div>
-								<div th:unless="${chat.id.toString().equals(loginId)}" class="alert alert-secondary" th:text="${chat.message}"></div>		
+						
+							<div style="display: block">
+								<div th:if="${chat.id.toString().equals(loginId)}" class="d-flex flex-row-reverse">
+									<div class="alert alert-warning" th:text="${chat.message}"></div>
+								</div>
+								<div th:unless="${chat.id.toString().equals(loginId)}" class="d-flex flex-row">
+									<div  class="alert alert-secondary" th:text="${chat.message}"></div>
+								</div>
+							</div>
+							
 						</th:block>
 						
 					</div>	
@@ -134,20 +145,24 @@
  					var writer = content.id;
  					
  					var str = '';
- 					
+ 							
  					if(writer == id){ 
  						//내가 보내는 메세지
  					 	//str = "<div class='col-6'>";
- 						str = "<div class='alert alert-warning'>";
- 						str += "<b>" + content.message + "</b>";
- 						str += "</div>";
+ 					 	str = "<div style='display: block'>";
+ 					 	str += "<div class='d-flex flex-row-reverse'>";
+ 						str += "<div class='alert alert-warning'>";
+ 						str += content.message;
+ 						str += "</div></div></div>";
  						$("#msgArea").append(str);
  					}else{
  						//상대방이 보내는 메세지
  						//str = "<div class='col-6'>";
- 						str = "<div class='alert alert-secondary'>";
- 						str += "<b>" + content.message + "</b>";
- 						str += "</div>";
+ 						str = "<div style='display: block'>";
+ 					 	str += "<div class='d-flex flex-row'>";
+ 						str += "<div class='alert alert-secondary'>";
+ 						str += content.message;
+ 						str += "</div></div></div>";
  						$("#msgArea").append(str);
  					}
  				

@@ -14,18 +14,18 @@
        
 		<div class="container" style="height: 700px;">
 		
-		<div class="row" style="border: solid #CD7070 3px ; height: 100%;">
+		<div class="row" style="border: solid #CD7070 3px; height:100%;">
 			
-			<div class="col-3" style="border-right: solid #CD7070 3px; padding: 0px">
+			<div class="col-3" style="border-right: solid #CD7070 3px;">
 				
 				<div class="row">
-					<h4 th:text="${loginId}" style="border-bottom: solid #CD7070 3px; padding:0px; margin-top: 30px; margin-bottom: 15px; padding-bottom: 30px; text-align: center; font-weight: bold;">내 아이디</h4>
+					<h4 th:text="${loginId}" style="border-bottom: solid #CD7070 3px; margin-top: 30px; margin-bottom: 0px; padding-bottom: 30px; text-align: center; font-weight: bold;">내 아이디</h4>
 				</div>
 				
-				<div class="row" style="height: 100%; overflow: hidden auto;">
-					<ul th:each="room : ${list}" style="list-style: none; padding-left:0px;">
-						<li>
-							<div style="border-bottom: solid 2px lightgray; padding-bottom: 15px">
+				<div style="height: 540px; overflow: hidden auto;">
+					<th:block th:each="room : ${list}">
+					
+							<div style="border-bottom: solid 2px lightgray; padding-bottom: 20px; padding-top: 20px">
 							
 								<div class="col-3" style="text-align: center; padding-top: 10px; float: left;">
 									<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -55,9 +55,10 @@
 							</div>
 							
 							
-						</li>
-					</ul>
+						</th:block>
+				
 				</div>
+				
 			</div>
 			
 			<div class="col-9" style="text-align: center;">
