@@ -137,23 +137,23 @@
  					
  					if(writer == id){ 
  						//내가 보내는 메세지
- 					 	str = "<div class='col-6'>";
- 						str += "<div class='alert alert-warning'>";
+ 					 	//str = "<div class='col-6'>";
+ 						str = "<div class='alert alert-warning'>";
  						str += "<b>" + content.message + "</b>";
- 						str += "</div></div>";
+ 						str += "</div>";
  						$("#msgArea").append(str);
  					}else{
  						//상대방이 보내는 메세지
- 						str = "<div class='col-6'>";
- 						str += "<div class='alert alert-secondary'>";
+ 						//str = "<div class='col-6'>";
+ 						str = "<div class='alert alert-secondary'>";
  						str += "<b>" + content.message + "</b>";
- 						str += "</div></div>";
+ 						str += "</div>";
  						$("#msgArea").append(str);
  					}
  				
  				});
  				//3. send(path, header, message) 로 메세지를 보낼 수 있음
- 				 stomp.send('/pub/chat/enter', {},JSON.stringify({roomNum: roomNum, id: id, roomName: roomName}))	
+ 				 stomp.send('/pub/chat/enter', {},JSON.stringify({roomNum: roomNum, id: loginId, roomName: roomName}))	
  				});
  			
  			
