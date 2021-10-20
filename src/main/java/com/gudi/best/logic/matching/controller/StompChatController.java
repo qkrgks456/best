@@ -22,7 +22,7 @@ public class StompChatController {
 	public void enter(ChatDTO message) {
 		log.info("enter 의 형태를 보자!!:: "+message);
 		message.setMessage(message.getId()+"님이 접속했습니다!");
-		template.convertAndSend("/sub/chat/room/"+message.getRoomNum(), message);
+		template.convertAndSend("/sub/chat/chatSelect/"+message.getRoomNum(), message);
 	}
 	
 	@MessageMapping(value = "/chat/message")
@@ -36,6 +36,6 @@ public class StompChatController {
 		//lastMessage 도 업데이트 해주자!! (chatMain 에서 표시해주기 위함)
 		chatMapper.lastMessageUpdate(message.getRoomNum(), message.getMessage());
 		
-		template.convertAndSend("/sub/chat/room/"+message.getRoomNum(), message);
+		template.convertAndSend("/sub/chat/chatSelect/"+message.getRoomNum(), message);
 	}
 }

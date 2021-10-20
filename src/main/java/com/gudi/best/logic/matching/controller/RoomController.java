@@ -85,9 +85,13 @@ public class RoomController {
 		String loginId = (String) session.getAttribute("loginId");
 		model.addAttribute("loginId", loginId);
 		
+		//왼쪽에 채팅리스트 뿌려주기용
+		List<ChatRoomDTO> result = chatMapper.findAllRooms(loginId);
+		model.addAttribute("list", result);
+		
+		//채팅룸 정보
 		ChatRoomDTO dto = chatMapper.findRoomByNum(roomNum);
-		log.info("dto 속을보자::" + dto);
-		dto.setId(loginId);
+		log.info("dto 속을보자::" + dto);;
 		model.addAttribute("room",dto);
 		
 		//이전 채팅기록도 담아서 뿌려줘야함!
@@ -96,7 +100,7 @@ public class RoomController {
 		log.info("List ChatDTO 의 형태를 보자!! :: " + chatDTO);
 		model.addAttribute("chatDTO", chatDTO);
 		
-		return "chat/room";
+		return "chat/chatSelect";
 	}
 	
 	
