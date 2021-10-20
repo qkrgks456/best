@@ -35,37 +35,6 @@
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback"></div>
                 </div>
-                <th:block th:if="${#lists.size(map.get('photoList')) > 0 }">
-                    <label class="form-label">이미지 삭제(클릭시 삭제)</label>
-                    <div class="d-flex flex-row my-2" style="overflow: hidden">
-                        <div th:each="photo : ${map.get('photoList')}" class="d-flex flex-column imgDel"
-                             style="cursor: pointer">
-                            <div class="imgList"
-                                 th:attr="page=${page},boardNum=${map.get('dto').boardNum},photoNum=${photo.photoNum},newFileName=${photo.newFileName}">
-                                <img style="width: 150px;height: 150px;" class="img-fluid img-count"
-                                     th:src="${photo.path}"/>
-                            </div>
-                            <div class="text-center">
-                                <i class="bi bi-x-lg fs-3"></i>
-                            </div>
-                        </div>
-                    </div>
-                </th:block>
-                <div class="mb-3">
-                    <label class="form-label">이미지 등록(총 16장까지 가능)</label>
-                    <div id="drop" class="border w-100" style="height:210px; padding:3px">
-                        <div id="imgText" style="z-index: -1"
-                             class="h-100 w-100 d-flex align-items-center justify-content-center">
-                            <div class="text-muted" style="cursor: default;">
-                                이곳에 이미지를 끌어주세요!
-                            </div>
-                        </div>
-                        <div id="thumbnails" class="d-flex flex-row my-2" style="overflow: hidden"></div>
-                    </div>
-                    <div th:text="'현재 내가 등록한 이미지 '+${map.get('photoCount')} + '장'" id="photoCountText"
-                         class="form-text">
-                    </div>
-                </div>
                 <div class="text-center">
                     <a th:href="@{/loveBoard/boardDetail/{boardNum}/{page}/all(boardNum=${map.get('dto').boardNum},page=${page})}"
                        class="btn btn-danger rounded-0">이전으로</a>

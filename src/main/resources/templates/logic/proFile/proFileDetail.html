@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="fix/fixHead.html"></th:block>
+<body>
+<div class="wrapper">
+    <th:block th:include="fix/fixSideBar"></th:block>
+    <div id="content">
+        <!-- 여기서 부터 내용 넣으세요 -->
+        <div class="d-flex justify-content-center">
+            <div class="w-50 bg-white">
+                <div class="text-center mt-1">
+                    <th:block th:if="${dto ne null}">
+                        <img th:src="${dto.imgPath}"
+                             onerror="src='/img/noImg.png'"
+                             class="rounded-circle border img-fluid proFileImg"
+                             style="width: 400px;height: 400px">
+                    </th:block>
+                    <th:block th:if="${dto eq null}">
+                        <img th:src="@{/img/noImg.png}"
+                             onerror="src='/img/noImg.png'"
+                             class="rounded-circle border img-fluid proFileImg"
+                             style="width: 400px;height: 400px">
+                    </th:block>
+                </div>
+                <th:block th:if="${dto ne null}">
+                    <h3 class="text-center" th:text="${dto.id}"></h3>
+                    <h5 th:text="${dto.name} +'('+${dto.age} + ')'" th:if="${dto ne null}" class="text-center mt-2">
+                        박한솔(26)
+                    </h5>
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-danger rounded-0" data-bs-toggle="modal"
+                                data-bs-target="#follow">
+                            팔로우 1
+                        </button>
+                        <button class="ms-2 btn btn-danger rounded-0" data-bs-toggle="modal"
+                                data-bs-target="#follower">팔로워 2
+                        </button>
+                    </div>
+                    <!-- 팔로우 모달 -->
+                    <div class="modal fade" id="follow" tabindex="-1" aria-labelledby="followLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="followLabel">팔로우 목록</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">
+                                        닫기
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 팔로워 모달 -->
+                    <div class="modal fade" id="follower" tabindex="-1" aria-labelledby="followerLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="followerLabel">팔로워 목록</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">
+                                        닫기
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-2">
+                        <div class="btn btn-outline-danger rounded-0"><i class="bi bi-emoji-heart-eyes me-1"></i>팔로우
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="mb-3 text-center mt-2" th:if="${dto ne null}">
+                        <h3>자기소개</h3>
+                        <p th:text="${dto.intro}"></p>
+                    </div>
+                    <th:block th:if="${dto ne null}">
+                        <div class="mb-3 text-center mt-2">
+                            <div th:if="${dto.hobby ne null}">
+                                <h3>관심사</h3>
+                            </div>
+                            <th:block th:each="hobby : ${#strings.arraySplit(dto.hobby,',')}">
+                                <button class="btn btn-danger rounded-0 my-1" th:text="${hobby}" disabled></button>
+                            </th:block>
+                        </div>
+                    </th:block>
+                </th:block>
+                <th:block th:if="${dto eq null}">
+                    <p class="text-center text-muted mt-2">프로필이 등록되지 않았습니다</p>
+                </th:block>
+                <div class="mb-3 text-center mt-2">
+                    <h3 class="mb-3">일상, 기록</h3>
+                    <div th:each="list : ${boardList}" class="card mb-3 mt-2">
+                        <a th:href="@{/loveBoard/boardDetail/{boardNum}/1/all(boardNum=${list.boardNum})}">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img th:src="${list.path}" class="img-fluid rounded-start"
+                                         style="height: 275px;width: 270px">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 th:text="${list.title}" class="card-title titleTarget"></h5>
+                                        <p th:text="${list.content}" class="card-text targets"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<th:block th:replace="fix/fixFooter.html"></th:block>
+</html>

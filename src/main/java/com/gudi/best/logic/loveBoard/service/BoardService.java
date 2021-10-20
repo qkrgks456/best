@@ -36,11 +36,11 @@ public class BoardService {
         }
         int total = mapper.boardTotal();
         int start = 0;
-        HashMap<String, Object> map = PageNation.pagination(page, 15, total);
+        HashMap<String, Object> map = PageNation.pagination(page, 6, total);
         if (page == 1) {
             start = 0;
         } else {
-            start = (page - 1) * 15;
+            start = (page - 1) * 6;
         }
         map.put("list", mapper.list(start, division));
         map.put("path", path);
@@ -68,8 +68,8 @@ public class BoardService {
         map.put("dto", mapper.boardDetail(boardNum));
         map.put("photoList", mapper.boardPhoto(boardNum));
         map.put("photoCount", mapper.photoCount(boardNum));
-        map.put("goodCheck", goodService.goodCheck(boardNum, loginId));
-        map.put("goodCount", goodService.goodCount(boardNum));
+        map.put("goodCheck", goodService.goodCheck(String.valueOf(boardNum), loginId));
+        map.put("goodCount", goodService.goodCount(String.valueOf(boardNum)));
         return map;
     }
 
@@ -82,9 +82,8 @@ public class BoardService {
     }
 
     @Transactional
-    public void boardUpdate(String title, String content, MultipartFile[] files, String boardNum, String id) {
+    public void boardUpdate(String title, String content, String boardNum) {
         mapper.boardUpdate(boardNum, title, content);
-        photoUpload(files, Integer.parseInt(boardNum), id);
     }
 
     // 사진 업로드 및 포토 테이블 삽입 메서드

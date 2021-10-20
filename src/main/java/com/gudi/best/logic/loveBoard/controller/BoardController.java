@@ -67,9 +67,8 @@ public class BoardController {
 
     @ResponseBody
     @PostMapping("/boardUpdate")
-    public int boardUpdate(HttpSession session, String boardNum, String title, String content, MultipartFile[] files) {
-        String id = (String) session.getAttribute("loginId");
-        boardService.boardUpdate(title, content, files, boardNum, id);
+    public int boardUpdate(String boardNum, String title, String content) {
+        boardService.boardUpdate(title, content, boardNum);
         return 0;
     }
 

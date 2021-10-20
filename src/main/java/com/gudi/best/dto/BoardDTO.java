@@ -11,4 +11,6 @@ public class BoardDTO {
     private String date;
     private int boardHit;
     private int goodCount;
+    private String path;
+    private String imgPath;
 }

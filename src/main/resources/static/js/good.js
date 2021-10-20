@@ -2,9 +2,10 @@ if ($('#good').attr('goodCheck') == "true") {
     $('#good').attr("class", "btn btn-danger rounded-0");
 }
 $(document).on('click', '#good', function () {
+    let divisionNum = $('#divisionNum').attr("divisionNum");
     $.ajax({
         type: "GET",//방식
-        url: "/good/goodData/" + boardNum,//주소
+        url: "/good/goodData/" + divisionNum + "/" + division,
         dataType: 'JSON',
         success: function (map) { //성공시
             if (map.check == false) {
@@ -16,7 +17,7 @@ $(document).on('click', '#good', function () {
                 $("#good").attr("goodCheck", "true");
                 $("#good").attr("class", "btn btn-danger rounded-0");
             }
-            $('#goodCount').text('추천수 : ' + map.goodCount);
+            $('#goodCount').text('좋아요 : ' + map.goodCount);
         },
         error: function (e) { //실패시
             console.log(e);

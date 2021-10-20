@@ -1,10 +1,10 @@
 package com.gudi.best.logic.member.controller;
 
+import com.gudi.best.logic.loveBoard.service.BoardService;
+import com.gudi.best.logic.member.mapper.MemberMapper;
 import com.gudi.best.logic.member.service.MemberService;
 import com.gudi.best.logic.myInfo.service.MyInfoService;
-import com.gudi.best.util.NewApiUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -15,13 +15,17 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 @Controller
+@Log4j2
 public class MemberController {
 
-    Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     MemberService memberService;
     @Autowired
     MyInfoService myInfoService;
+    @Autowired
+    BoardService boardService;
+    @Autowired
+    MemberMapper mapper;
 
     @GetMapping(value = "/")
     public String loginForm() {
@@ -105,5 +109,13 @@ public class MemberController {
         session.removeAttribute("loginId");
         session.removeAttribute("admin");
         return "startForm/loginForm";
+    }
+
+    @GetMapping("/member/proFileDetail")
+    public String proFileDetail(String id, Model model) {
+        model.addAttribute("dto", myInfoService.proFileDetail(id));
+        model.addAttribute("map", myInfoService.myBoardList(1, id));
+        model.addAttribute("boardList", mapper.proFileBoard(0, id));
+        return "logic/proFile/proFileDetail";
     }
 }

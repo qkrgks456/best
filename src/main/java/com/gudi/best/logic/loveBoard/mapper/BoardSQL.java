@@ -14,42 +14,74 @@ public class BoardSQL {
         FROM("good");
         WHERE("boardNum=divisionNum");
     }}.toString();
+    String photoMIN = new SQL() {{
+        SELECT("path");
+        FROM("photo");
+        WHERE("boardNum=divisionNum");
+        ORDER_BY("photoNum");
+        LIMIT(1);
+    }}.toString();
+
+    public String boardPickSQL(String con, String option) {
+        return new SQL() {{
+            SELECT("*");
+            SELECT("(" + goodCount + ")goodCount");
+            FROM("board");
+            if (!option.equals("없음")) {
+                if (option.equals("제목+내용")) {
+                    WHERE("title LIKE CONCAT('%',#{param2},'%')");
+                    OR();
+                    WHERE("content LIKE CONCAT('%',#{param2},'%')");
+                } else if (option.equals("제목")) {
+                    WHERE("title LIKE CONCAT('%',#{param2},'%')");
+                } else if (option.equals("내용")) {
+                    WHERE("content LIKE CONCAT('%',#{param2},'%')");
+                } else {
+                    WHERE("id LIKE CONCAT('%',#{param2},'%')");
+                }
+            }
+            ORDER_BY(con);
+            ORDER_BY("boardHit DESC");
+            LIMIT("#{param1},6");
+        }}.toString();
+    }
+
+    public String proFileBoard(int start, String id) {
+        String userBoardList = new SQL() {{
+            SELECT("*");
+            SELECT("(" + goodCount + ")goodCount");
+            FROM("board");
+            WHERE("id=#{param2}");
+            ORDER_BY("boardNum DESC");
+            LIMIT("#{param1},6");
+        }}.toString();
+        return new SQL() {{
+            SELECT("boardNum,boardList.id,content,title,date,boardHit,goodCount,imgPath");
+            SELECT("(" + photoMIN + ")path");
+            FROM("(" + userBoardList + ")boardList");
+            LEFT_OUTER_JOIN("proFile ON boardList.id=proFile.id");
+        }}.toString();
+    }
 
     public String boardPick(int start, String division) {
         return new SQL() {{
+            SELECT("boardNum,boardList.id,content,title,date,boardHit,goodCount,imgPath");
+            SELECT("(" + photoMIN + ")path");
             if (division.equals("all")) {
-                SELECT("boardNum", "id", "content", "title", "date", "boardHit");
-                SELECT("(" + goodCount + ")goodCount");
-                FROM("board");
-                ORDER_BY("boardNum DESC");
+                FROM("(" + boardPickSQL("boardNum DESC", "없음") + ")boardList");
             } else {
-                SELECT("boardNum", "id", "content", "title", "date", "boardHit");
-                SELECT("(" + goodCount + ")goodCount");
-                FROM("board");
-                ORDER_BY("boardHit DESC");
+                FROM("(" + boardPickSQL("goodCount DESC", "없음") + ")boardList");
             }
-            LIMIT("#{param1},15");
+            LEFT_OUTER_JOIN("proFile ON boardList.id=proFile.id");
         }}.toString();
     }
 
     public String boardSearch(int start, String searchText, String option) {
         return new SQL() {{
-            SELECT("boardNum", "id", "content", "title", "date", "boardHit");
-            SELECT("(" + goodCount + ")goodCount");
-            FROM("board");
-            if (option.equals("제목+내용")) {
-                WHERE("title LIKE CONCAT('%',#{param2},'%')");
-                OR();
-                WHERE("content LIKE CONCAT('%',#{param2},'%')");
-            } else if (option.equals("제목")) {
-                WHERE("title LIKE CONCAT('%',#{param2},'%')");
-            } else if (option.equals("내용")) {
-                WHERE("content LIKE CONCAT('%',#{param2},'%')");
-            } else {
-                WHERE("id LIKE CONCAT('%',#{param2},'%')");
-            }
-            ORDER_BY("boardNum DESC");
-            LIMIT("#{param1},15");
+            SELECT("boardNum,boardList.id,content,title,date,boardHit,goodCount,imgPath");
+            SELECT("(" + photoMIN + ")path");
+            FROM("(" + boardPickSQL("boardNum DESC", option) + ")boardList");
+            LEFT_OUTER_JOIN("proFile ON boardList.id=proFile.id");
         }}.toString();
     }
 

@@ -24,7 +24,7 @@ public interface MyInfoMapper {
     @Select("SELECT newFileName FROM photo WHERE id = #{id} AND division = 'proFile'")
     String photoCheck(String id);
 
-    @Delete("DELETE FROM photo WHERE id = #{id}")
+    @Delete("DELETE FROM photo WHERE id = #{id} AND division = 'proFile'")
     void photoDelete(String id);
 
     @UpdateProvider(type = MyInfoSQL.class, method = "updateNullCheck")

@@ -9,14 +9,14 @@ import org.apache.ibatis.annotations.Select;
 public interface GoodMapper {
 
     @Select("SELECT COUNT(goodNum) FROM good WHERE divisionNum = #{param1}")
-    int goodCount(int divisionNum);
+    int goodCount(String divisionNum);
 
     @Select("SELECT id FROM good WHERE divisionNum=#{param1} AND id=#{param2}")
-    String goodCheck(int divisionNum, String id);
+    String goodCheck(String divisionNum, String id);
 
-    @Delete("DELETE FROM good WHERE divisionNum=#{param1} AND id=#{param2}")
-    void goodDelete(int boardNum, String id);
+    @Delete("DELETE FROM good WHERE divisionNum=#{param1} AND id=#{param2} AND division=#{param3}")
+    void goodDelete(int boardNum, String id, String division);
 
-    @Insert("INSERT INTO good(divisionNum,id,division) VALUES(#{param1},#{param2},'loveBoard')")
-    void goodInsert(int boardNum, String id);
+    @Insert("INSERT INTO good(divisionNum,id,division) VALUES(#{param1},#{param2},#{param3})")
+    void goodInsert(int boardNum, String id, String division);
 }
