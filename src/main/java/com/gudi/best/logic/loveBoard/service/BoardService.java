@@ -68,8 +68,8 @@ public class BoardService {
         map.put("dto", mapper.boardDetail(boardNum));
         map.put("photoList", mapper.boardPhoto(boardNum));
         map.put("photoCount", mapper.photoCount(boardNum));
-        map.put("goodCheck", goodService.goodCheck(boardNum, loginId));
-        map.put("goodCount", goodService.goodCount(boardNum));
+        map.put("goodCheck", goodService.goodCheck(String.valueOf(boardNum), loginId));
+        map.put("goodCount", goodService.goodCount(String.valueOf(boardNum)));
         return map;
     }
 

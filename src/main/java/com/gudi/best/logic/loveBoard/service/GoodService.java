@@ -13,7 +13,7 @@ public class GoodService {
     @Autowired
     GoodMapper mapper;
 
-    public boolean goodCheck(int divisionNum, String id) {
+    public boolean goodCheck(String divisionNum, String id) {
         boolean result = false;
         if (mapper.goodCheck(divisionNum, id) != null) {
             result = true;
@@ -21,20 +21,20 @@ public class GoodService {
         return result;
     }
 
-    public int goodCount(int divisionNum) {
+    public int goodCount(String divisionNum) {
         return mapper.goodCount(divisionNum);
     }
 
-    public HashMap<String, Object> goodData(int boardNum, String id) {
+    public HashMap<String, Object> goodData(int boardNum, String id, String division) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         boolean result = false;
-        if (goodCheck(boardNum, id)) {
-            mapper.goodDelete(boardNum, id);
+        if (goodCheck(String.valueOf(boardNum), id)) {
+            mapper.goodDelete(boardNum, id, division);
         } else {
-            mapper.goodInsert(boardNum, id);
+            mapper.goodInsert(boardNum, id, division);
             result = true;
         }
-        map.put("goodCount", goodCount(boardNum));
+        map.put("goodCount", goodCount(String.valueOf(boardNum)));
         map.put("check", result);
         return map;
     }

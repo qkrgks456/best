@@ -1,5 +1,7 @@
 package com.gudi.best.logic.member.controller;
 
+import com.gudi.best.logic.loveBoard.service.BoardService;
+import com.gudi.best.logic.member.mapper.MemberMapper;
 import com.gudi.best.logic.member.service.MemberService;
 import com.gudi.best.logic.myInfo.service.MyInfoService;
 import lombok.extern.log4j.Log4j2;
@@ -20,6 +22,10 @@ public class MemberController {
     MemberService memberService;
     @Autowired
     MyInfoService myInfoService;
+    @Autowired
+    BoardService boardService;
+    @Autowired
+    MemberMapper mapper;
 
     @GetMapping(value = "/")
     public String loginForm() {
@@ -109,6 +115,7 @@ public class MemberController {
     public String proFileDetail(String id, Model model) {
         model.addAttribute("dto", myInfoService.proFileDetail(id));
         model.addAttribute("map", myInfoService.myBoardList(1, id));
+        model.addAttribute("boardList", mapper.proFileBoard(0, id));
         return "logic/proFile/proFileDetail";
     }
 }

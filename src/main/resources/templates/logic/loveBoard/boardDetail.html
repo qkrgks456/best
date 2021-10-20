@@ -16,10 +16,9 @@
             <div class="w-75 mt-2">
                 <h3 class="px-2" th:text="${map.get('dto').title}"></h3>
                 <div class="d-flex justify-content-end">
-                    <div class="mx-1" th:text="'작성자 : '+${map.get('dto').id}"></div>
-                    <div class="mx-1 border-start border-end border-dark px-2"
-                         th:text="'조회수 : '+${map.get('dto').boardHit}"></div>
-                    <div id="goodCount" th:text="'좋아요 : '+${map.goodCount}" class="mx-1"></div>
+                    <div class="mx-1 border-end border-dark px-2"
+                         th:text="'조회수 '+${map.get('dto').boardHit}"></div>
+                    <div id="goodCount" th:text="'좋아요 '+${map.goodCount}" class="mx-1"></div>
                 </div>
                 <hr/>
                 <th:block th:if="${#lists.size(map.get('photoList')) > 0 }">
@@ -131,6 +130,7 @@
     </div>
 </div>
 <input th:attr="boardNum=${map.get('dto').boardNum}" type="hidden" id='boardNum'>
+<input th:attr="divisionNum=${map.get('dto').boardNum}" type="hidden" id='divisionNum'>
 </body>
 <th:block th:replace="fix/fixFooter.html"></th:block>
 <script th:src="@{/js/loading.js}"></script>

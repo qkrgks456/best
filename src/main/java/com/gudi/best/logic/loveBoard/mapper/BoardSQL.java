@@ -46,6 +46,23 @@ public class BoardSQL {
         }}.toString();
     }
 
+    public String proFileBoard(int start, String id) {
+        String userBoardList = new SQL() {{
+            SELECT("*");
+            SELECT("(" + goodCount + ")goodCount");
+            FROM("board");
+            WHERE("id=#{param2}");
+            ORDER_BY("boardNum DESC");
+            LIMIT("#{param1},6");
+        }}.toString();
+        return new SQL() {{
+            SELECT("boardNum,boardList.id,content,title,date,boardHit,goodCount,imgPath");
+            SELECT("(" + photoMIN + ")path");
+            FROM("(" + userBoardList + ")boardList");
+            LEFT_OUTER_JOIN("proFile ON boardList.id=proFile.id");
+        }}.toString();
+    }
+
     public String boardPick(int start, String division) {
         return new SQL() {{
             SELECT("boardNum,boardList.id,content,title,date,boardHit,goodCount,imgPath");

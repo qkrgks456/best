@@ -18,10 +18,10 @@ public class GoodController {
     GoodService service;
 
     @ResponseBody
-    @GetMapping("/good/goodData/{boardNum}")
-    public HashMap<String, Object> goodData(@PathVariable int boardNum, HttpSession session) {
+    @GetMapping("/good/goodData/{boardNum}/{division}")
+    public HashMap<String, Object> goodData(@PathVariable String division, @PathVariable int boardNum, HttpSession session) {
         String id = (String) session.getAttribute("loginId");
-        return service.goodData(boardNum, id);
+        return service.goodData(boardNum, id, division);
     }
 
 }
