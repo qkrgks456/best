@@ -17,15 +17,11 @@
                 <div class="mt-2">
                     <h2>사랑게시판</h2>
                     <h5 class="text-muted">여러분들의 사랑을 나누세요!</h5>
-                </div>
-                <div class="mt-2">
-                    <a th:href="@{/loveBoard/list/all/1}" class="btn btn-danger rounded-0 mt-1">전체글</a>
-                    <a th:href="@{/loveBoard/list/boardHit/1}" class="btn btn-danger rounded-0 mt-1">인기글</a>
-                    <a th:href="@{/loveBoard/boardWriteForm}" class="btn btn-danger rounded-0 mt-1">글쓰기</a>
+                    <a th:href="@{/loveBoard/list/all/1}" class="btn btn-danger rounded-0 mt-1">커플 만들러 가기</a>
                 </div>
             </div>
             <div class="d-flex justify-content-center ms-3 my-2">
-                <form th:action="@{/loveBoard/search/1}" method="get" class="row w-75">
+                <form  method="get" class="row w-75">
                     <div class="col-md m-0 p-0">
                         <select class="form-select rounded-0" name="option">
                             <option value="제목+내용" selected>제목+내용</option>

@@ -89,4 +89,17 @@ public class CoupleService {
 		System.out.println("일정 삭제");
 		
 	}
+
+	public HashMap<String, Object> readMomory(String id) {
+		String chk = mapper.coupleChk(id);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if(chk.equals("없음")) {
+		map.put("chk", "N");
+		}else {
+			ArrayList<CalenderDTO> list = mapper.readMomory(id,chk);
+			map.put("list", list);
+			map.put("chk", chk);
+		}
+		return map;
+	}
 }

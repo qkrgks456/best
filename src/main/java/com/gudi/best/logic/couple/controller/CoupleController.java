@@ -1,8 +1,7 @@
 package com.gudi.best.logic.couple.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -20,14 +19,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.util.StringUtils;
 
+import com.gudi.best.dto.ProFileDTO;
+import com.gudi.best.logic.couple.mapper.CoupleMapper;
 import com.gudi.best.logic.couple.service.CoupleService;
-import com.gudi.best.util.NewApiUtil;
+import com.gudi.best.logic.myInfo.service.MyInfoService;
 
 @Controller
 @RequestMapping("/couple")
 public class CoupleController {
 	
+	@Autowired CoupleMapper mapper;
 	@Autowired CoupleService service;
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -107,11 +110,80 @@ public class CoupleController {
 		 return "redirect:/couple/loveCalender";
     }
     
-    
-    
 
     @GetMapping("/loveMemory")
-    public String loveMemory() {
+    public String loveMemory(HttpSession session, Model model) {
+    	String id = (String) session.getAttribute("loginId");
+    	HashMap<String, Object> map = service.readMomory(id);
+    	model.addAttribute("map", map);
         return "logic/couple/loveMemory";
     }
+    @GetMapping("/addCoupleIdForm")
+    public String addCoupleIdForm() {
+        return "logic/couple/addCoupleIdForm";
+    }
+    
+    @ResponseBody
+    @GetMapping("/search")
+    public HashMap<String, Object> search(String id) {
+    	ArrayList<String> list = mapper.search(id);
+    	HashMap<String, Object> map =new HashMap<String, Object>();
+    	map.put("id", list);
+    	//System.out.println(map);
+        return map;
+    }
+    
+    @Autowired MyInfoService myInfoService;
+    
+    @GetMapping("/searchF")
+    public String searchF(String id, Model model) {
+    	ArrayList<String> list = mapper.search(id);
+    if(list.isEmpty()) {
+    	model.addAttribute("id", "N");
+    }  else {
+    		 ProFileDTO dto = myInfoService.proFileDetail(id);
+    	       if (dto != null) {
+    	            if (StringUtils.isEmpty(dto.getImgPath())) {
+    	                dto.setImgPath("/img/noImg.png");
+    	            }
+    	            model.addAttribute("id", "Y");
+    	            model.addAttribute("dto", dto);
+    	            System.out.println(dto);
+    	        }
+    }
+    	return "logic/couple/display";
+    }
+    
+    @GetMapping("/display/{id}")
+    public String display(@PathVariable String id, Model model) {
+    	System.out.println("id확인 : "+id);
+        ProFileDTO dto = myInfoService.proFileDetail(id);
+        if (dto != null) {
+            if (StringUtils.isEmpty(dto.getImgPath())) {
+                dto.setImgPath("/img/noImg.png");
+            }
+            model.addAttribute("id", "Y");
+            model.addAttribute("dto", dto);
+            System.out.println(dto);
+        }
+    	//HashMap<String, Object> map = mapper.display(id);
+    	//model.addAttribute("id", map);
+        return "logic/couple/display";
+}
+    
+    @GetMapping("/applyCouple")
+    public String applyCouple(String id, Model model) {
+    	System.out.println("id확인 : "+id);
+        ProFileDTO dto = myInfoService.proFileDetail(id);
+        if (dto != null) {
+            if (StringUtils.isEmpty(dto.getImgPath())) {
+                dto.setImgPath("/img/noImg.png");
+            }
+            model.addAttribute("id", "Y");
+            model.addAttribute("dto", dto);
+        }
+    	//HashMap<String, Object> map = mapper.display(id);
+    	//model.addAttribute("id", map);
+        return "logic/couple/display";
+}
 }
