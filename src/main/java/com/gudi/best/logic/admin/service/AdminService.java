@@ -24,7 +24,7 @@ public class AdminService {
 		if(page==1) {
 			page =0;
 		}else {
-			page = (page - 1) * 10 + 1;
+			page = (page - 1) * 10 ;
 		}
 		ArrayList<memberDTO> list = mapper.memberList(page);
 		map.put("list", list);
