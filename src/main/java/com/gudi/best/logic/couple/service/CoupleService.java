@@ -95,11 +95,47 @@ public class CoupleService {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		if(chk.equals("없음")) {
 		map.put("chk", "N");
-		}else {
+		} else if(chk.length()>9) {
+			if(chk.substring(0, 5).equals("Apply")) {
+				map.put("chk", "A"); //상대방의 응답을 기다립니다 보여주기
+			}	else if(chk.substring(0, 8).equals("Response")) {
+				map.put("chk", "R"); // 요청자의 프로필과 수락창 보여주기 -> 만들예정
+			}
+			}else {
 			ArrayList<CalenderDTO> list = mapper.readMomory(id,chk);
 			map.put("list", list);
-			map.put("chk", chk);
-		}
+			map.put("chk", "Y");
+			}
 		return map;
+	}
+
+	public void applyCouple(String Lid, String id) {
+		String Aid = "Apply"+ id; //상대방에게 요청 apply+상대방 id
+    	String Rid = "Response"+Lid; //요청보낸사람에게 응답 response+요청자id
+    	String p1 = Aid;
+    	String p2 = Lid;
+		mapper.applyCouple(p1, p2);
+		p1 = Rid;
+		p2 = id;
+		mapper.applyCouple(p1, p2);
+	}
+
+	public void choiceApply(String id, String ok) {
+		String Rid = mapper.coupleChk(id);
+		if(ok.equals("N")) {
+		String p1 = "없음";
+		String p2 = id;
+		mapper.applyCouple(p1, p2);
+		p2 = Rid;
+		mapper.applyCouple(p1, p2);
+		}else if(ok.equals("Y")) {
+			String p1 = Rid.substring(8);
+			String p2 = id;
+			System.out.println(p1+ " :" + p2);
+			mapper.applyCouple(p1, p2);
+			p1 = id;
+			p2 = Rid.substring(8);
+			mapper.applyCouple(p1, p2);	
+		}
 	}
 }

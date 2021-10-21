@@ -19,8 +19,23 @@
                     <a th:href="@{/couple/addCoupleIdForm}" class="btn btn-danger rounded-0 mt-1">커플계정추가</a>
                 </div>
         </div>
+        <div class="container text-center" th:if="${map.get('chk') eq 'A'}">
+         <div class="mt-2">
+                    <h2>상대방의 응답을 기다리는 중입니다.</h2>
+                    <h5 class="text-muted">커플 요청 결과를 기다려주세요.</h5>
+                    <a th:href="@{/couple/cancelApply}" class="btn btn-danger rounded-0 mt-1">요청취소</a>
+                </div>
+        </div>
+        <div class="container text-center" th:if="${map.get('chk') eq 'R'}">
+         <div class="mt-2">
+                    <h2>커플요청이 왔습니다.</h2>
+                    <h5 class="text-muted">커플이 될지 말지 결정해주세요</h5>
+                    <a th:href="@{/couple/acceptApply}" class="btn btn-danger rounded-0 mt-1">수락</a>
+					<a th:href="@{/couple/cancelApply}" class="btn btn-danger rounded-0 mt-1">거절</a>
+                </div>
+        </div>
         <div class="container"  th:if="${map.get('chk') eq 'Y'}">
-            <table class="table table-hover">
+            <table class="table table-hover text-center">
                 <thead>
                 <tr>
                     <th class="col-6">제목</th>

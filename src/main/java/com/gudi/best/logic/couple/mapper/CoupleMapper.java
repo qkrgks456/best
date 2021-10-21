@@ -35,9 +35,16 @@ public interface CoupleMapper {
 	@Select("select * from calender where id=#{param1} or id=#{param2} AND del='0' AND division ='M'")
 	ArrayList<CalenderDTO> readMomory(String id, String chk);
 
-	@Select("select id from member where id like '${param1}%'")
+	@Select("select id from member where id like '${param1}%' limit 5")
 	ArrayList<String> search(String id);
 	
 	@Select("SELECT * FROM proFile WHERE id = #{param1}")
 	HashMap<String, Object> display(String id);
+
+	@Update("UPDATE member SET coupleId = #{param1} where id = #{param2}")
+	void applyCouple(String p1, String p2);
+
+	@Select("select id from member where id = #{param1}")
+	ArrayList<String> searchF(String id);
+	
 }
