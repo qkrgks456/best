@@ -19,7 +19,7 @@ public interface ChatMapper {
 
 	@Select("SELECT *\r\n"
 			+ "FROM\r\n"
-			+ "(SELECT roomNum, id, person, dates, DATE(lastChatDates) AS lastChatDates, lastMessage  FROM chatRoom WHERE id = #{param1}  OR person = #{param1} ) AS sub\r\n"
+			+ "(SELECT roomNum, id, person, dates, lastChatDates, lastMessage  FROM chatRoom WHERE id = #{param1}  OR person = #{param1} ) AS sub\r\n"
 			+ "ORDER BY lastChatDates DESC\r\n")
 	List<ChatRoomDTO> findAllRooms(String loginId);
 
@@ -33,7 +33,7 @@ public interface ChatMapper {
 	void lastChatDatesUpdate(Integer roomNum);
 
 	@Select("SELECT * FROM\r\n"
-			+ "(SELECT roomnum, id, message, DATE(dates) AS dates FROM chat WHERE roomNum = #{param1}) AS sub\r\n"
+			+ "(SELECT roomnum, id, message, dates FROM chat WHERE roomNum = #{param1}) AS sub\r\n"
 			+ "ORDER BY dates ASC")
 	List<ChatDTO> chatFind(String roomNum);
 
@@ -45,6 +45,9 @@ public interface ChatMapper {
 
 	@Select("SELECT * FROM member WHERE id = #{param1}")
 	memberDTO findPerson(String person);
+	
+	@Select("SELECT * FROM chatRoom WHERE id = #{param1} AND person = #{param2}")
+	ChatRoomDTO chatCon(String loginId, String person);
 
 	
 	

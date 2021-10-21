@@ -40,10 +40,11 @@ public class RoomController {
 			//동일한 방 생성불가능
 			//상대방 아이디가 멤버에 존재하지 않는 경우도 방생성 불가능
 			//나-상대방, 상대방-나 => 두개의 방이 아니라, 하나의 방으로 만들어야함
-			if(chatMapper.findOverlap(loginId, person).size()>0 || chatMapper.findPerson(person)==null) {
+			//내가 나한테 채팅방 생성도 불가능
+			if(chatMapper.findOverlap(loginId, person).size()>0 || chatMapper.findPerson(person)==null || loginId.equals(person)) {
 				log.info("***방생성 불가능!!***");
 				rttr.addFlashAttribute("loginId" , loginId);
-				rttr.addFlashAttribute("errorMsg" , "상대방이 존재하지 않는 아이디이거나, 이미 생성된 채팅방 입니다.");
+				rttr.addFlashAttribute("errorMsg" , "상대방이 존재하지 않는 아이디이거나, 이미 생성된 채팅방 입니다.\r(본인의 아이디를 사용해서 생성이 불가능합니다.)");
 				return "redirect:/chat/rooms";
 			}else{
 				log.info("***방생성 쌉가능!!***");
@@ -104,5 +105,21 @@ public class RoomController {
 	}
 	
 	
+	
+	//아이디로 채팅 연결
+	@GetMapping("/chatCon")
+	public String chatCon(HttpSession session, String person, RedirectAttributes rttr) {
+		String loginId = (String) session.getAttribute("loginId");
+		
+		if(chatMapper.chatCon(loginId, person)==null) {
+			//아직 방이 생성되지 않은 경우는 방 생성후 이동
+			rttr.addFlashAttribute("loginId", loginId);
+			rttr.addFlashAttribute("person", person);
+			return "redirect:/chat/room";
+		}else{
+			//이미 방이 존재하는 경우는 바로 이동
+			return "chat/chatSelect";
+		}
+	}
 	
 }
