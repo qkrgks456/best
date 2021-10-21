@@ -53,7 +53,7 @@
 									<a th:href="@{/chat/room(roomNum=${room.roomNum})}">
 										[[${room.id}]]
 										<br/>
-										[[${room.lastMessage}]]
+										<span class="titleTarget">[[${room.lastMessage}]]</span>
 									</a>
 								</th:block>
 								
@@ -61,7 +61,7 @@
 									<a th:href="@{/chat/room(roomNum=${room.roomNum})}">
 										[[${room.person}]]
 										<br/>
-										[[${room.lastMessage}]]
+										<span class="titleTarget">[[${room.lastMessage}]]</span>
 									</a>
 								</th:block>
 								</div>
@@ -100,7 +100,7 @@
 			      </div>
 			      <div class="modal-body">
 			       	<form th:action="@{/chat/room}" method="post">
-						상대방ID:<input type="text" name="person" class="form-control"  style="margin-bottom: 10px;"/>
+						상대방ID<input type="text" name="person" class="form-control"  style="margin-bottom: 10px;"/>
 						<button class="btn btn-secondary btn-create" style="float: right;">다음</button>
 					</form>
 			    </div>

@@ -13,7 +13,7 @@
         </nav>
        
 		<div class="container" style="height: 700px;">
-		
+
 		<div class="row" style="border: solid #CD7070 3px; height:100%;">
 			
 			<div class="col-3" style="border-right: solid #CD7070 3px;">
@@ -53,17 +53,17 @@
 								<div class="col">
 								<th:block data-th-if="${#strings.equals(loginId, room.person)}">
 									<a th:href="@{/chat/room(roomNum=${room.roomNum})}">
-										[[${room.id}]]
+										<b>[[${room.id}]]</b>
 										<br/>
-										[[${room.lastMessage}]]
+										<span class="titleTarget">[[${room.lastMessage}]]</span>
 									</a>
 								</th:block>
 								
 								<th:block data-th-if="${#strings.equals(loginId, room.id)}">
 									<a th:href="@{/chat/room(roomNum=${room.roomNum})}">
-										[[${room.person}]]
+										<b>[[${room.person}]]</b>
 										<br/>
-										[[${room.lastMessage}]]
+										<span class="titleTarget">[[${room.lastMessage}]]</span>
 									</a>
 								</th:block>
 								</div>
@@ -90,11 +90,15 @@
 						<th:block data-th-each="chat : ${chatDTO}">
 						
 							<div style="display: block">
+								<!-- 내가 보낸거는 오른쪽에 -->
 								<div th:if="${chat.id.toString().equals(loginId)}" class="d-flex flex-row-reverse">
 									<div class="alert alert-warning" th:text="${chat.message}"></div>
+									<div style="font-size:small; padding-top: 40px; margin-right: 5px;" th:text="${chat.dates}"></div>
 								</div>
+								<!-- 남이 보낸거는 왼쪽에 -->
 								<div th:unless="${chat.id.toString().equals(loginId)}" class="d-flex flex-row">
-									<div  class="alert alert-secondary" th:text="${chat.message}"></div>
+									<div class="alert alert-secondary" th:text="${chat.message}"></div>
+									<div style="font-size:small; padding-top: 40px; margin-left: 5px;" th:text="${chat.dates}"></div>
 								</div>
 							</div>
 							
@@ -126,22 +130,28 @@
 			      </div>
 			      <div class="modal-body">
 			       	<form th:action="@{/chat/room}" method="post">
-						상대방ID:<input type="text" name="person" class="form-control"  style="margin-bottom: 10px;"/>
+						상대방ID<input type="text" name="person" class="form-control"  style="margin-bottom: 10px;"/>
 						<button class="btn btn-secondary btn-create" style="float: right;">다음</button>
 					</form>
 			    </div>
 			  </div>
 			</div>
 		 
-		 
 		
 	</div>
 	
 </div>
+
+</div>
+
+</div>
+
 </body>
 <th:block th:replace="fix/fixFooter.html"></th:block>
 <script th:inline="javascript">
 
+		
+		//채팅방 생성
  		$(".btn-create").on("click", function(e){
  			e.preventDefault();
  			var person = $("input[name='person']").val();
@@ -151,9 +161,11 @@
  			}else{
  				$("form").submit();
  			}
- 			
  		});
- 		
+ 			
+ 		//보냈을때 스크롤 맨 아래로
+		let msgArea = document.getElementById('msgArea');
+		msgArea.scrollTop = msgArea.scrollHeight;
  		
  		let roomNum = $("#msgArea").attr("roomNum");
  		let roomName = $("#msgArea").attr("roomName");
@@ -170,7 +182,7 @@
  			//2. 커넥션이 맺어지면 실행
  			stomp.connect({}, function(e){
  				console.log("STOMP Connection");
- 				console.log(e);		
+ 				//console.log(e);		
  				//4. subscribe(path, callback) 으로 메세지 받을 수 있음
  				stomp.subscribe("/sub/chat/chatSelect/" + roomNum, function(chat){
  					//console.log("콜백함수를 보자!!:: ",chat);
@@ -179,48 +191,88 @@
  					var writer = content.id;
  					
  					var str = '';
- 							
+
+ 					let today = new Date();
+ 					let hours = today.getHours(); // 시
+ 					let minutes = today.getMinutes();  // 분
+ 					let seconds = today.getSeconds();  // 초
+ 					let currTime = hours + ':' + minutes + ':' + seconds;
+ 					
  					if(writer == id){ 
  						//내가 보내는 메세지
  					 	//str = "<div class='col-6'>";
  					 	str = "<div style='display: block'>";
  					 	str += "<div class='d-flex flex-row-reverse'>";
  						str += "<div class='alert alert-warning'>";
- 						str += content.message;
- 						str += "</div></div></div>";
+ 						str += content.message + "</div>";
+ 						str += '<div style="font-size:small; padding-top: 40px; margin-right: 5px;">'+currTime+'</div>';
+ 						str += "</div></div>";
  						$("#msgArea").append(str);
+ 						
+ 						//보냈을때 스크롤 맨 아래로
+ 						let msgArea = document.getElementById('msgArea');
+ 	 					msgArea.scrollTop = msgArea.scrollHeight;
  					}else{
  						//상대방이 보내는 메세지
  						//str = "<div class='col-6'>";
  						str = "<div style='display: block'>";
  					 	str += "<div class='d-flex flex-row'>";
  						str += "<div class='alert alert-secondary'>";
- 						str += content.message;
- 						str += "</div></div></div>";
+ 						str += content.message + "</div>";
+ 						str += '<div style="font-size:small; padding-top: 40px; margin-left: 5px;">'+currTime+'</div>';
+ 						str += "</div></div>";
  						$("#msgArea").append(str);
+ 						
+ 						//보냈을때 스크롤 맨 아래로
+ 						let msgArea = document.getElementById('msgArea');
+ 	 					msgArea.scrollTop = msgArea.scrollHeight;
  					}
  				
  				});
+ 				/*  
  				//3. send(path, header, message) 로 메세지를 보낼 수 있음
  				 stomp.send('/pub/chat/enter', {},JSON.stringify({roomNum: roomNum, id: loginId, roomName: roomName}))	
+ 				*/
+ 				
+ 				//유효성 위반시 경고창
+ 				stomp.subscribe("/sub/chat/errorMsg", function(data){
+ 					alert(data.body);
+ 					
  				});
+ 				
+ 				
+ 			});
  			
- 			
+ 				//메시지 전송
  				$("#button-send").on("click",function(e){
  					var msg = document.getElementById("msg");
+ 					
+ 					let msgArea = document.getElementById('msgArea');
+ 					msgArea.scrollTop = msgArea.scrollHeight;
  					
  					console.log(id+ ":" + msg.value);
  					stomp.send('/pub/chat/message', {}, JSON.stringify({roomNum: roomNum, message: msg.value, id: id, roomName: roomName}));
  					msg.value='';
  				});
  				
+ 				//엔터키로 전송
+ 				$("#msg").on('keydown',function(key) {
+                if (key.keyCode == 13) {
+                	$("#button-send").click(); 					
+                }
+                
+                //모달용
  				var myModal = document.getElementById('myModal')
  		 		var myInput = document.getElementById('myInput')
 
  		 		myModal.addEventListener('shown.bs.modal', function () {
- 		 		  myInput.focus()
+ 		 		  myInput.focus();
  		 		})
-	
+ 		 		
+	 		
+            });
+
+ 		 		
 </script>
 
 </html>
