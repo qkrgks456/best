@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.http.HttpEntity;
@@ -19,6 +20,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class NewApiUtil {
 
@@ -122,4 +128,41 @@ public class NewApiUtil {
         System.out.println(sb.toString());
         return sb.toString();
     }
+    
+    
+    //관광코드, 지역코드, 페이지
+    public static ArrayList<HashMap<String, Object>> culList(String tour, String code, String page) throws Exception {
+    	HashMap<String,String> header = new HashMap<String,String>();
+    	HashMap<String,String> params = new HashMap<String,String>();
+    	params.put("ServiceKey", "YRc1yhIuj+SEq19P4LqBXRmFAtACpby0jiZKx+pSOyMnQ+5EX18dxJ+heYZ+4Ls/hYTVS6+FqoIZDjj2XmsmRg==");
+    	params.put("MobileApp", "culList");
+    	params.put("pageNo", page);
+    	params.put("numOfRows", "15");
+    	params.put("MobileOS", "ETC");
+    	params.put("areaCode", code);
+    	params.put("contentTypeId", tour);
+    	params.put("_type", "json");
+    	String url= "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList";
+    	String result = sendSeverMsg(url,header,params,"GET"); 	
+    	ObjectMapper mapper = new ObjectMapper();
+    	
+    	HashMap<String, Object> map = mapper.readValue(result, HashMap.class);
+    	result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map.get("response"));
+    	HashMap<String, Object> map2 = mapper.readValue(result, HashMap.class);
+    	result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map2.get("body"));
+    	HashMap<String, Object> map3 = mapper.readValue(result, HashMap.class);
+    	result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map3.get("items"));
+    	HashMap<String, Object> map4 = mapper.readValue(result, HashMap.class);
+    	result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map4.get("item"));
+    	TypeReference<ArrayList<HashMap<String, Object>>> typeRef = new TypeReference<ArrayList<HashMap<String,Object>>>() {
+		};
+    	
+    	
+    	return mapper.readValue(result, typeRef);
+    }
+    
+    
+    
+    
+    
 }

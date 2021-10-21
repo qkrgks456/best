@@ -4,6 +4,8 @@ import com.gudi.best.logic.loveBoard.service.BoardService;
 import com.gudi.best.logic.member.mapper.MemberMapper;
 import com.gudi.best.logic.member.service.MemberService;
 import com.gudi.best.logic.myInfo.service.MyInfoService;
+import com.gudi.best.util.NewApiUtil;
+
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,7 +30,8 @@ public class MemberController {
     MemberMapper mapper;
 
     @GetMapping(value = "/")
-    public String loginForm() {
+    public String loginForm() throws Exception {
+    	log.info(NewApiUtil.culList("32", "1", "1"));
         return "startForm/loginForm";
     }
 
