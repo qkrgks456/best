@@ -32,10 +32,10 @@ public interface CoupleMapper {
 	@Select("select coupleId from member where id = #{param1}")
 	String coupleChk(String id);
 
-	@Select("select * from calender where id=#{param1} or id=#{param2} AND del='0' AND division ='M'")
+	@Select("select * from calender where (id=#{param1} or id=#{param2}) AND del='0' AND division ='M'")
 	ArrayList<CalenderDTO> readMomory(String id, String chk);
 
-	@Select("select id from member where id like '${param1}%' limit 5")
+	@Select("select id from member where coupleId = '없음' AND id like '${param1}%' limit 5")
 	ArrayList<String> search(String id);
 	
 	@Select("SELECT * FROM proFile WHERE id = #{param1}")
@@ -44,7 +44,11 @@ public interface CoupleMapper {
 	@Update("UPDATE member SET coupleId = #{param1} where id = #{param2}")
 	void applyCouple(String p1, String p2);
 
-	@Select("select id from member where id = #{param1}")
+	@Select("select id from member where coupleId = '없음' AND id = #{param1}")
 	ArrayList<String> searchF(String id);
+
+	@Insert("INSERT INTO calender(id,title,content,start,end,color,division) VALUES(#{id},#{title},#{content},#{start},#{end},#{color},'M')")
+    @Options(useGeneratedKeys = true, keyProperty = "cNum")
+	void memoryWrite(CalenderDTO cdto);
 	
 }

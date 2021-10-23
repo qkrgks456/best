@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gudi.best.dto.CalenderDTO;
@@ -105,6 +106,7 @@ public class CoupleService {
 			ArrayList<CalenderDTO> list = mapper.readMomory(id,chk);
 			map.put("list", list);
 			map.put("chk", "Y");
+			map.put("couple", chk);
 			}
 		return map;
 	}
@@ -137,5 +139,25 @@ public class CoupleService {
 			p2 = Rid.substring(8);
 			mapper.applyCouple(p1, p2);	
 		}
+	}
+
+	@Transactional
+	public int memoryWrite(HashMap<String, String> param, MultipartFile[] files, String id) {
+		Cdto.setId(id);
+		Cdto.setStart(param.get("start"));
+		Cdto.setEnd(param.get("end"));
+		Cdto.setTitle(param.get("title"));
+		Cdto.setContent(param.get("content"));
+		Cdto.setColor(param.get("color"));
+		mapper.memoryWrite(Cdto);
+		 int cNum = Cdto.getCNum();
+		photoUpload(files, cNum, id);
+		return cNum;
+	}
+
+	@Transactional
+	public void photoUpload(MultipartFile[] files, int cNum, String id) {
+		// TODO Auto-generated method stub
+		
 	}
 }

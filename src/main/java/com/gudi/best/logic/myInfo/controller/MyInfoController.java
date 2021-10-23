@@ -1,6 +1,7 @@
 package com.gudi.best.logic.myInfo.controller;
 
 import com.gudi.best.dto.ProFileDTO;
+import com.gudi.best.logic.couple.service.CoupleService;
 import com.gudi.best.logic.member.service.MemberService;
 import com.gudi.best.logic.myInfo.mapper.MyInfoMapper;
 import com.gudi.best.logic.myInfo.service.MyInfoService;
@@ -81,9 +82,15 @@ public class MyInfoController {
         }
     }
 
+    @Autowired CoupleService coupleService;
+    
     @GetMapping("/proFile")
     public String proFile(Model model, HttpSession session) {
         String id = (String) session.getAttribute("loginId");
+        HashMap<String, Object> map = coupleService.readMomory(id);
+        if(map.get("list")!=null) {
+        	map.remove("list");
+        }
         ProFileDTO dto = myInfoService.proFileDetail(id);
         if (dto != null) {
             if (StringUtils.isEmpty(dto.getImgPath())) {
@@ -91,6 +98,7 @@ public class MyInfoController {
             }
             model.addAttribute("dto", dto);
         }
+        model.addAttribute("map", map);
         return "/logic/myInfo/myProFile";
     }
 

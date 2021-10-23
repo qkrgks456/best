@@ -66,8 +66,42 @@
                     </th:block>
                     <div id="textareaNum" class="form-text">0/1000</div>
                 </div>
+                <!-- coupleid 여부로 창 보이기  -->
+                <div class="mt-2">
+                    <label class="form-label">My Love</label>
+                </div>
+           
+                <th:block th:if="${map.get('chk') eq 'N'}">
+                 <div class="mt-2">
+                    <h5 class="text-muted">커플이 없습니다!   <a th:href="@{/couple/addCoupleIdForm}" class="btn btn-danger rounded-0 mt-1">커플계정추가</a></h5>
+                </div>
+                </th:block>
+                 
+                 <th:block th:if="${map.get('chk') eq 'A'}">
+                 <div class="mt-2">
+                    <h5 class="text-muted">상대방의 응답을 기다리는 중입니다. <a th:href="@{/couple/cancelApply}" class="btn btn-danger rounded-0 mt-1">요청취소</a></h5>
+                </div>
+                </th:block>
+                
+               <th:block th:if="${map.get('chk') eq 'R'}">
+                 <div class="mt-2">
+                    <h5 class="text-muted">커플 요청이 왔습니다.
+                    <a th:href="@{/couple/acceptApply}" class="btn btn-danger rounded-0 mt-1">수락</a>
+					<a th:href="@{/couple/cancelApply}" class="btn btn-danger rounded-0 mt-1">거절</a>
+               </h5>
+                </div>
+                </th:block> 
+                
+                <th:block th:if="${map.get('chk') eq 'Y'}">
+                 <div class="mt-2">
+                    <h5 class="text-muted" th:text="${map.get('couple')}"></h5>
+					<a id="cancel" class="btn btn-danger rounded-0 mt-1">커플해지</a>
+                </div>
+                </th:block> 
+                
+                <!-- 끝 -->
                 <th:block th:if="${dto ne null}">
-                    <div th:if="${dto.hobby ne null}">
+                    <div th:if="${dto.hobby ne null}" class="mt-2">
                         <label class="form-label">선택한 관심사</label>
                     </div>
                     <th:block th:each="hobby : ${#strings.arraySplit(dto.hobby,',')}">
@@ -183,4 +217,14 @@
 </body>
 <th:block th:replace="fix/fixFooter.html"></th:block>
 <script th:src="@{/js/proFile.js}"></script>
+<script>
+
+$("#cancel").on("click",function(){
+	if(confirm('정말 커플을 해지하시겟습니까?')){
+		 location.replace('/couple/cancelApply');
+	}else{
+		
+	}
+});
+</script>
 </html>
