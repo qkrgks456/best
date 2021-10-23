@@ -12,8 +12,8 @@ public class MyInfoSQL {
     public String insertNullCheck(HashMap<String, Object> map) {
         return new SQL() {{
             INSERT_INTO("proFile");
-            INTO_COLUMNS("id", "imgPath", "name", "age");
-            INTO_VALUES("#{id}", "#{path}", "#{name}", "#{age}");
+            INTO_COLUMNS("id", "imgPath");
+            INTO_VALUES("#{id}", "#{path}");
             if (!map.get("hobby").equals("")) {
                 INTO_COLUMNS("hobby");
                 INTO_VALUES("#{hobby}");
@@ -22,6 +22,14 @@ public class MyInfoSQL {
                 INTO_COLUMNS("intro");
                 INTO_VALUES("#{intro}");
             }
+            if (!map.get("name").equals("")) {
+                INTO_COLUMNS("name");
+                INTO_VALUES("#{name}");
+            }
+            if (!map.get("age").equals("")) {
+                INTO_COLUMNS("age");
+                INTO_VALUES("#{age}");
+            }
 
         }}.toString();
     }
@@ -29,8 +37,6 @@ public class MyInfoSQL {
     public String updateNullCheck(HashMap<String, Object> map) {
         return new SQL() {{
             UPDATE("proFile");
-            SET("age = #{age}");
-            SET("name = #{name}");
             if (!map.get("path").equals("")) {
                 SET("imgPath = #{path}");
             }
@@ -41,6 +47,12 @@ public class MyInfoSQL {
                 SET("intro = #{intro}");
             } else {
                 SET("intro = null");
+            }
+            if (!map.get("age").equals("")) {
+                SET("age = #{age}");
+            }
+            if (!map.get("name").equals("")) {
+                SET("name = #{name}");
             }
             WHERE("id = #{id}");
         }}.toString();

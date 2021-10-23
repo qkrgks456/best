@@ -54,11 +54,21 @@
                         </a>
                         <div class="card-footer d-flex justify-content-between">
                             <th:block th:if="${session.loginId ne dto.id}">
-                                <a th:href="@{/member/proFileDetail(id=${dto.id})}">
-                                    <img onerror="src='/img/noImg.png'" th:src="@{${dto.imgPath}}"
-                                         style="height: 50px;width: 50px" class="rounded-circle">
-                                    <small th:text="${dto.id}" class="text-muted ms-1"></small>
-                                </a>
+                                <div class="btn-group dropend">
+                                    <div class="dropdown-toggle-split" data-bs-toggle="dropdown"
+                                         style="cursor: pointer">
+                                        <img onerror="src='/img/noImg.png'" th:src="@{${dto.imgPath}}"
+                                             style="height: 50px;width: 50px" class="rounded-circle">
+                                        <small th:text="${dto.id}" class="text-muted ms-1"></small>
+                                    </div>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" th:href="@{/member/proFileDetail(id=${dto.id})}">프로필</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">러브톡</a></li>
+                                        <li><a class="dropdown-item" href="#">커플맺기신청</a></li>
+                                    </ul>
+                                </div>
                             </th:block>
                             <th:block th:if="${session.loginId eq dto.id}">
                                 <div>

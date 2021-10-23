@@ -20,6 +20,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
         // excludePathPatterns: 해당 메소드는 적용한 인터셉터에서 제외할 url패턴을 설정합니다.
         registry.addInterceptor(new Interceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/member/*", "/", "/js/**", "/css/**", "/img/**");
+                .excludePathPatterns("/member/*", "/", "/js/**", "/css/**", "/img/**", "/kakao/*");
     }
 }

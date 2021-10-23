@@ -13,18 +13,13 @@ $('.proFileImg').on('click', function () {
 })
 // 프로필 등록버튼 클릭시 유효성 검사
 $('#proFileInputBtn').on('click', function () {
-    if ($("input[name='age']").hasClass("is-valid") && $("input[name='name']").hasClass("is-valid")) {
+    if ($("input[name='name']").val().trim().length >= 100) {
+        alert("이름은 100자 이하입니다!");
+    } else if ($('.intro').val().trim().length >= 1000) {
+        alert("자기소개는 1000자 이하입니다!");
+    } else {
         alert("프로필 수정 완료!");
         $('#proFileInputForm').submit();
-    } else if ($("input[name='age']").val() != "" && $("input[name='name']").val() != "") {
-        alert("프로필 수정 완료!");
-        $('#proFileInputForm').submit();
-    }
-    if ($("input[name='age']").val() == "") {
-        $("input[name='age']").attr("class", "form-control is-invalid");
-    }
-    if ($("input[name='name']").val() == "") {
-        $("input[name='name']").attr("class", "form-control is-invalid");
     }
 })
 
@@ -52,33 +47,10 @@ function readURL(input) {
     }
 }
 
-// 이름 유효성 검사
+
 $("input[name='name']").on("change keyup paste input", function () {
-    if ($(this).val().trim().length > 0) {
-        $(this).attr("class", "form-control is-valid");
-    } else {
-        $(this).attr("class", "form-control is-invalid");
-    }
-    if ($(this).val().trim().length >= 100) {
-        $(this).attr("class", "form-control is-invalid");
-    }
-    $('.nameNum').text($(this).val().trim().length + "/100");
+    $('.nameNum').text($("input[name='name']").val().trim().length + "/100");
 })
-
-// 나이 유효성 검사
-$("input[name='age']").on("change keyup paste input", function () {
-    if ($(this).val().trim().length > 0) {
-        $(this).attr("class", "form-control is-valid");
-    } else {
-        $(this).attr("class", "form-control is-invalid");
-        $(this).nextAll(".invalid-feedback").text("숫자만 입력해주세요");
-    }
-    if ($(this).val().trim().length >= 3) {
-        $(this).attr("class", "form-control is-invalid");
-        $(this).nextAll(".invalid-feedback").text("다시 입력해주세요");
-    }
-})
-
 $('.intro').on("change keyup paste input", function () {
     $('#textareaNum').text($(this).val().trim().length + "/1000");
 })

@@ -24,9 +24,8 @@
                 </div>
                 <th:block th:if="${dto ne null}">
                     <h3 class="text-center" th:text="${dto.id}"></h3>
-                    <h5 th:text="${dto.name} +'('+${dto.age} + ')'" th:if="${dto ne null}" class="text-center mt-2">
-                        박한솔(26)
-                    </h5>
+                    <h5 th:if="${dto.name ne null}" th:text="${dto.name} +'('+${dto.age} + ')'"
+                        class="text-center mt-2"></h5>
                     <div class="d-flex justify-content-center">
                         <button class="btn btn-danger rounded-0" data-bs-toggle="modal"
                                 data-bs-target="#follow">
@@ -82,8 +81,10 @@
                     </div>
                     <hr/>
                     <div class="mb-3 text-center mt-2" th:if="${dto ne null}">
-                        <h3>자기소개</h3>
-                        <p th:text="${dto.intro}"></p>
+                        <th:block th:if="${dto.intro ne null}">
+                            <h3>자기소개</h3>
+                            <p th:text="${dto.intro}"></p>
+                        </th:block>
                     </div>
                     <th:block th:if="${dto ne null}">
                         <div class="mb-3 text-center mt-2">
