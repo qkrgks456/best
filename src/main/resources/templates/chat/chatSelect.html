@@ -109,9 +109,9 @@
 					<!-- 하단(메세지 작성) -->
 					<div class="row">
 						<div class="input-group mb-3">
-							<input type="text" id="msg" class="form-control">
+							<input type="text" id="msg" class="form-control rounded-0">
 							<div class="input-group-append">
-								<button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
+								<button class="ms-1 btn btn-danger rounded-0" type="button" id="button-send">전송</button>
 							</div>
 						</div>
 					</div>
@@ -198,7 +198,7 @@
  					let seconds = today.getSeconds();  // 초
  					let currTime = hours + ':' + minutes + ':' + seconds;
  					
- 					if(writer == id){ 
+ 					if(writer == loginId){ 
  						//내가 보내는 메세지
  					 	//str = "<div class='col-6'>";
  					 	str = "<div style='display: block'>";
@@ -250,8 +250,8 @@
  					let msgArea = document.getElementById('msgArea');
  					msgArea.scrollTop = msgArea.scrollHeight;
  					
- 					console.log(id+ ":" + msg.value);
- 					stomp.send('/pub/chat/message', {}, JSON.stringify({roomNum: roomNum, message: msg.value, id: id, roomName: roomName}));
+ 					console.log(loginId+ ":" + msg.value);
+ 					stomp.send('/pub/chat/message', {}, JSON.stringify({roomNum: roomNum, message: msg.value, id: loginId, roomName: roomName}));
  					msg.value='';
  				});
  				

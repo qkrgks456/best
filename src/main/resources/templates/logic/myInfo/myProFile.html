@@ -29,27 +29,27 @@
                 <div id="emailHelp" class="form-text text-center">클릭해서 이미지를 등록하세요</div>
                 <input class="form-control" id="imgBtn" type="file" name="proFileImg" hidden>
                 <div class="mb-3" th:if="${dto eq null}">
-                    <label class="form-label">이름(*)</label>
-                    <input type="text" class="form-control" name="name" placeholder="필수 정보 입니다">
+                    <label class="form-label">이름</label>
+                    <input type="text" class="form-control" name="name">
                     <div class="form-text nameNum">0/100</div>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback"></div>
                 </div>
                 <div class="mb-3" th:if="${dto ne null}">
-                    <label class="form-label">이름(*)</label>
-                    <input th:value="${dto.name}" type="text" class="form-control" name="name" placeholder="필수 정보 입니다">
+                    <label class="form-label">이름</label>
+                    <input th:value="${dto.name}" type="text" class="form-control" name="name">
                     <div class="form-text nameNum">0/100</div>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback"></div>
                 </div>
                 <div class="mb-3" th:if="${dto eq null}">
-                    <label class="form-label">나이(*)</label>
+                    <label class="form-label">나이</label>
                     <input type="number" class="form-control" name="age" placeholder="필수 정보 입니다">
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback">숫자만 입력해주세요</div>
                 </div>
                 <div class="mb-3" th:if="${dto ne null}">
-                    <label class="form-label">나이(*)</label>
+                    <label class="form-label">나이</label>
                     <input th:value="${dto.age}" type="number" class="form-control" name="age" placeholder="필수 정보 입니다">
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback">숫자만 입력해주세요</div>

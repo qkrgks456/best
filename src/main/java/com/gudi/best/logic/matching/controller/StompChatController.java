@@ -42,6 +42,9 @@ public class StompChatController {
 			chatMapper.lastMessageUpdate(message.getRoomNum(), message.getMessage());
 			
 			template.convertAndSend("/sub/chat/chatSelect/"+message.getRoomNum(), message);
+			
+			
+			
 		}else {
 			String errorMsg = "공백은 보낼수 없으며, 1000자 이하로 입력해 주세요!";
 			template.convertAndSend("/sub/chat/errorMsg",errorMsg);
