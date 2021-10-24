@@ -3,13 +3,16 @@ package com.gudi.best.logic.couple.mapper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.gudi.best.dto.BoardDTO;
 import com.gudi.best.dto.CalenderDTO;
+import com.gudi.best.dto.PhotoDTO;
 
 @Mapper
 public interface CoupleMapper {
@@ -50,5 +53,25 @@ public interface CoupleMapper {
 	@Insert("INSERT INTO calender(id,title,content,start,end,color,division) VALUES(#{id},#{title},#{content},#{start},#{end},#{color},'M')")
     @Options(useGeneratedKeys = true, keyProperty = "cNum")
 	void memoryWrite(CalenderDTO cdto);
+
+	@Insert("INSERT INTO photo(id,division,oriFileName,newFileName,path,divisionNum) VALUES(#{id},'loveMemory',#{oriFileName},#{newFileName},#{path},#{divisionNum})")
+	void photoInsert(HashMap<String, Object> map);
+
+	@Select("SELECT * FROM calender WHERE cNum = #{cNum}")
+	HashMap<String, Object> memoryDetail(int cNum);
 	
+	    @Select("SELECT * FROM photo WHERE division='loveMemory' AND divisionNum=#{cNum}")
+	    ArrayList<PhotoDTO> boardPhoto(int cNum);
+
+	    @Select("SELECT COUNT(photoNum) FROM photo WHERE division='loveMemory' AND divisionNum=#{cNum}")
+	    int photoCount(int cNum);
+
+	    @Delete("DELETE FROM photo WHERE newFileName=#{newFileName}")
+		void photoDel(String newFileName);
+
+	    @Select("SELECT divisionNum FROM photo WHERE division='loveMemory' AND newFileName=#{newFileName}")
+		int divisionNum(String newFileName);
+
+		@Update("UPDATE calender SET title = #{title}, content=#{content}, start=#{start}, end=#{end},color=#{color} where cNum = #{cNum}")
+		void memoryUpdate(CalenderDTO cdto);
 }

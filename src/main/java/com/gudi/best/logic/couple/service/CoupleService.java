@@ -13,13 +13,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gudi.best.dto.CalenderDTO;
 import com.gudi.best.logic.couple.mapper.CoupleMapper;
+import com.gudi.best.util.S3Uploader;
 
+import lombok.extern.log4j.Log4j2;
+@Log4j2
 @Service
 public class CoupleService {
 
 	@Autowired CoupleMapper mapper;
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	CalenderDTO Cdto = new CalenderDTO();
+	
+	@Autowired
+    S3Uploader uploader;
 	
 	@Transactional
 	public void calenderEnter(String id, HashMap<String, String> param) {
@@ -50,7 +56,7 @@ public class CoupleService {
 			map.put("eTime", map.get("end").substring(11,16));
 			map.put("end",map.get("end").substring(0,10));
 		}
-		System.out.println(map);
+		//System.out.println(map);
 		mav.addObject("map", map);
 		mav.setViewName("logic/couple/calenderDetail");
 		return mav;
@@ -128,7 +134,7 @@ public class CoupleService {
 		String p1 = "없음";
 		String p2 = id;
 		mapper.applyCouple(p1, p2);
-		p2 = Rid;
+		p2 = Rid.substring(5);
 		mapper.applyCouple(p1, p2);
 		}else if(ok.equals("Y")) {
 			String p1 = Rid.substring(8);
@@ -155,9 +161,72 @@ public class CoupleService {
 		return cNum;
 	}
 
+    // 사진 업로드 및 포토 테이블 삽입 메서드
 	@Transactional
 	public void photoUpload(MultipartFile[] files, int cNum, String id) {
-		// TODO Auto-generated method stub
-		
+        if (files != null) {
+            // 파일 업로드 하기
+            ArrayList<HashMap<String, Object>> imgMapList = new ArrayList<HashMap<String, Object>>();
+            for (MultipartFile file : files) {
+                try {
+                    HashMap<String, Object> map = uploader.upload(file);
+                    map.put("id", id);
+                    map.put("divisionNum", cNum);
+                    imgMapList.add(map);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            // 포토테이블에 값 넣기
+            for (HashMap<String, Object> map : imgMapList) {
+               mapper.photoInsert(map);
+            	//log.info(map);
+            }
+        }
+    }
+
+
+	public HashMap<String, Object> memoryDetail(int cNum) {
+		HashMap<String, Object> map = mapper.memoryDetail(cNum);
+		if(((String) map.get("start")).length()>10) {
+		map.put("sTime", ((String) map.get("start")).substring(11,16));
+		map.put("start",((String)map.get("start")).substring(0,10));
+		}
+		if(((String) map.get("end")).length()>10) {
+			map.put("eTime", ((String) map.get("end")).substring(11,16));
+			map.put("end",((String) map.get("end")).substring(0,10));
+		}
+		 map.put("photoList", mapper.boardPhoto(cNum));
+	     map.put("photoCount", mapper.photoCount(cNum));
+		return map;
 	}
+
+
+@Transactional
+public int imgDel(String newFileName) {
+    uploader.delete(newFileName);
+   int cNum =mapper.divisionNum(newFileName);
+   mapper.photoDel(newFileName);
+   int photoCount = mapper.photoCount(cNum);
+   return photoCount;
+}
+
+public int memoryUpdate(HashMap<String, String> param, MultipartFile[] files, String id) {
+	Cdto.setCNum(Integer.parseInt(param.get("cNum")));
+	Cdto.setId(id);
+	Cdto.setStart(param.get("start"));
+	Cdto.setEnd(param.get("end"));
+	Cdto.setTitle(param.get("title"));
+	Cdto.setContent(param.get("content"));
+	Cdto.setColor(param.get("color"));
+	mapper.memoryUpdate(Cdto);
+	 int cNum = Cdto.getCNum();
+	photoUpload(files, cNum, id);
+	return cNum;
+}
+
+public void memoryDel(int cNum) {
+	// TODO Auto-generated method stub
+	
+}
 }

@@ -72,7 +72,7 @@ public class CoupleController {
 			// System.out.println(param.get("start"));
 		}
 		if (param.get("eTime") != null) {
-			String end = param.get("end") + "T" + param.get("eTime");
+			param.put("end", param.get("end") + "T" + param.get("eTime"));
 			// System.out.println(end);
 		}
 		service.calenderEnter(id, param);
@@ -122,7 +122,6 @@ public class CoupleController {
 		String id = (String) session.getAttribute("loginId");
 		HashMap<String, Object> map = service.readMomory(id);
 		model.addAttribute("map", map);
-		System.out.println("map 확인" + map);
 		return "logic/couple/loveMemory";
 	}
 
@@ -240,9 +239,70 @@ public class CoupleController {
 	
 	@ResponseBody
 	@PostMapping("/memoryWrite")
-	public String memoryWrite(@RequestParam HashMap<String, String> param, HttpSession session, MultipartFile[] files) {
+	public int memoryWrite(@RequestParam HashMap<String, String> param, HttpSession session, MultipartFile[] files) {
 		String id = (String) session.getAttribute("loginId");
+		if (param.get("sTime") != null) {
+			param.put("start", param.get("start") + "T" + param.get("sTime"));
+			// System.out.println(param.get("start"));
+		}
+		if (param.get("eTime") != null) {
+			param.put("end", param.get("end") + "T" + param.get("eTime"));
+			// System.out.println(end);
+		}
 		int cNum = service.memoryWrite(param, files,id);
-		return null;
+		return cNum;
 	}
+	
+	@GetMapping("/memoryDetail/{cNum}")
+	public String memoryDetail( @PathVariable int cNum, Model model,HttpSession session) {
+		String id = (String) session.getAttribute("loginId");
+        HashMap<String, Object> map = service.memoryDetail(cNum);
+        if(map.get("id").equals(id)) {
+        	map.put("writer", "Y");
+        }else {
+        	map.put("writer", "N");
+        }
+        model.addAttribute("map", map);
+        log.info(map);
+		return "logic/couple/memoryDetail";
+	}
+	
+	@GetMapping("/memoryUpdateForm/{cNum}")
+	public String memoryUpdateForm( @PathVariable int cNum, Model model) {
+        HashMap<String, Object> map = service.memoryDetail(cNum);
+        model.addAttribute("map", map);
+        log.info(map);
+		return "logic/couple/memoryUpdateForm";
+	}
+	
+	@ResponseBody
+	@PostMapping("/memoryUpdate")
+	public int memoryUpdate(@RequestParam HashMap<String, String> param, HttpSession session, MultipartFile[] files) {
+		log.info(param);
+		String id = (String) session.getAttribute("loginId");
+		if (param.get("sTime") != null) {
+			param.put("start", param.get("start") + "T" + param.get("sTime"));
+			// System.out.println(param.get("start"));
+		}
+		if (param.get("eTime") != null) {
+			param.put("end", param.get("end") + "T" + param.get("eTime"));
+			// System.out.println(end);
+		}
+		log.info(param);
+		int cNum = service.memoryUpdate(param, files,id);
+		return cNum;
+	}
+	
+	@ResponseBody
+    @PostMapping("/imgDel")
+    public int imgDel(@RequestParam HashMap<String, String> param, HttpSession session) {
+		String newFileName = param.get("name");
+		return  service.imgDel(newFileName);
+    }
+	
+	@GetMapping("/memoryDel/{cNum}")
+	public String memoryDel(@PathVariable int cNum) {
+		service.memoryDel(cNum);
+		return  "logic/couple/loveMemory";
+    }
 }

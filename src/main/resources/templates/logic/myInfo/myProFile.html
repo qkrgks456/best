@@ -79,15 +79,15 @@
                  
                  <th:block th:if="${map.get('chk') eq 'A'}">
                  <div class="mt-2">
-                    <h5 class="text-muted">상대방의 응답을 기다리는 중입니다. <a th:href="@{/couple/cancelApply}" class="btn btn-danger rounded-0 mt-1">요청취소</a></h5>
+                    <h5 class="text-muted">상대방의 응답을 기다리는 중입니다. <a th:href="@{/myInfo/cancelApply}" class="btn btn-danger rounded-0 mt-1">요청취소</a></h5>
                 </div>
                 </th:block>
                 
                <th:block th:if="${map.get('chk') eq 'R'}">
                  <div class="mt-2">
                     <h5 class="text-muted">커플 요청이 왔습니다.
-                    <a th:href="@{/couple/acceptApply}" class="btn btn-danger rounded-0 mt-1">수락</a>
-					<a th:href="@{/couple/cancelApply}" class="btn btn-danger rounded-0 mt-1">거절</a>
+                    <a th:href="@{/myInfo/acceptApply}" class="btn btn-danger rounded-0 mt-1">수락</a>
+					<a th:href="@{/myInfo/cancelApply}" class="btn btn-danger rounded-0 mt-1">거절</a>
                </h5>
                 </div>
                 </th:block> 
@@ -221,7 +221,7 @@
 
 $("#cancel").on("click",function(){
 	if(confirm('정말 커플을 해지하시겟습니까?')){
-		 location.replace('/couple/cancelApply');
+		 location.replace('/myInfo/cancelApply');
 	}else{
 		
 	}

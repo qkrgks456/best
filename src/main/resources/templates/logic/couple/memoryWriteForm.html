@@ -18,7 +18,7 @@
 			
 				<form class="row" method="POST"  enctype="multipart/form-data">
 					<div class="col-md-6">
-						<label  class="form-label">시작일</label> <input
+						<label  class="form-label">시작일(*)</label> <input
 							type="date"   class="form-control" id="start" name="start" required>
 					</div>
 					<div class="col-md-6">
@@ -28,7 +28,7 @@
                     <div class="invalid-feedback"></div>
                     
 					<div class="col-md-6 mt-2">
-						<label  class="form-label">마지막일</label> <input
+						<label  class="form-label">마지막일(*)</label> <input
 							type="date"  class="form-control" id="end" name="end" required>
 					</div>
 					<div class="col-md-6 mt-2">
@@ -37,7 +37,7 @@
                     </div>
 				<div class="row mt-3 ">
                 <div class="mb-3">
-                    <label for="title1" class="form-label"><h5>제목</h5></label>
+                    <label for="title1" class="form-label"><h5>제목(*)</h5></label>
                     <div class="input-group">
                     <input type="text" class="form-control" id="title1" name="title">
                     <span class="ps-2">
@@ -47,7 +47,7 @@
                     <div class="invalid-feedback"></div>
                 </div>
                 <div class="mb-3">
-                    <label for="content" class="form-label">내용</label>
+                    <label for="content" class="form-label">내용(*)</label>
                     <textarea class="form-control" id="content1" rows="10"
                               style="resize: none" name="content"></textarea>
                     <div id="contentNum" class="form-text">0/1000</div>
@@ -66,6 +66,7 @@
                         </div>
                         <div id="thumbnails" class="d-flex flex-row my-2" style="overflow: hidden"></div>
                     </div>
+                    <input class="form-control" type="file" id="formFile"  onchange="input(this)">
                 </div>
                 
                 <div class="text-center">
@@ -163,6 +164,25 @@ $(document).on("dragleave", "#drop", function (e) { //드래그 요소가 나갔
     }
 });
 
+console.log($(document.querySelector('input[type=file]')));
+function input(e){
+	    let fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
+	    let files = e.files;
+	console.log($(e));
+	    for (let i = 0; i < files.length; i++) {
+	        let file = files[i];
+	        if (file.name.match(fileForm)) {
+	            $('#imgText').remove();
+	            let size = uploadFiles.push(file); //업로드 목록에 추가
+	            preview(file, size - 1); //미리보기 만들기
+	        } else {
+	            alert("이미지 파일만 등록해주세요!")
+	            $('#thumbnails').empty();
+	            return;
+	        }
+	    }
+}
+
 // 이미지 삭제
 $(document).on("click", ".close", function (e) {
     let idx = $(this).attr('data-idx');
@@ -208,7 +228,8 @@ $(document).on('click', '#enter', function () {
             let sTime = $('#sTime').val();
             let end = $('#end').val();
             let eTime = $('#eTime').val();
-            if ($('#title1').hasClass('is-valid') && $('#content1').hasClass('is-valid') && $('#start').hasClass('is-valid')&& $('#end').hasClass('is-valid')) {
+            let color = $('#color').val();
+            if ($('#title1').hasClass('is-valid') && $('#content1').hasClass('is-valid') && $('#start').hasClass('is-valid')) {
                 //LoadingWithMask();
                 let formData = new FormData();
                 // 파일 넣기
@@ -222,8 +243,13 @@ $(document).on('click', '#enter', function () {
                 formData.append("content", contents);
                 formData.append("start",start);
                 formData.append("end",end);
-                formData.append("sTime",sTime);
-                formData.append("eTime",eTime);
+                if($('#sTime').val().trim().length>0){
+                    formData.append("sTime",sTime);
+                     }
+                    if($('#eTime').val().trim().length>0){
+                    formData.append("eTime",eTime);
+                    }
+                formData.append("color", color);
                 $.ajax({
                     url: '/couple/memoryWrite',
                     enctype: 'multipart/form-data',
@@ -248,9 +274,6 @@ $(document).on('click', '#enter', function () {
                 }
                 if (start == "") {
                     $('#start').attr('class', 'form-control is-invalid');
-                }
-                if (end == "") {
-                    $('#end').attr('class', 'form-control is-invalid');
                 }
             }
         } else {
