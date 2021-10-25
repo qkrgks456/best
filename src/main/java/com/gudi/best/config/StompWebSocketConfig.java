@@ -13,6 +13,7 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/stomp/chat").setAllowedOrigins("http://localhost:8100").withSockJS();
+		registry.addEndpoint("/stomp/alarm").setAllowedOrigins("http://localhost:8100").withSockJS();
 	}
 
 	@Override

@@ -113,11 +113,26 @@
 		</div>
 		
 		
+	
+			
+			
+	</div>
+	
+	
+	
 	</div>
 	</div>
-	</div>
+		
+		<!-- 알람용 -->
+		<div class="toast-container position-fixed top-0 end-0 mb-3 me-3" id="alarmArea">
+		</div>
+		
+		
 </body>
+
 <th:block th:replace="fix/fixFooter.html"></th:block>
+<script th:src="@{/js/alarm.js}"></script>
+
 <script th:inline="javascript">
 
  		//var roomName = [[${roomName}]];
@@ -144,9 +159,10 @@
  			
  		});
  		
+ 		
  		var myModal = document.getElementById('myModal')
  		var myInput = document.getElementById('myInput')
-
+	
  		myModal.addEventListener('shown.bs.modal', function () {
  		  myInput.focus()
  		})

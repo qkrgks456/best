@@ -49,6 +49,9 @@ public interface ChatMapper {
 	@Select("SELECT * FROM chatRoom WHERE id = #{param1} AND person = #{param2}")
 	ChatRoomDTO chatCon(String loginId, String person);
 
+	@Update("UPDATE chat SET readState = 'y' WHERE roomNum = #{param1}")
+	void readStateUpdate(String roomNum);
+
 	
 	
 }

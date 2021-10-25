@@ -3,6 +3,7 @@ package com.gudi.best.logic.matching.controller;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.gudi.best.logic.matching.dto.ChatDTO;
 import com.gudi.best.logic.matching.mapper.ChatMapper;
@@ -43,12 +44,15 @@ public class StompChatController {
 			
 			template.convertAndSend("/sub/chat/chatSelect/"+message.getRoomNum(), message);
 			
-			
+			//챗보내면 보낸 상대에게 알람이 감
+			template.convertAndSend("/sub/alarm/chatAlarm", message.getId());
 			
 		}else {
 			String errorMsg = "공백은 보낼수 없으며, 1000자 이하로 입력해 주세요!";
 			template.convertAndSend("/sub/chat/errorMsg",errorMsg);
 		}
-		
 	}
+
+
+
 }

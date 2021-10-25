@@ -181,7 +181,7 @@
  			
  			//2. 커넥션이 맺어지면 실행
  			stomp.connect({}, function(e){
- 				console.log("STOMP Connection");
+ 				console.log("채팅용 STOMP Connection");
  				//console.log(e);		
  				//4. subscribe(path, callback) 으로 메세지 받을 수 있음
  				stomp.subscribe("/sub/chat/chatSelect/" + roomNum, function(chat){
@@ -271,6 +271,13 @@
  		 		
 	 		
             });
+ 				
+ 		 
+
+ 								
+ 							
+ 							
+ 					
 
  		 		
 </script>

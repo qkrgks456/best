@@ -101,6 +101,9 @@ public class RoomController {
 		log.info("List ChatDTO 의 형태를 보자!! :: " + chatDTO);
 		model.addAttribute("chatDTO", chatDTO);
 		
+		//읽었는지 안읽었는지 구분하기 위해서 readState 값을 'n' -> 'y' 로 업뎃해주자
+		chatMapper.readStateUpdate(roomNum);
+		
 		return "chat/chatSelect";
 	}
 	
