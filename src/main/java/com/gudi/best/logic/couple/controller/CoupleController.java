@@ -51,6 +51,13 @@ public class CoupleController {
 		String id = (String) session.getAttribute("loginId");
 		return service.readCalender(id);
 	}
+	
+	@GetMapping("/readMemory")
+	@ResponseBody
+	public HashMap<String, Object> readMemory(HttpSession session) {
+		String id = (String) session.getAttribute("loginId");
+		return service.readMemory(id);
+	}
 
 	@PostMapping("/loveCalenderEnterForm")
 	public String loveCalenderEnterForm(@RequestParam Date start, @RequestParam Date end, HttpSession session,
@@ -232,9 +239,21 @@ public class CoupleController {
 		return "logic/couple/loveMemory";
 	}
 	
+	@GetMapping("/memoryWriteFormC")
+	public String memoryWriteForm(@RequestParam Date start, @RequestParam Date end, HttpSession session,Model model) {
+		if(start !=null || end !=null) {
+		String id = (String) session.getAttribute("loginId");
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			logger.info(format.format(start) + "~" + format.format(end));
+			model.addAttribute("start", format.format(start));
+			model.addAttribute("end", format.format(end));
+		}
+			return "logic/couple/memoryWriteForm";
+	}
+	
 	@GetMapping("/memoryWriteForm")
 	public String memoryWriteForm() {
-		return "logic/couple/memoryWriteForm";
+			return "logic/couple/memoryWriteForm";
 	}
 	
 	@ResponseBody
@@ -265,6 +284,14 @@ public class CoupleController {
         model.addAttribute("map", map);
         log.info(map);
 		return "logic/couple/memoryDetail";
+	}
+	
+	
+	@GetMapping("/memoryDel/{cNum}")
+	public String memoryDel( @PathVariable int cNum, Model model,HttpSession session) {
+		String id = (String) session.getAttribute("loginId");
+        service.memoryDel(cNum);
+		return "logic/couple/loveMemory";
 	}
 	
 	@GetMapping("/memoryUpdateForm/{cNum}")

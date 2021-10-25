@@ -120,27 +120,13 @@ function plus(e){
     return date.getFullYear() + '-' + month + '-' + day;
 }
 
-//read();
 
-function read(){
-	$.ajax({
-		url:"readCalender",
-		datetype:"json",
-		success:function(date){
-			//console.log(date);
-			add(date.list);
-		},
-		error:function(e){
-			//console.log(e);
-		}
-	});
-}
 
-function add(list){
+/* function add(list){
 	
 	 for (var i = 0; i < list.length; i++) { 
 		console.log(list[i]);
             }
-}
+} */
 </script>
 </html>

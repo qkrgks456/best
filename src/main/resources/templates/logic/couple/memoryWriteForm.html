@@ -18,8 +18,14 @@
 			
 				<form class="row" method="POST"  enctype="multipart/form-data">
 					<div class="col-md-6">
-						<label  class="form-label">시작일(*)</label> <input
-							type="date"   class="form-control" id="start" name="start" required>
+						<label  class="form-label">시작일(*)</label>
+						<th:block th:if="${start eq null}">
+						<input	type="date"   class="form-control" id="start" name="start" required>
+						</th:block>
+						<th:block th:if="${start ne null}">
+						<input	type="date"   class="form-control" id="start" name="start" th:value="${start}" required>
+						</th:block>
+						
 					</div>
 					<div class="col-md-6">
 						<label for="sTime" class="form-label">시간</label> <input
@@ -28,8 +34,13 @@
                     <div class="invalid-feedback"></div>
                     
 					<div class="col-md-6 mt-2">
-						<label  class="form-label">마지막일(*)</label> <input
-							type="date"  class="form-control" id="end" name="end" required>
+						<label  class="form-label">마지막일(*)</label> 
+						<th:block th:if="${end eq null}">
+						<input	type="date"  class="form-control" id="end" name="end" >
+						</th:block>
+						<th:block th:if="${end ne null}">
+						<input	type="date"  class="form-control" id="end" name="end" th:value="${end}">
+						</th:block>
 					</div>
 					<div class="col-md-6 mt-2">
 						<label  for="eTime" class="form-label">시간</label> <input
@@ -87,6 +98,8 @@
 	$('#coupleMenu').addClass("show");
 	$('#coupleMenu').children("li").eq(0).addClass("active");
 	
+	if ($('#start').val().trim().length > 0) {$('#start').attr("class", "form-control is-valid");}	
+	if ($('#end').val().trim().length > 0) {$('#end').attr("class", "form-control is-valid");}	
 	
 $("#sTime").change(function(){
 	$("#sTime").val($(this).val()+":00");

@@ -74,4 +74,10 @@ public interface CoupleMapper {
 
 		@Update("UPDATE calender SET title = #{title}, content=#{content}, start=#{start}, end=#{end},color=#{color} where cNum = #{cNum}")
 		void memoryUpdate(CalenderDTO cdto);
+
+		@Select("select newFileName from photo where division='loveMemory' AND divisionNum=#{cNum}")
+		ArrayList<String> photoName(int cNum);
+
+		@Update("update calender set del='1' where cnum=#{cNum}")
+		void memoryDel(int cNum);
 }

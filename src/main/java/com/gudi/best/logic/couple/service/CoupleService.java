@@ -46,6 +46,20 @@ public class CoupleService {
 		 map.put("list", list );
 		return map;
 	}
+	
+	public HashMap<String, Object> readMemory(String id) {
+		String chk = mapper.coupleChk(id);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if(chk.equals("없음")) {
+		map.put("chk", "N");
+		} else {
+			ArrayList<CalenderDTO> list = mapper.readMomory(id,chk);
+			map.put("list", list);
+			map.put("chk", "Y");
+			map.put("couple", chk);
+			}
+		return map;
+	}
 
 	public ModelAndView detail(String id, int cnum) {
 		ModelAndView mav = new ModelAndView();
@@ -226,7 +240,13 @@ public int memoryUpdate(HashMap<String, String> param, MultipartFile[] files, St
 }
 
 public void memoryDel(int cNum) {
-	// TODO Auto-generated method stub
-	
+	ArrayList<String> list = mapper.photoName(cNum);
+	for (String newFileName : list) {
+	uploader.delete(newFileName);
+	 mapper.photoDel(newFileName);
+	}
+	mapper.memoryDel(cNum);
 }
+
+
 }

@@ -41,8 +41,19 @@
                     <h5 class="text-muted">소중한 추억을 기록하세요.</h5>
                 </div>
                 <div class="mt-2">
+                <button class="btn btn-danger rounded-0 mt-1 visually-hidden" id="bBtn">리스트</button>
+                 <button class="btn btn-danger rounded-0 mt-1" id="cBtn">캘린더</button>
                     <a th:href="@{/couple/memoryWriteForm}" class="btn btn-danger rounded-0 mt-1">글쓰기</a>
                 </div></div>
+                <!-- 캘린더  -->
+                <div id='calendar' style="width: auto;" ></div><!-- class="visually-hidden" -->
+                <form action="memoryWriteFormC" id="hidden" method="get">
+        <input type='hidden' name="start" id="start"/>
+        <input type='hidden' name="end" id="end"/>
+        </form>
+                <!-- 게시판  -->
+                <div id="table">
+                
             <table class="table table-hover text-center">
                 <thead>
                 <tr>
@@ -89,6 +100,7 @@
                     </a>
                 </li>
             </ul> -->
+            </div>
         </div>
     </div>
 </div>
@@ -99,5 +111,106 @@
     $('#coupleMenuBtn').attr("aria-expanded", "true");
     $('#coupleMenu').addClass("show");
     $('#coupleMenu').children("li").eq(1).addClass("active");
+    
+    document.addEventListener('DOMContentLoaded', function() {
+    	  var calendarEl = document.getElementById('calendar');
+    	
+
+     	 $('#bBtn').on('click',function(){
+    		  $('#table').removeClass('visually-hidden');
+    		  $('#calendar').addClass('visually-hidden');
+    		  $('#cBtn').removeClass('visually-hidden');
+    		  $('#bBtn').addClass('visually-hidden');
+    		  });
+    	  
+    $('#cBtn').on('click',function(){
+	  $('#table').addClass('visually-hidden');
+	  $('#calendar').removeClass('visually-hidden');
+	  $('#cBtn').addClass('visually-hidden');
+	  $('#bBtn').removeClass('visually-hidden');
+    	  var calendar = new FullCalendar.Calendar(calendarEl, {
+    	    selectable: true,
+    	   headerToolbar: {
+    	        left: 'prev,next today',
+    	        center: 'title',
+    	       right: ''
+    	            },
+    	            editable: false,
+    	            selectable: true,
+    	            locale: "ko",
+    	            droppable: false,
+    	            eventLimit: true,
+    	            dayMaxEvents: true,
+    	        eventLimitText: "more",
+    	          events:function(info, successCallback, failureCallback){
+    	            $.ajax({
+    	                  url:"readMemory",
+    	                   dataType: 'json',
+    	                   success: function(result) {
+    	 	
+    	                           var events = [];
+    	                         
+    	                           if(result!=null){
+    	                                   $.each(result.list, function(index, element) {
+    		//console.log(element.cnum);
+    	                                   var e=element.end;
+    	                                    if(e==null){
+    	                                        e=element.start;
+    	                                    }
+    	                                    if(element.color==null){
+    	                                    	element.color="#bb2d3b";
+    	                                    }
+    	                                    e = plus(e);
+    	                                    var s=element.start;
+    	                                        events.push({
+    	                                               title: element.title,
+    	                                               start: s,
+    	                                               end: e,
+    	                                               color :element.color,
+    	                                                 url: "/couple/memoryDetail/"+element.cnum
+    	                                            }); //.push()
+    	                               }); //.each()
+    	                               
+    	                               console.log(events);
+    	                               
+    	                           }//if end                           
+    	                           successCallback(events);                               
+    	                       }//success: function end                          
+    	            }); //ajax end
+    	        },
+    	    select: function(info) {
+    		let end = new Date(info.endStr);
+    		end.setDate(end.getDate()-1);
+    		let start = new Date(info.startStr);
+    			$("#start").val(start);
+    			$("#end").val(end);
+    			//console.log($("#start").val());
+    			//console.log($("#end").val());
+    	      if(confirm( format(start) + ' ~ ' + format(end)+' 일정을 등록하시겠습니까?')){
+    			$("#hidden").submit();
+    	};
+    	    }
+    	  });
+    	  calendar.render();
+    	});
+    });
+    	//날짜 가공
+    	function format(date) {
+    	        let month = date.getMonth() + 1;
+    	        let day = date.getDate();
+    	        month = month >= 10 ? month : '0' + month;
+    	        day = day >= 10 ? day : '0' + day;
+    	        return date.getFullYear() + '-' + month + '-' + day;
+    	}
+
+    	function plus(e){
+    		let date = new Date(e);
+    		let month = date.getMonth()+1;
+    	    let day = date.getDate()+1;
+    	    month = month >= 10 ? month : '0' + month;
+    	    day = day >= 10 ? day : '0' + day;
+    	    return date.getFullYear() + '-' + month + '-' + day;
+    	}
+    
 </script>
 </html>
