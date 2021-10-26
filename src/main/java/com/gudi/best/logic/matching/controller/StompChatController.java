@@ -1,5 +1,7 @@
 package com.gudi.best.logic.matching.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -44,7 +46,7 @@ public class StompChatController {
 			
 			template.convertAndSend("/sub/chat/chatSelect/"+message.getRoomNum(), message);
 			
-			//챗보내면 보낸 상대에게 알람이 감
+			//상대에게 알람 보내기
 			template.convertAndSend("/sub/alarm/chatAlarm", message.getId());
 			
 		}else {
