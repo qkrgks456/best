@@ -51,7 +51,7 @@
 								<div class="col">
 								<th:block data-th-if="${#strings.equals(loginId, room.person)}">
 									<a th:href="@{/chat/room(roomNum=${room.roomNum})}">
-										[[${room.id}]]
+										<b>[[${room.id}]]</b>
 										<br/>
 										<span class="titleTarget">[[${room.lastMessage}]]</span>
 									</a>
@@ -59,7 +59,7 @@
 								
 								<th:block data-th-if="${#strings.equals(loginId, room.id)}">
 									<a th:href="@{/chat/room(roomNum=${room.roomNum})}">
-										[[${room.person}]]
+										<b>[[${room.person}]]</b>
 										<br/>
 										<span class="titleTarget">[[${room.lastMessage}]]</span>
 									</a>
@@ -99,7 +99,7 @@
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			      </div>
 			      <div class="modal-body">
-			       	<form th:action="@{/chat/room}" method="post">
+			       	<form th:action="@{/chat/roomCreate}" method="post">
 						상대방ID<input type="text" name="person" class="form-control"  style="margin-bottom: 10px;"/>
 						<button class="btn btn-secondary btn-create" style="float: right;">다음</button>
 					</form>

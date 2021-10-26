@@ -41,13 +41,10 @@ public interface ChatMapper {
 	void lastMessageUpdate(Integer integer, String message);
 
 	@Select("SELECT * FROM chatRoom WHERE (id = #{param1} AND person = #{param2}) OR (id = #{param2} AND person = #{param1})")
-	List<ChatRoomDTO> findOverlap(String loginId, String person);
+	ChatRoomDTO findOverlap(String loginId, String person);
 
 	@Select("SELECT * FROM member WHERE id = #{param1}")
 	memberDTO findPerson(String person);
-	
-	@Select("SELECT * FROM chatRoom WHERE id = #{param1} AND person = #{param2}")
-	ChatRoomDTO chatCon(String loginId, String person);
 
 	@Update("UPDATE chat SET readState = 'y' WHERE roomNum = #{param1}")
 	void readStateUpdate(String roomNum);

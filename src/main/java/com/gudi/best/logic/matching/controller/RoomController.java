@@ -31,17 +31,17 @@ public class RoomController {
 	
 	private final ChatMapper chatMapper;
 	
-	//채팅방 개설
-		@PostMapping(value = "/room")
-		public String create(@RequestParam String person, HttpSession session, RedirectAttributes rttr, Model model) {
+	     //채팅방 개설
+		@PostMapping(value = "/roomCreate")
+		public String roomCreate(@RequestParam String person, HttpSession session, RedirectAttributes rttr, Model model) {
 			String loginId = (String) session.getAttribute("loginId");
-			log.info("# create chat room , loginID, roomName: " + loginId + " / " + person + " / ");
+			log.info("# 채팅방 개설 요청... , loginID, roomName: " + loginId + " / " + person + " / ");
 				
 			//동일한 방 생성불가능
 			//상대방 아이디가 멤버에 존재하지 않는 경우도 방생성 불가능
 			//나-상대방, 상대방-나 => 두개의 방이 아니라, 하나의 방으로 만들어야함
 			//내가 나한테 채팅방 생성도 불가능
-			if(chatMapper.findOverlap(loginId, person).size()>0 || chatMapper.findPerson(person)==null || loginId.equals(person)) {
+			if(chatMapper.findOverlap(loginId, person) != null || chatMapper.findPerson(person)==null || loginId.equals(person)) {
 				log.info("***방생성 불가능!!***");
 				rttr.addFlashAttribute("loginId" , loginId);
 				rttr.addFlashAttribute("errorMsg" , "상대방이 존재하지 않는 아이디이거나, 이미 생성된 채팅방 입니다.\r(본인의 아이디를 사용해서 생성이 불가능합니다.)");
@@ -58,7 +58,7 @@ public class RoomController {
 	//채팅방 목록 조회
 	@GetMapping(value = "/rooms")
 	public ModelAndView rooms(HttpServletRequest request, HttpSession session) {
-		log.info("# all chat rooms");
+		log.info("채팅방 목록 조회...");
 		ModelAndView mav = new ModelAndView("chat/chatMain");
 		
 		//redirect 로 진입시
@@ -82,13 +82,20 @@ public class RoomController {
 
 	//개인 채팅방 들어가기
 	@GetMapping("/room")
-	public String getRoom(String roomNum, Model model, HttpSession session) {
+	public String getRoom(String roomNum, Model model, HttpSession session, HttpServletRequest request) {
+		log.info("채팅방 연결 요청... \n roomNum :: " + roomNum );
+		
 		String loginId = (String) session.getAttribute("loginId");
 		model.addAttribute("loginId", loginId);
 		
 		//왼쪽에 채팅리스트 뿌려주기용
 		List<ChatRoomDTO> result = chatMapper.findAllRooms(loginId);
 		model.addAttribute("list", result);
+		
+		if(roomNum == null && RequestContextUtils.getInputFlashMap(request) != null) {
+			Map<String, ?> reqMap = RequestContextUtils.getInputFlashMap(request);
+			roomNum = (String) reqMap.get("roomNum");
+		}
 		
 		//채팅룸 정보
 		ChatRoomDTO dto = chatMapper.findRoomByNum(roomNum);
@@ -112,16 +119,22 @@ public class RoomController {
 	//아이디로 채팅 연결
 	@GetMapping("/chatCon")
 	public String chatCon(HttpSession session, String person, RedirectAttributes rttr) {
+		log.info("드롭바를 통해서 채팅방 연결 요청...");
 		String loginId = (String) session.getAttribute("loginId");
 		
-		if(chatMapper.chatCon(loginId, person)==null) {
+		ChatRoomDTO dtoForChat = chatMapper.findOverlap(loginId, person);
+		String roomNum = dtoForChat.getRoomNum().toString();
+		log.info("chatRoomNum 값 보기 :: " + dtoForChat + "\n"
+					+"roomNum 확인 :: " + roomNum);
+		
+		if(chatMapper.findOverlap(loginId, person)==null) {
 			//아직 방이 생성되지 않은 경우는 방 생성후 이동
-			rttr.addFlashAttribute("loginId", loginId);
 			rttr.addFlashAttribute("person", person);
-			return "redirect:/chat/room";
+			return "redirect:/chat/roomCreate";
 		}else{
 			//이미 방이 존재하는 경우는 바로 이동
-			return "chat/chatSelect";
+			rttr.addFlashAttribute("roomNum", roomNum);
+			return "redirect:/chat/room";
 		}
 	}
 	
