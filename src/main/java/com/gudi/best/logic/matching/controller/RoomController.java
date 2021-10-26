@@ -32,7 +32,7 @@ public class RoomController {
 	private final ChatMapper chatMapper;
 	
 	     //채팅방 개설
-		@PostMapping(value = "/roomCreate")
+		@RequestMapping(value = "/roomCreate")
 		public String roomCreate(@RequestParam String person, HttpSession session, RedirectAttributes rttr, Model model) {
 			String loginId = (String) session.getAttribute("loginId");
 			log.info("# 채팅방 개설 요청... , loginID, roomName: " + loginId + " / " + person + " / ");
@@ -92,6 +92,7 @@ public class RoomController {
 		List<ChatRoomDTO> result = chatMapper.findAllRooms(loginId);
 		model.addAttribute("list", result);
 		
+		//드롭다운메뉴로 연결할 경우
 		if(roomNum == null && RequestContextUtils.getInputFlashMap(request) != null) {
 			Map<String, ?> reqMap = RequestContextUtils.getInputFlashMap(request);
 			roomNum = (String) reqMap.get("roomNum");
@@ -122,18 +123,15 @@ public class RoomController {
 		log.info("드롭바를 통해서 채팅방 연결 요청...");
 		String loginId = (String) session.getAttribute("loginId");
 		
-		ChatRoomDTO dtoForChat = chatMapper.findOverlap(loginId, person);
-		String roomNum = dtoForChat.getRoomNum().toString();
-		log.info("chatRoomNum 값 보기 :: " + dtoForChat + "\n"
-					+"roomNum 확인 :: " + roomNum);
-		
 		if(chatMapper.findOverlap(loginId, person)==null) {
 			//아직 방이 생성되지 않은 경우는 방 생성후 이동
-			rttr.addFlashAttribute("person", person);
-			return "redirect:/chat/roomCreate";
+			log.info("생성된 방이 없으므로 roomCreate 로 요청...");
+			//rttr.addFlashAttribute("person", person);
+			return "redirect:/chat/roomCreate?person="+person;
 		}else{
 			//이미 방이 존재하는 경우는 바로 이동
-			rttr.addFlashAttribute("roomNum", roomNum);
+			log.info("생성된 방이 있으니까 room 으로 요청...");
+			rttr.addFlashAttribute("roomNum", chatMapper.findOverlap(loginId, person).getRoomNum().toString());
 			return "redirect:/chat/room";
 		}
 	}
