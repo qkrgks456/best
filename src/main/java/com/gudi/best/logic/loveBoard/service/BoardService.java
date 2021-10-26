@@ -70,6 +70,7 @@ public class BoardService {
         map.put("photoCount", mapper.photoCount(boardNum));
         map.put("goodCheck", goodService.goodCheck(String.valueOf(boardNum), loginId));
         map.put("goodCount", goodService.goodCount(String.valueOf(boardNum)));
+        map.put("imgPath",mapper.proFileImg(boardNum));
         return map;
     }
 

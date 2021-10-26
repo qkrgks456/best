@@ -97,8 +97,19 @@ function commentList(map) {
     console.log(map.loginId);
     $.each(map.cmList, function (i, dto) {
         content += '<div class="listForm">'
-        content += '<div class="fw-bold">' + dto.id + '</div>'
-        content += '<div class="lh-sm">' + dto.content + '</div>'
+        content += '<div class = "dropdown-toggle-split d-inline-flex align-items-center" data-bs-toggle = "dropdown" style = "cursor: pointer" >'
+        content += '<img onError = "src=/img/noImg.png" class = "rounded-circle" src=' + dto.imgPath + ' style = "width: 40px;height: 40px" >'
+        content += '<div class= "fw-bold ms-1">' + dto.id + '</div>'
+        content += '</div>'
+        content += '<ul class="dropdown-menu mt-2">'
+        content += '<li>'
+        content += '<a class="dropdown-item" href="/member/proFileDetail?id=' + dto.id + '">프로필</a>'
+        content += '</li>'
+        content += '<li><a class="dropdown-item" href="#">러브톡</a></li>'
+        content += '<li><a class="dropdown-item" href="#">커플맺기신청</a></li>'
+        content += '<li><a class="dropdown-item" href="#">신고하기</a></li>'
+        content += '</ul>'
+        content += '<div class="lh-sm mt-1 ms-2">' + dto.content + '</div>'
         content += '<div class="d-flex justify-content-end">'
         content += '<div>'
         if (map.loginId !== dto.id) {
@@ -109,7 +120,7 @@ function commentList(map) {
         }
         content += '</div>'
         content += '</div>'
-        content += '<div class="d-flex justify-content-end">'
+        content += '<div class="d-flex justify-content-end text-muted mt-2" style = "font-size: 13px">'
         content += '작성일 :' + dto.date
         content += '</div>'
         content += '<hr/>'
