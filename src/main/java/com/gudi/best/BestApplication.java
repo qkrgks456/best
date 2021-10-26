@@ -11,15 +11,11 @@ import java.io.File;
 @SpringBootApplication
 public class BestApplication {
     // @EnableScheduling 이거는 스케줄러 사용 사용할 클래스에 @Component
+    private static final String APPLICATION_LOCATIONS = "spring.config.location="
+            + "classpath:aws.properties,classpath:application.properties";
+
     public static void main(String[] args) {
-        String APPLICATION_LOCATIONS = null;
-        ClassPathResource resource = new ClassPathResource("aws.properties");
-        if (resource.exists()) {
-            APPLICATION_LOCATIONS = "spring.config.location="
-                    + "classpath:aws.properties,classpath:application.properties";
-        } else {
-            APPLICATION_LOCATIONS = "spring.config.location=classpath:application.properties";
-        }
+
         new SpringApplicationBuilder(BestApplication.class)
                 .properties(APPLICATION_LOCATIONS)
                 .run(args);
