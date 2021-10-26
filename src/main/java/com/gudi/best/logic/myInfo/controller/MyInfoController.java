@@ -78,7 +78,7 @@ public class MyInfoController {
             return "startForm/loginForm";
         } else {
             model.addAttribute("suc", false);
-            return "/logic/myInfo/pwChange";
+            return "logic/myInfo/pwChange";
         }
     }
 
@@ -99,7 +99,7 @@ public class MyInfoController {
             model.addAttribute("dto", dto);
         }
         model.addAttribute("map", map);
-        return "/logic/myInfo/myProFile";
+        return "logic/myInfo/myProFile";
     }
 
     @PostMapping("/proFileInput")
@@ -131,7 +131,7 @@ public class MyInfoController {
 		            model.addAttribute("dto", dto);
 		        }
 		        model.addAttribute("map", map);
-		        return "/logic/myInfo/myProFile";
+		        return "logic/myInfo/myProFile";
 		}
 	}
 
@@ -152,7 +152,7 @@ public class MyInfoController {
 	            model.addAttribute("dto", dto);
 	        }
 	        model.addAttribute("map", map);
-	        return "/logic/myInfo/myProFile";
+	        return "logic/myInfo/myProFile";
 	}
 
 	@GetMapping("/acceptApply")
@@ -172,7 +172,7 @@ public class MyInfoController {
 	            model.addAttribute("dto", dto);
 	        }
 	        model.addAttribute("map", map);
-	        return "/logic/myInfo/myProFile";
+	        return "logic/myInfo/myProFile";
 	}
     
 }
