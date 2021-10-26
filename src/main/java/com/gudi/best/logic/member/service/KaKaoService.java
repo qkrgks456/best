@@ -2,6 +2,7 @@ package com.gudi.best.logic.member.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gudi.best.logic.member.mapper.MemberMapper;
+import com.gudi.best.util.IPUtil;
 import com.gudi.best.util.NewApiUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,12 @@ public class KaKaoService {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("grant_type", "authorization_code");
         params.put("client_id", "510dfee7db026dbcc8df7b0a51993201");
-        params.put("redirect_uri", "http://localhost:8100/kakao/callback");
+        String ip = IPUtil.getServerIp();
+        if (ip.equals("3.36.65.111")) {
+            params.put("redirect_uri", "http://3.36.65.111:8100/kakao/callback");
+        } else {
+            params.put("redirect_uri", "http://localhost:8100/kakao/callback");
+        }
         params.put("code", code);
         // url
         String url = "https://kauth.kakao.com/oauth/token";

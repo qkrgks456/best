@@ -3,6 +3,7 @@ package com.gudi.best.logic.member.controller;
 import com.gudi.best.logic.member.mapper.MemberMapper;
 import com.gudi.best.logic.member.service.KaKaoService;
 import com.gudi.best.logic.myInfo.mapper.MyInfoMapper;
+import com.gudi.best.util.IPUtil;
 import com.gudi.best.util.NewApiUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,20 @@ public class KaKaoController {
 
     @GetMapping("/loginForm")
     public String loginForm() {
-        String reqUrl =
-                "redirect:https://kauth.kakao.com/oauth/authorize"
-                        + "?client_id=510dfee7db026dbcc8df7b0a51993201"
-                        + "&redirect_uri=http://localhost:8100/kakao/callback"
-                        + "&response_type=code";
+        String ip = IPUtil.getServerIp();
+        String reqUrl = null;
+        if (ip.equals("3.36.65.111")) {
+            reqUrl = "redirect:https://kauth.kakao.com/oauth/authorize"
+                    + "?client_id=510dfee7db026dbcc8df7b0a51993201"
+                    + "&redirect_uri=http://3.36.65.111:8100/kakao/callback"
+                    + "&response_type=code";
+        } else {
+            reqUrl = "redirect:https://kauth.kakao.com/oauth/authorize"
+                    + "?client_id=510dfee7db026dbcc8df7b0a51993201"
+                    + "&redirect_uri=http://localhost:8100/kakao/callback"
+                    + "&response_type=code";
+        }
+
         return reqUrl;
     }
 
