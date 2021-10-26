@@ -66,9 +66,10 @@
                                         <li>
                                             <a class="dropdown-item" th:href="@{/member/proFileDetail(id=${dto.id})}">프로필</a>
                                         </li>
-                                        <li><a class="dropdown-item" href="#">러브톡</a></li>
+                                        <li><a class="dropdown-item"
+                                               th:href="@{/chat/chatCon(person=${dto.id})}">러브톡</a></li>
                                         <li><a class="dropdown-item" href="#">커플맺기신청</a></li>
-                                        <li><a class="dropdown-item" href="#">신고하기</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/report(id=${dto.id})}">신고하기</a></li>
                                     </ul>
                                 </div>
                             </th:block>
