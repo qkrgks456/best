@@ -131,16 +131,15 @@
 </body>
 
 <th:block th:replace="fix/fixFooter.html"></th:block>
-<script th:src="@{/js/alarm.js}"></script>
 
 <script th:inline="javascript">
 
+		var loginId = [[${loginId}]];
  		var errorMsg = [[${errorMsg}]];
  		
  		if(errorMsg != null){
  			alert(errorMsg);
  		}
- 		
  		
  		$(".btn-create").on("click", function(e){
  			e.preventDefault();
@@ -163,5 +162,7 @@
  		})
 	
 </script>
+
+<script th:src="@{/js/alarm.js}"></script>
 
 </html>
