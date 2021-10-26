@@ -45,13 +45,14 @@
             <div class="row row-cols-1 row-cols-md-3 g-4 my-2">
                 <div th:each="dto : ${map.get('list')}" class="col">
                     <div class="card h-100">
-                        <a th:href="@{/loveBoard/boardDetail/{boardNum}/{page}/{division}(division=${map.division},boardNum=${dto.boardNum},page=${page})}">
+                        <a class="imgPlus"
+                           th:href="@{/loveBoard/boardDetail/{boardNum}/{page}/{division}(division=${map.division},boardNum=${dto.boardNum},page=${page})}">
                             <img th:src="@{${dto.path}}" class="card-img-top" alt="..." style="height: 300px">
-                            <div class="card-body" style="height: 180px">
-                                <h5 th:text="${dto.title}" class="card-title target"></h5>
-                                <p th:text="${dto.content}" class="card-text targets"></p>
-                            </div>
                         </a>
+                        <div class="card-body" style="height: 180px">
+                            <h5 th:text="${dto.title}" class="card-title target"></h5>
+                            <p th:text="${dto.content}" class="card-text targets"></p>
+                        </div>
                         <div class="card-footer d-flex justify-content-between">
                             <th:block th:if="${session.loginId ne dto.id}">
                                 <div class="btn-group dropend">

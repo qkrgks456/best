@@ -3,10 +3,7 @@ package com.gudi.best.logic.member.mapper;
 import com.gudi.best.dto.BoardDTO;
 import com.gudi.best.logic.loveBoard.mapper.BoardSQL;
 import com.gudi.best.logic.myInfo.mapper.MyInfoSQL;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,4 +25,13 @@ public interface MemberMapper {
 
     @SelectProvider(type = BoardSQL.class, method = "proFileBoard")
     ArrayList<BoardDTO> proFileBoard(int start, String id);
+
+    @Insert("INSERT INTO proFile(id,name,imgPath) VALUES(#{id},#{name},#{imgPath})")
+    void proFileInsert(HashMap<String, String> map);
+
+    @Select("SELECT pw FROM member WHERE id = #{loginId}")
+    String getPw(String loginId);
+
+    @Update("UPDATE member SET pw=#{pw} WHERE id=#{id}")
+    void pwUpdate(HashMap<String, String> map);
 }
