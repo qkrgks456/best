@@ -34,8 +34,8 @@ public class StompChatController {
 		log.info("message 의 형태를 보자!!:: " + message); //ChatMessageDTO(roomNum=1, id=qkrgks456, dates=null, message=123, roomName=테스트)
 		
 		//메세지가 공백이아니고, 문자의 길이가 1000을 넘지 않는다면
-		if(!message.getMessage().equals("") && message.getMessage().toString().length() < 1000 ) {
-			
+		if(!message.getMessage().trim().equals("") && message.getMessage().toString().length() < 1000) {
+
 			//chat 테이블에 대화기록하고, chatroom 의 마지막 대화일인 lastChatDates 를 SYSDATE 로 업뎃해주자
 			chatMapper.chatInsert(message.getRoomNum(),message.getId(),message.getMessage());
 			chatMapper.lastChatDatesUpdate(message.getRoomNum());
