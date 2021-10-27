@@ -114,6 +114,9 @@ public class CoupleService {
 	public HashMap<String, Object> readMomory(String id) {
 		String chk = mapper.coupleChk(id);
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		if(mapper.history(id).size()>0) {
+			map.put("history", "Y");
+		};
 		if(chk.equals("없음")) {
 		map.put("chk", "N");
 		} else if(chk.length()>9) {

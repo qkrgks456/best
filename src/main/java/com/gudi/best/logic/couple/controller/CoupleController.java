@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.util.StringUtils;
 
+import com.gudi.best.dto.CalenderDTO;
 import com.gudi.best.dto.ProFileDTO;
 import com.gudi.best.logic.couple.mapper.CoupleMapper;
 import com.gudi.best.logic.couple.service.CoupleService;
@@ -324,5 +325,13 @@ public class CoupleController {
 	public String memoryDel(@PathVariable int cNum) {
 		service.memoryDel(cNum);
 		return  "redirect:/couple/loveMemory";
+    }
+	
+	@GetMapping("/history")
+	public String history(HttpSession session, Model model) {
+		String id = (String) session.getAttribute("loginId");
+		ArrayList<CalenderDTO> list = mapper.history(id);
+		model.addAttribute("list", list);
+		return  "logic/couple/historyMemory";
     }
 }

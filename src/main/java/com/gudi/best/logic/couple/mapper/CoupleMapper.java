@@ -80,4 +80,7 @@ public interface CoupleMapper {
 
 		@Update("update calender set del='1' where cnum=#{cNum}")
 		void memoryDel(int cNum);
+
+		@Select("select *  from calender where id=#{id} AND division='M' AND del='0'")
+		ArrayList<CalenderDTO> history(String id);
 }
