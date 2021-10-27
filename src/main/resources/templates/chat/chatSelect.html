@@ -44,10 +44,13 @@
 							<div style="border-bottom: solid 2px lightgray; padding-bottom: 20px; padding-top: 20px">
 							
 								<div class="col-3" style="text-align: center; padding-top: 10px; float: left;">
-									<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-									  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-									  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-									</svg>
+									<th:block data-th-if="${#strings.equals(loginId, room.person)}">
+										<img th:src=@{${room.personPath}} style="width:40px;height:40px" class="rounded-circle" onerror="src='/img/noImg.png'">
+								</th:block>
+								
+								<th:block data-th-if="${#strings.equals(loginId, room.id)}">
+										<img th:src=@{${room.idPath}} style="width:40px;height:40px" class="rounded-circle" onerror="src='/img/noImg.png'">
+								</th:block>
 								</div>
 								
 								<div class="col">
@@ -146,14 +149,15 @@
 
 </div>
 
-		<!-- 알람용 -->
+		 <!-- 알람용 
 		<div class="toast-container position-fixed top-0 end-0 mb-3 me-3" id="alarmArea">
 		</div>
+-->
 
 </body>
 <th:block th:replace="fix/fixFooter.html"></th:block>
 
-<script th:src="@{/js/alarm.js}"></script>
+<!-- <script th:src="@{/js/alarm.js}"></script> -->
 
 <script th:inline="javascript">
 

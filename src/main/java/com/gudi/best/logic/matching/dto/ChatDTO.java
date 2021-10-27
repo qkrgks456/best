@@ -9,5 +9,5 @@ public class ChatDTO {
 	private String id;
 	private String message;
 	private String dates;
-
+	private String imgPath;
 }

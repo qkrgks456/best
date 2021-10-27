@@ -1,4 +1,5 @@
 
+let loginIds = $("#sessoinId").val();
 //소켓생성, 소켓요청경로 설정과 stomp 먹여주기
 var sockJsForAlarm = new SockJS("/stomp/alarm");
 var stompForAlarm = Stomp.over(sockJsForAlarm);
@@ -12,35 +13,36 @@ stompForAlarm.connect({},function(sock){
 		//채팅알람
 		stompForAlarm.subscribe("/sub/alarm/chatAlarm", function(data){
 		 							
-		var person = data.body
-		console.log("상대방의 아이디 :: "+ person);
-		
-			if(loginId != person){	
-				 $("#alarmArea").empty();
-				alarmText = person + " 님으로부터 새로운 메세지 도착";
-				 printAlarm(alarmText);
-			}
+			var person = data.body
+			console.log("상대방의 아이디 :: "+ person);
+			
+				if(loginIds != person){	
+					 $("#alarmArea").empty();
+					alarmText = person + " 님으로부터 새로운 메세지 도착";
+					 printAlarm(alarmText);
+				}
 		})
 		
 		//팔로우 알람
 		stompForAlarm.subscribe("/sub/alarm/followAlarm", function(data){
 		 							
-		var person = data.body
-		console.log("상대방의 아이디 :: "+ person);
-		
-			if(loginId != person){
-				 $("#alarmArea").empty();			 						
-				alarmText = person + " 님이 회원님을 팔로우 했습니다.";
-				 printAlarm(alarmText);
-			}
+			var person = data.body
+			console.log("상대방의 아이디 :: "+ person);
+			
+				if(loginIds != person){
+					 $("#alarmArea").empty();			 						
+					alarmText = person + " 님이 회원님을 팔로우 했습니다.";
+					 printAlarm(alarmText);
+				}
 			
 		//또 어떤 알람??
+		
+		
+		
+		
+		
 			
 		})
-		
-		
-	
-	
 	})
 
 

@@ -12,5 +12,7 @@ public class ChatRoomDTO {
 	private String dates;
 	private String lastChatDates;
 	private String lastMessage;
+	private String idPath;
+	private String personPath;
 	
 }
