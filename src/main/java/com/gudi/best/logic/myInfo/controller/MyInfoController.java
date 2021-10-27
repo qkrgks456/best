@@ -88,7 +88,7 @@ public class MyInfoController {
     @GetMapping("/proFile")
     public String proFile(Model model, HttpSession session) {
         String id = (String) session.getAttribute("loginId");
-        HashMap<String, Object> map = coupleService.readMomory(id);
+        HashMap<String, Object> map = coupleService.readMemory(id);
         if (map.get("list") != null) {
             map.remove("list");
         }
@@ -120,7 +120,7 @@ public class MyInfoController {
         } else {
             String Lid = (String) session.getAttribute("loginId");
             coupleService.applyCouple(Lid, id);
-            HashMap<String, Object> map = coupleService.readMomory(Lid);
+            HashMap<String, Object> map = coupleService.readMemory(Lid);
             if (map.get("list") != null) {
                 map.remove("list");
             }
@@ -141,7 +141,7 @@ public class MyInfoController {
         String id = (String) session.getAttribute("loginId");
         String ok = "N";
         coupleService.choiceApply(id, ok);
-        HashMap<String, Object> map = coupleService.readMomory(id);
+        HashMap<String, Object> map = coupleService.readMemory(id);
         if (map.get("list") != null) {
             map.remove("list");
         }
@@ -161,7 +161,7 @@ public class MyInfoController {
         String id = (String) session.getAttribute("loginId");
         String ok = "Y";
         coupleService.choiceApply(id, ok);
-        HashMap<String, Object> map = coupleService.readMomory(id);
+        HashMap<String, Object> map = coupleService.readMemory(id);
         if (map.get("list") != null) {
             map.remove("list");
         }

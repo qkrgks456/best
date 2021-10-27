@@ -35,7 +35,7 @@ public interface CoupleMapper {
 	@Select("select coupleId from member where id = #{param1}")
 	String coupleChk(String id);
 
-	@Select("select * from calender where (id=#{param1} or id=#{param2}) AND del='0' AND division ='M'")
+	@Select("select * from calender where (id=#{param1} or id=#{param2}) AND del='0' AND division ='M' ")
 	ArrayList<CalenderDTO> readMomory(String id, String chk);
 
 	@Select("select id from member where coupleId = '없음' AND id like '${param1}%' limit 5")
@@ -81,6 +81,15 @@ public interface CoupleMapper {
 		@Update("update calender set del='1' where cnum=#{cNum}")
 		void memoryDel(int cNum);
 
-		@Select("select *  from calender where id=#{id} AND division='M' AND del='0'")
-		ArrayList<CalenderDTO> history(String id);
+		@Select("select *  from calender where id=#{param1} AND division='M' AND del='0' LIMIT #{param2},10")
+		ArrayList<CalenderDTO> history(String id, int page);
+
+		@Select("select count(cNum) from calender where id=#{id} AND division='M' AND del='0'")
+		int historyTotal(String id);
+
+		@Select("select count(cNum) from calender where (id=#{param1} or id=#{param2}) AND del='0' AND division ='M'")
+		int totalMemory(String id, String chk);
+
+		@Select("select * from calender where (id=#{param1} or id=#{param2}) AND del='0' AND division ='M' LIMIT #{param3},10 ")
+		ArrayList<CalenderDTO> readMomoryP(String id, String chk, int page);
 }

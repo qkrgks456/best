@@ -75,6 +75,7 @@
                 <th:block th:if="${map.get('list').isEmpty()}"><tr><td colspan="2" class="align-middle">서로의 추억을 등록해주세요.</td></tr></th:block>
                 </tbody>
             </table>
+             <th:block th:if="${map.get('list').size()>0}">
             <!-- <ul class="pagination justify-content-center">
                 <li class="page-item" th:if="${map.get('startPage') ne 1}">
                     <a aria-label="Previous" class="page-link rounded-0"
@@ -100,6 +101,7 @@
                     </a>
                 </li>
             </ul> -->
+            </th:block>
             </div>
         </div>
     </div>

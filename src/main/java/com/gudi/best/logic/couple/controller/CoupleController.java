@@ -27,6 +27,7 @@ import com.gudi.best.dto.ProFileDTO;
 import com.gudi.best.logic.couple.mapper.CoupleMapper;
 import com.gudi.best.logic.couple.service.CoupleService;
 import com.gudi.best.logic.myInfo.service.MyInfoService;
+import com.gudi.best.util.PageNation;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -125,10 +126,10 @@ public class CoupleController {
 		return "redirect:/couple/loveCalender";
 	}
 
-	@GetMapping("/loveMemory")
-	public String loveMemory(HttpSession session, Model model) {
+	@GetMapping("/loveMemory/{page}")
+	public String loveMemory(HttpSession session, Model model, @PathVariable int page) {
 		String id = (String) session.getAttribute("loginId");
-		HashMap<String, Object> map = service.readMomory(id);
+		HashMap<String, Object> map = service.readMemoryP(id,page);
 		model.addAttribute("map", map);
 		return "logic/couple/loveMemory";
 	}
@@ -214,7 +215,7 @@ public class CoupleController {
 		} else {
 			String Lid = (String) session.getAttribute("loginId");
 			service.applyCouple(Lid, id);
-			HashMap<String, Object> map = service.readMomory(Lid);
+			HashMap<String, Object> map = service.readMemory(Lid);
 			model.addAttribute("map", map);
 			return "logic/couple/loveMemory";
 		}
@@ -225,7 +226,7 @@ public class CoupleController {
 		String id = (String) session.getAttribute("loginId");
 		String ok = "N";
 		service.choiceApply(id, ok);
-		HashMap<String, Object> map = service.readMomory(id);
+		HashMap<String, Object> map = service.readMemory(id);
 		model.addAttribute("map", map);
 		return "logic/couple/loveMemory";
 	}
@@ -235,7 +236,7 @@ public class CoupleController {
 		String id = (String) session.getAttribute("loginId");
 		String ok = "Y";
 		service.choiceApply(id, ok);
-		HashMap<String, Object> map = service.readMomory(id);
+		HashMap<String, Object> map = service.readMemory(id);
 		model.addAttribute("map", map);
 		return "logic/couple/loveMemory";
 	}
@@ -327,11 +328,19 @@ public class CoupleController {
 		return  "redirect:/couple/loveMemory";
     }
 	
-	@GetMapping("/history")
-	public String history(HttpSession session, Model model) {
+	@GetMapping("/history/{page}")
+	public String history(@PathVariable int page,HttpSession session, Model model) {
 		String id = (String) session.getAttribute("loginId");
-		ArrayList<CalenderDTO> list = mapper.history(id);
-		model.addAttribute("list", list);
+		int total = mapper.historyTotal(id);
+		HashMap<String, Object> map = PageNation.pagination(page, 10, total);
+		if(page==1) {
+			page =0;
+		}else {
+			page = (page - 1) * 10 ;
+		}
+		ArrayList<CalenderDTO> list = mapper.history(id,page);
+		map.put("list", list);
+		model.addAttribute("map", map);
 		return  "logic/couple/historyMemory";
     }
 }

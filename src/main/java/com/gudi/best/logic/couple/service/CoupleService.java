@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gudi.best.dto.CalenderDTO;
 import com.gudi.best.logic.couple.mapper.CoupleMapper;
+import com.gudi.best.util.PageNation;
 import com.gudi.best.util.S3Uploader;
 
 import lombok.extern.log4j.Log4j2;
@@ -47,19 +48,6 @@ public class CoupleService {
 		return map;
 	}
 	
-	public HashMap<String, Object> readMemory(String id) {
-		String chk = mapper.coupleChk(id);
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		if(chk.equals("없음")) {
-		map.put("chk", "N");
-		} else {
-			ArrayList<CalenderDTO> list = mapper.readMomory(id,chk);
-			map.put("list", list);
-			map.put("chk", "Y");
-			map.put("couple", chk);
-			}
-		return map;
-	}
 
 	public ModelAndView detail(String id, int cnum) {
 		ModelAndView mav = new ModelAndView();
@@ -111,10 +99,11 @@ public class CoupleService {
 		
 	}
 
-	public HashMap<String, Object> readMomory(String id) {
+
+	public HashMap<String, Object> readMemory(String id) {
 		String chk = mapper.coupleChk(id);
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		if(mapper.history(id).size()>0) {
+		if(mapper.historyTotal(id)>0) {
 			map.put("history", "Y");
 		};
 		if(chk.equals("없음")) {
@@ -127,6 +116,33 @@ public class CoupleService {
 			}
 			}else {
 			ArrayList<CalenderDTO> list = mapper.readMomory(id,chk);
+			map.put("list", list);
+			map.put("chk", "Y");
+			map.put("couple", chk);
+			}
+		return map;
+	}
+	
+	
+	public HashMap<String, Object> readMemoryP(String id, int page) {
+		String chk = mapper.coupleChk(id);
+		int total = mapper.totalMemory(id, chk);
+		HashMap<String, Object> map = PageNation.pagination(page, 10, total);
+		if(page==1) {
+			page =0;
+		}else {
+			page = (page - 1) * 10 ;
+		}
+		if(chk.equals("없음")) {
+		map.put("chk", "N");
+		} else if(chk.length()>9) {
+			if(chk.substring(0, 5).equals("Apply")) {
+				map.put("chk", "A"); //상대방의 응답을 기다립니다 보여주기
+			}	else if(chk.substring(0, 8).equals("Response")) {
+				map.put("chk", "R"); // 요청자의 프로필과 수락창 보여주기 -> 만들예정
+			}
+			}else {
+			ArrayList<CalenderDTO> list = mapper.readMomoryP(id,chk,page);
 			map.put("list", list);
 			map.put("chk", "Y");
 			map.put("couple", chk);

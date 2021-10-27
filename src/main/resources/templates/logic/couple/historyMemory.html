@@ -14,7 +14,7 @@
         <!-- 여기서 부터 내용 넣으세요 -->
         <div class="container text-center" >
          <div class="mt-2">
-                    <h2>히스토리입니다.</h2>
+                    <h2>예전에 작성한 게시물 입니다.</h2>
                 <!-- 게시판  -->
             <table class="table table-hover text-center">
                 <thead>
@@ -24,7 +24,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <th:block th:each="dto : ${list}">
+                <th:block th:each="dto : ${map.get('list')}">
                 <tr th:onclick="|location.href='@{/couple/memoryDetail/{cNum}(cNum=${dto.cNum})}'|" style="cursor:pointer;">
                     <td  class="align-middle"  th:text="${dto.title}"></td>
                     <td  class="align-middle"  th:text="${dto.id}"></td>
@@ -32,7 +32,7 @@
                 </th:block>
                 </tbody>
             </table>
-            <!-- <ul class="pagination justify-content-center">
+             <ul class="pagination justify-content-center">
                 <li class="page-item" th:if="${map.get('startPage') ne 1}">
                     <a aria-label="Previous" class="page-link rounded-0"
                        th:href="@{${path}/{page}(path=${map.get('path')},page=${map.get('startPage') - 1})}">
@@ -56,7 +56,7 @@
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
-            </ul> -->
+            </ul> 
             </div>
         </div>
     </div>
