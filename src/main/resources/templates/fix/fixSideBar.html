@@ -29,13 +29,10 @@
             <a id="loveFindBtn" href="#loveFind" data-bs-toggle="collapse">사랑을 찾아서</a>
             <ul class="collapse list-unstyled" id="loveFind">
                 <li>
-                    <a th:href="@{/matching/matchingMain}">좋은사람찾기</a>
+                    <a th:href="@{/matching/matchingMain}">인연찾기</a>
                 </li>
                 <li>
                     <a th:href="@{/chat/rooms}">러브톡</a>
-                </li>
-                <li>
-                    <a th:href="@{/matching/goodList}">관심리스트</a>
                 </li>
             </ul>
         </li>
@@ -50,53 +47,5 @@
         <a th:href="@{/myInfo/proFile}" class="btn btn-danger btn-sm rounded-0">내 프로필</a>
         <a th:href="@{/member/logOut}" class="btn btn-danger btn-sm rounded-0">로그아웃</a>
     </ul>
-    <ul class="list-unstyled d-flex justify-content-center">
-        <button type="button" class="btn btn-danger rounded-0" data-bs-toggle="modal" data-bs-target="#alarmModal">
-            <i class="bi bi-bell-fill me-1"></i><span class="badge bg-light text-dark">4</span>
-        </button>
-        <button type="button" class="btn btn-danger rounded-0 ms-2" data-bs-toggle="modal" data-bs-target="#noteModal">
-            <i class="bi bi-chat-quote-fill me-1"></i><span class="badge bg-light text-dark">4</span>
-        </button>
-    </ul>
 </nav>
-<!-- 알림 모달창 -->
-<div class="modal fade" id="alarmModal" tabindex="-1" aria-labelledby="alarmModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="alarmModalLabel">알림창</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">닫기</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- 쪽지 모달창 -->
-<div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="noteModalLabel">쪽지함</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">닫기</button>
-            </div>
-        </div>
-    </div>
-</div>
 </html>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$('#sidebar').on("doubleclick",function(){
-	console.log("실행");
-});
-</script>

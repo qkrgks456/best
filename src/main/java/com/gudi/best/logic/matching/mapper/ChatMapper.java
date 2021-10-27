@@ -17,11 +17,12 @@ public interface ChatMapper {
 	@Insert("INSERT INTO chatRoom(id, person, dates, lastChatDates) VALUES(#{param1}, #{param2}, SYSDATE(), SYSDATE())")
 	void createRoom(String loginId, String person);
 
-	@Select("SELECT *\r\n"
-			+ "FROM\r\n"
-			+ "(SELECT roomNum, id, person, dates, lastChatDates, lastMessage  FROM chatRoom WHERE id = #{param1}  OR person = #{param1} ) AS sub\r\n"
-			+ "ORDER BY lastChatDates DESC\r\n")
+	@Select("SELECT * FROM\r\n"
+			+ "(SELECT roomNum, id, person, dates, lastChatDates, lastMessage,\r\n"
+			+ "(SELECT imgPath FROM proFile WHERE chatRoom.person=proFile.id)idPath,(SELECT imgPath FROM proFile WHERE chatRoom.id=proFile.id)personPath  FROM chatRoom WHERE id = #{param1}  OR person = #{param1} )sub\r\n"
+			+ "ORDER BY lastChatDates DESC")
 	List<ChatRoomDTO> findAllRooms(String loginId);
+	
 
 	@Select("SELECT * FROM chatRoom WHERE roomNum = #{param1}")
 	ChatRoomDTO findRoomByNum(String roomNum);

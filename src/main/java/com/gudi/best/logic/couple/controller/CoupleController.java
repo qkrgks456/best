@@ -29,17 +29,19 @@ import com.gudi.best.logic.couple.service.CoupleService;
 import com.gudi.best.logic.myInfo.service.MyInfoService;
 import com.gudi.best.util.PageNation;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/couple")
 public class CoupleController {
-
-	@Autowired
-	CoupleMapper mapper;
-	@Autowired
-	CoupleService service;
+	
+	private final CoupleMapper mapper;
+	private final CoupleService service;
+	
+	
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@GetMapping("/loveCalender")

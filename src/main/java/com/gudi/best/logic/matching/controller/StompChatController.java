@@ -1,11 +1,8 @@
 package com.gudi.best.logic.matching.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import com.gudi.best.logic.matching.dto.ChatDTO;
 import com.gudi.best.logic.matching.mapper.ChatMapper;

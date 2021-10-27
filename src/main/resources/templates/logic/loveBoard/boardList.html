@@ -68,7 +68,7 @@
                                         </li>
                                         <li><a class="dropdown-item"
                                                th:href="@{/chat/chatCon(person=${dto.id})}">러브톡</a></li>
-                                        <li><a class="dropdown-item" href="#">커플맺기신청</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/couple/applyCouple(id=${dto.id})}">커플맺기신청</a></li>
                                         <li><a class="dropdown-item" th:href="@{/report(id=${dto.id})}">신고하기</a></li>
                                     </ul>
                                 </div>
