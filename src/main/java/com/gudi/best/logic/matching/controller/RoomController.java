@@ -1,5 +1,7 @@
 package com.gudi.best.logic.matching.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -25,14 +28,14 @@ import lombok.extern.log4j.Log4j2;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "/chat")
+@RequestMapping("/chat")
 @Log4j2
 public class RoomController {
 	
 	private final ChatMapper chatMapper;
 	
 	     //채팅방 개설
-		@RequestMapping(value = "/roomCreate")
+		@RequestMapping("/roomCreate")
 		public String roomCreate(@RequestParam String person, HttpSession session, RedirectAttributes rttr, Model model) {
 			String loginId = (String) session.getAttribute("loginId");
 			log.info("# 채팅방 개설 요청... , loginID, roomName: " + loginId + " / " + person + " / ");
@@ -56,7 +59,7 @@ public class RoomController {
 
 	
 	//채팅방 목록 조회
-	@GetMapping(value = "/rooms")
+	@GetMapping("/rooms")
 	public ModelAndView rooms(HttpServletRequest request, HttpSession session) {
 		log.info("채팅방 목록 조회...");
 		ModelAndView mav = new ModelAndView("chat/chatMain");
@@ -115,25 +118,40 @@ public class RoomController {
 		return "chat/chatSelect";
 	}
 	
-	
-	
 	//아이디로 채팅 연결
 	@GetMapping("/chatCon")
-	public String chatCon(HttpSession session, String person, RedirectAttributes rttr) {
+	public String chatCon(HttpSession session, String person) {
 		log.info("드롭바를 통해서 채팅방 연결 요청...");
 		String loginId = (String) session.getAttribute("loginId");
 		
 		if(chatMapper.findOverlap(loginId, person)==null) {
 			//아직 방이 생성되지 않은 경우는 방 생성후 이동
 			log.info("생성된 방이 없으므로 roomCreate 로 요청...");
-			//rttr.addFlashAttribute("person", person);
 			return "redirect:/chat/roomCreate?person="+person;
 		}else{
 			//이미 방이 존재하는 경우는 바로 이동
 			log.info("생성된 방이 있으니까 room 으로 요청...");
-			rttr.addFlashAttribute("roomNum", chatMapper.findOverlap(loginId, person).getRoomNum().toString());
-			return "redirect:/chat/room";
+			return "redirect:/chat/room?roomNum="+ chatMapper.findOverlap(loginId, person).getRoomNum().toString();
 		}
+	}
+	
+	//아이디 검색 아작스
+	@ResponseBody
+	@GetMapping("/searchId")
+	public HashMap<String, Object> search(String id, HttpSession session) {
+		ArrayList<String> list = chatMapper.searchId(id);
+		System.out.println("아이디 검색리스트 :: "+list);
+		
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+			if (list.get(i).equals(session.getAttribute("loginId"))) {
+				list.remove(i);
+			}
+		}
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", list);
+		System.out.println(map);
+		return map;
 	}
 	
 }

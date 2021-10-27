@@ -1,5 +1,7 @@
 package com.gudi.best.logic.matching.controller;
 
+import java.util.HashMap;
+
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -44,7 +46,10 @@ public class StompChatController {
 			template.convertAndSend("/sub/chat/chatSelect/"+message.getRoomNum(), message);
 			
 			//상대에게 알람 보내기
-			template.convertAndSend("/sub/alarm/chatAlarm", message.getId());
+			HashMap<String, String> alarmMap = new HashMap<String, String>();
+			alarmMap.put("person", message.getId());
+			alarmMap.put("alarmText", " 님으로부터 메세지가 도착했습니다.");
+			template.convertAndSend("/sub/alarm/chatAlarm", alarmMap);
 			
 		}else {
 			String errorMsg = "공백은 보낼수 없으며, 1000자 이하로 입력해 주세요!";

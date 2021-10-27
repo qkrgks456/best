@@ -12,38 +12,17 @@ stompForAlarm.connect({},function(sock){
 		 
 		//채팅알람
 		stompForAlarm.subscribe("/sub/alarm/chatAlarm", function(data){
-		 							
-			var person = data.body
-			console.log("상대방의 아이디 :: "+ person);
+						
+			var person = JSON.parse(data.body).person;
+			var alarmText = JSON.parse(data.body).alarmText;
 			
 				if(loginIds != person){	
 					 $("#alarmArea").empty();
-					alarmText = person + " 님으로부터 새로운 메세지 도착";
-					 printAlarm(alarmText);
+					 printAlarm(person + alarmText);
 				}
 		})
-		
-		//팔로우 알람
-		stompForAlarm.subscribe("/sub/alarm/followAlarm", function(data){
-		 							
-			var person = data.body
-			console.log("상대방의 아이디 :: "+ person);
-			
-				if(loginIds != person){
-					 $("#alarmArea").empty();			 						
-					alarmText = person + " 님이 회원님을 팔로우 했습니다.";
-					 printAlarm(alarmText);
-				}
-			
-		//또 어떤 알람??
-		
-		
-		
-		
-		
-			
-		})
-	})
+})
+
 
 
 	//(공통)알람 프린트용

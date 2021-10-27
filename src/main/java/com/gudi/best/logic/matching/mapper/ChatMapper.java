@@ -1,5 +1,6 @@
 package com.gudi.best.logic.matching.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
@@ -49,6 +50,9 @@ public interface ChatMapper {
 
 	@Update("UPDATE chat SET readState = 'y' WHERE roomNum = #{param1}")
 	void readStateUpdate(String roomNum);
+
+	@Select("SELECT id FROM member WHERE id like '${param1}%'")
+	ArrayList<String> searchId(String id);
 
 	
 	
