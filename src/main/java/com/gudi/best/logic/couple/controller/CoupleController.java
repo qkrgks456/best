@@ -287,13 +287,6 @@ public class CoupleController {
 	}
 	
 	
-	@GetMapping("/memoryDel/{cNum}")
-	public String memoryDel( @PathVariable int cNum, Model model,HttpSession session) {
-		String id = (String) session.getAttribute("loginId");
-        service.memoryDel(cNum);
-		return "logic/couple/loveMemory";
-	}
-	
 	@GetMapping("/memoryUpdateForm/{cNum}")
 	public String memoryUpdateForm( @PathVariable int cNum, Model model) {
         HashMap<String, Object> map = service.memoryDetail(cNum);
@@ -330,6 +323,6 @@ public class CoupleController {
 	@GetMapping("/memoryDel/{cNum}")
 	public String memoryDel(@PathVariable int cNum) {
 		service.memoryDel(cNum);
-		return  "logic/couple/loveMemory";
+		return  "redirect:/couple/loveMemory";
     }
 }

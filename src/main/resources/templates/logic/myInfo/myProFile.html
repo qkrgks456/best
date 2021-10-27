@@ -74,6 +74,7 @@
                 <th:block th:if="${map.get('chk') eq 'N'}">
                  <div class="mt-2">
                     <h5 class="text-muted">커플이 없습니다!   <a th:href="@{/couple/addCoupleIdForm}" class="btn btn-danger rounded-0 mt-1">커플계정추가</a></h5>
+                    <p th:if="${map.get('list') eq 'Y'}" >예전 게시물이 남아있습니다.<a th:href="@{/couple/addCoupleIdForm}" class="btn btn-danger rounded-0 mt-1">리스트</a></p>
                 </div>
                 </th:block>
                  

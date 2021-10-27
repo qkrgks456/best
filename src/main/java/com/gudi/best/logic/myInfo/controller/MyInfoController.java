@@ -123,15 +123,12 @@ public class MyInfoController {
 			 if(map.get("list")!=null) {
 		        	map.remove("list");
 		        }
-		        ProFileDTO dto = myInfoService.proFileDetail(id);
-		        if (dto != null) {
-		            if (StringUtils.isEmpty(dto.getImgPath())) {
-		                dto.setImgPath("/img/noImg.png");
-		            }
-		            model.addAttribute("dto", dto);
-		        }
-		        model.addAttribute("map", map);
-		        return "/logic/myInfo/myProFile";
+				/*
+				 * ProFileDTO dto = myInfoService.proFileDetail(id); if (dto != null) { if
+				 * (StringUtils.isEmpty(dto.getImgPath())) { dto.setImgPath("/img/noImg.png"); }
+				 * model.addAttribute("dto", dto); } model.addAttribute("map", map);
+				 */
+		        return "redirect:/myInfo/myProFile";
 		}
 	}
 
@@ -144,15 +141,12 @@ public class MyInfoController {
 		 if(map.get("list")!=null) {
 	        	map.remove("list");
 	        }
-	        ProFileDTO dto = myInfoService.proFileDetail(id);
-	        if (dto != null) {
-	            if (StringUtils.isEmpty(dto.getImgPath())) {
-	                dto.setImgPath("/img/noImg.png");
-	            }
-	            model.addAttribute("dto", dto);
-	        }
-	        model.addAttribute("map", map);
-	        return "/logic/myInfo/myProFile";
+			/*
+			 * ProFileDTO dto = myInfoService.proFileDetail(id); if (dto != null) { if
+			 * (StringUtils.isEmpty(dto.getImgPath())) { dto.setImgPath("/img/noImg.png"); }
+			 * model.addAttribute("dto", dto); } model.addAttribute("map", map);
+			 */
+	        return "redirect:/myInfo/myProFile";
 	}
 
 	@GetMapping("/acceptApply")
@@ -164,15 +158,12 @@ public class MyInfoController {
 		 if(map.get("list")!=null) {
 	        	map.remove("list");
 	        }
-	        ProFileDTO dto = myInfoService.proFileDetail(id);
-	        if (dto != null) {
-	            if (StringUtils.isEmpty(dto.getImgPath())) {
-	                dto.setImgPath("/img/noImg.png");
-	            }
-	            model.addAttribute("dto", dto);
-	        }
-	        model.addAttribute("map", map);
-	        return "/logic/myInfo/myProFile";
+			/*
+			 * ProFileDTO dto = myInfoService.proFileDetail(id); if (dto != null) { if
+			 * (StringUtils.isEmpty(dto.getImgPath())) { dto.setImgPath("/img/noImg.png"); }
+			 * model.addAttribute("dto", dto); } model.addAttribute("map", map);
+			 */
+	        return "redirect:/myInfo/myProFile";
 	}
     
 }

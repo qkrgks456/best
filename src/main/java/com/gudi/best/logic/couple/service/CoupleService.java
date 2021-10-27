@@ -148,7 +148,13 @@ public class CoupleService {
 		String p1 = "없음";
 		String p2 = id;
 		mapper.applyCouple(p1, p2);
-		p2 = Rid.substring(5);
+		if(Rid.substring(0, 5).equals("Apply")) {
+			p2 = Rid.substring(5);
+		}else if(Rid.substring(0, 8).equals("Response")) {
+			p2 = Rid.substring(8);
+		}else {
+			p2 = Rid;
+		}
 		mapper.applyCouple(p1, p2);
 		}else if(ok.equals("Y")) {
 			String p1 = Rid.substring(8);
