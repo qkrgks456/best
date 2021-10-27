@@ -10,5 +10,6 @@ public class CmDTO {
     private String date;
     private String delCheck;
     private String division;
+    private String imgPath;
     private int divisionNum;
 }

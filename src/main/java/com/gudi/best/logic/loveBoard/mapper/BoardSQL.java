@@ -9,6 +9,10 @@ public class BoardSQL {
     public static final String CM_PAGE_CHECK = "SELECT e.id FROM " +
             "(SELECT * FROM cm WHERE divisionNum = #{param1} AND delCheck='N' ORDER BY cmNum DESC LIMIT #{param3},8) e " +
             "WHERE cmNum = #{param2}";
+    public static final String CM_LIST = "SELECT *,(SELECT imgPath FROM proFile WHERE cm.id=id)imgPath " +
+            "FROM cm WHERE division='loveBoard' AND divisionNum=#{param2} AND delCheck='N' " +
+            "ORDER BY cmNum DESC LIMIT #{param1},8";
+
     String goodCount = new SQL() {{
         SELECT("COUNT(goodNum)");
         FROM("good");

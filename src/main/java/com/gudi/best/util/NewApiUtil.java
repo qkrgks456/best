@@ -47,7 +47,6 @@ public class NewApiUtil {
             }
         }
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url).queryParams(params);
-        System.out.println(uriBuilder.toUriString());
         // 헤더랑 파라미터 담은녀석
         HttpEntity<MultiValueMap<String, String>> httpEntity = null;
         if (headers.size() > 0 && header != null) {
@@ -64,7 +63,6 @@ public class NewApiUtil {
         if (method.toUpperCase().equals("POST") && param != null) {
             httpMethod = HttpMethod.POST;
         }
-
         // response 받기
         RestTemplate restTemplate = new RestTemplate();
         /*restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));*/
@@ -128,41 +126,38 @@ public class NewApiUtil {
         System.out.println(sb.toString());
         return sb.toString();
     }
-    
-    
+
+
     //관광코드, 지역코드, 페이지
     public static ArrayList<HashMap<String, Object>> culList(String tour, String code, String page) throws Exception {
-    	HashMap<String,String> header = new HashMap<String,String>();
-    	HashMap<String,String> params = new HashMap<String,String>();
-    	params.put("ServiceKey", "YRc1yhIuj+SEq19P4LqBXRmFAtACpby0jiZKx+pSOyMnQ+5EX18dxJ+heYZ+4Ls/hYTVS6+FqoIZDjj2XmsmRg==");
-    	params.put("MobileApp", "culList");
-    	params.put("pageNo", page);
-    	params.put("numOfRows", "15");
-    	params.put("MobileOS", "ETC");
-    	params.put("areaCode", code);
-    	params.put("contentTypeId", tour);
-    	params.put("_type", "json");
-    	String url= "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList";
-    	String result = sendSeverMsg(url,header,params,"GET"); 	
-    	ObjectMapper mapper = new ObjectMapper();
-    	
-    	HashMap<String, Object> map = mapper.readValue(result, HashMap.class);
-    	result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map.get("response"));
-    	HashMap<String, Object> map2 = mapper.readValue(result, HashMap.class);
-    	result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map2.get("body"));
-    	HashMap<String, Object> map3 = mapper.readValue(result, HashMap.class);
-    	result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map3.get("items"));
-    	HashMap<String, Object> map4 = mapper.readValue(result, HashMap.class);
-    	result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map4.get("item"));
-    	TypeReference<ArrayList<HashMap<String, Object>>> typeRef = new TypeReference<ArrayList<HashMap<String,Object>>>() {
-		};
-    	
-    	
-    	return mapper.readValue(result, typeRef);
+        HashMap<String, String> header = new HashMap<String, String>();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("ServiceKey", "YRc1yhIuj+SEq19P4LqBXRmFAtACpby0jiZKx+pSOyMnQ+5EX18dxJ+heYZ+4Ls/hYTVS6+FqoIZDjj2XmsmRg==");
+        params.put("MobileApp", "culList");
+        params.put("pageNo", page);
+        params.put("numOfRows", "15");
+        params.put("MobileOS", "ETC");
+        params.put("areaCode", code);
+        params.put("contentTypeId", tour);
+        params.put("_type", "json");
+        String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList";
+        String result = sendSeverMsg(url, header, params, "GET");
+        ObjectMapper mapper = new ObjectMapper();
+
+        HashMap<String, Object> map = mapper.readValue(result, HashMap.class);
+        result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map.get("response"));
+        HashMap<String, Object> map2 = mapper.readValue(result, HashMap.class);
+        result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map2.get("body"));
+        HashMap<String, Object> map3 = mapper.readValue(result, HashMap.class);
+        result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map3.get("items"));
+        HashMap<String, Object> map4 = mapper.readValue(result, HashMap.class);
+        result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map4.get("item"));
+        TypeReference<ArrayList<HashMap<String, Object>>> typeRef = new TypeReference<ArrayList<HashMap<String, Object>>>() {
+        };
+
+
+        return mapper.readValue(result, typeRef);
     }
-    
-    
-    
-    
-    
+
+
 }

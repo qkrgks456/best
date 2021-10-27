@@ -2,6 +2,7 @@ package com.gudi.best.logic.member.controller;
 
 import com.gudi.best.logic.loveBoard.service.BoardService;
 import com.gudi.best.logic.member.mapper.MemberMapper;
+import com.gudi.best.logic.member.service.KaKaoService;
 import com.gudi.best.logic.member.service.MemberService;
 import com.gudi.best.logic.myInfo.service.MyInfoService;
 import com.gudi.best.util.NewApiUtil;
@@ -28,10 +29,12 @@ public class MemberController {
     BoardService boardService;
     @Autowired
     MemberMapper mapper;
+    @Autowired
+    KaKaoService kaKaoService;
 
     @GetMapping(value = "/")
     public String loginForm() throws Exception {
-    	log.info(NewApiUtil.culList("32", "1", "1"));
+        log.info(NewApiUtil.culList("32", "1", "1"));
         return "startForm/loginForm";
     }
 
@@ -57,6 +60,7 @@ public class MemberController {
             boolean check = encoder.matches(pw, enc_pass);
             if (check) {
                 String adminCheck = memberService.adminCheck(id);
+                session.setAttribute("kakao", false);
                 session.setAttribute("admin", adminCheck);
                 session.setAttribute("loginId", id);
                 return "redirect:/main";
@@ -109,6 +113,10 @@ public class MemberController {
 
     @GetMapping("/member/logOut")
     public String logOut(HttpSession session) {
+        if ((boolean) session.getAttribute("kakao")) {
+            String access_token = kaKaoService.getPw((String) session.getAttribute("loginId"));
+            kaKaoService.kakao_logOut(access_token);
+        }
         session.removeAttribute("loginId");
         session.removeAttribute("admin");
         return "startForm/loginForm";

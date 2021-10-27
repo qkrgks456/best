@@ -51,4 +51,7 @@ public interface BoardMapper {
 
     @SelectProvider(type = BoardSQL.class, method = "boardSearchCount")
     int boardSearchTotal(String searchText, String option);
+
+    @Select("SELECT imgPath FROM proFile WHERE id = (SELECT id FROM board WHERE boardNum=#{boardNum})")
+    String proFileImg(int boardNum);
 }
