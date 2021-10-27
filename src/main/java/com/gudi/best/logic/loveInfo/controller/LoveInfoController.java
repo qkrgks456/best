@@ -14,55 +14,45 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gudi.best.logic.loveInfo.mapper.LoveInfoMapper;
 import com.gudi.best.util.NewApiUtil;
+import com.gudi.best.util.PageNation;
 import com.gudi.best.util.Scheduler;
 
+import lombok.extern.log4j.Log4j2;
+
 @Controller
+@Log4j2
 @RequestMapping("/dateInfo")
 public class LoveInfoController {
-    @Autowired
-    LoveInfoMapper loveInfoMapper;
+	@Autowired
+	LoveInfoMapper loveInfoMapper;
 
-    @GetMapping("/tourPick")
-    public String tourPick(){
-    	HashMap <String,String> header = new HashMap<String,String>();
-    	HashMap <String,String> param = new HashMap<String,String>();
-    	String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaCode";
-    	param.put("ServiceKey", "J0GWcsmSKRep08rNleYyFbyLzNo8BcbkWmzsOxqFeJIyHVD3456iyVy+ULCnhVw5y9WsuzCa4ZjugOCCfA0JOA==");
-        param.put("pageNo", "1");
-        param.put("MobileOS", "ETC");
-        param.put("MobileApp", "test");   
-        param.put("areaCode","1");
-        param.put("areaCode","2");
-        /*
-        param.put("areaCode","1");   //서울 
-        param.put("areaCode","2");  //인천
-        param.put("areaCode","3");  // 대전 
-        param.put("areaCode","4"); //대구 
-        param.put("areaCode","5");  // 광주
-        param.put("areaCode","6");  // 부산 
-        param.put("areaCode","7"); // 울산 
-        param.put("areaCode","8"); //세종 특별자치시
-        param.put("areaCode","9"); // 경기도 
-        param.put("areaCode","10");  //강원도 
-        */
-        param.put("_type", "json");
-        
-   
-    	NewApiUtil.sendSeverMsg(url, header, param, "GET");
-    	
-        return "logic/dateInfo/tourPick";
+	@GetMapping("/menu/tourPick")
+	public String tourPick() {
+		return "logic/dateInfo/menu/tourPick";
 
-        
-   
-    }
-    
-    
-    @GetMapping("/tourMenu")   //관광지
-    public String tourist(String tour,Model model) {
-    	model.addAttribute("tour",tour);
-        return "logic/dateInfo/locationPick";
-    }
-    
-    
-    
+	}
+
+	@GetMapping("/tourMenu/{tour}")
+	public String tourPick(@PathVariable String tour, Model model) {
+		// System.out.println("지금 찍은 관광 코드는 : " +tour);
+		model.addAttribute("tour", tour);
+		return "logic/dateInfo/menu/locationPick";
+
+	}
+
+	@GetMapping("/locSpot/{loc}/{tour}/{page}")
+	public String tourPick(@PathVariable String page, @PathVariable String loc, @PathVariable String tour, Model model)
+			throws Exception {
+		// System.out.println(loc+"="+tour);
+		ArrayList<HashMap<String, Object>> list = NewApiUtil.culList(tour, loc, page);
+		int lastIndex = list.size() - 1;
+		String totalCount = list.get(lastIndex).get("totalCount").toString();
+		HashMap<String, Object> map = PageNation.pagination(Integer.parseInt(page), 15, Integer.parseInt(totalCount));
+		list.remove(lastIndex);
+		model.addAttribute("list", list);
+		model.addAttribute("map",map);
+		return "logic/dateInfo/menu/map";
+
+	}
+
 }
