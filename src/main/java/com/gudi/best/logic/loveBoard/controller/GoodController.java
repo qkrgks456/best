@@ -19,7 +19,7 @@ public class GoodController {
 
     @ResponseBody
     @GetMapping("/good/goodData/{boardNum}/{division}")
-    public HashMap<String, Object> goodData(@PathVariable String division, @PathVariable int boardNum, HttpSession session) {
+    public HashMap<String, Object> goodData(@PathVariable String division, @PathVariable String boardNum, HttpSession session) {
         String id = (String) session.getAttribute("loginId");
         return service.goodData(boardNum, id, division);
     }

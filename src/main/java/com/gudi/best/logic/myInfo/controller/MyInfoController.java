@@ -2,9 +2,11 @@ package com.gudi.best.logic.myInfo.controller;
 
 import com.gudi.best.dto.ProFileDTO;
 import com.gudi.best.logic.couple.service.CoupleService;
+import com.gudi.best.logic.loveBoard.service.GoodService;
 import com.gudi.best.logic.member.service.MemberService;
 import com.gudi.best.logic.myInfo.mapper.MyInfoMapper;
 import com.gudi.best.logic.myInfo.service.MyInfoService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,15 +23,22 @@ import java.util.HashMap;
 
 @Controller
 @Log4j2
+@RequiredArgsConstructor
 @RequestMapping("/myInfo")
 public class MyInfoController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Autowired
-    MyInfoService myInfoService;
-    @Autowired
-    MemberService memberService;
-    @Autowired
-    MyInfoMapper mapper;
+    private final MyInfoService myInfoService;
+    private final MemberService memberService;
+    private final MyInfoMapper mapper;
+    private final CoupleService coupleService;
+    private final GoodService goodService;
+
+    @GetMapping("/goodList")
+    public String goodList(HttpSession session, String division, Model model) {
+        String loginId = (String) session.getAttribute("loginId");
+        model.addAttribute("list", goodService.goodList(loginId, division));
+        return "logic/myInfo/goodList";
+    }
 
     @GetMapping("/memberDrop")
     public String memberDropForm() {
@@ -82,9 +91,6 @@ public class MyInfoController {
         }
     }
 
-    @Autowired
-    CoupleService coupleService;
-
     @GetMapping("/proFile")
     public String proFile(Model model, HttpSession session) {
         String id = (String) session.getAttribute("loginId");
@@ -112,8 +118,6 @@ public class MyInfoController {
     }
 
     /* 커플 */
-
-
     public String applyCouple(String id, Model model, HttpSession session) {
         if (id.equals("") || id == null) {
             return "logic/couple/addCoupleIdForm";

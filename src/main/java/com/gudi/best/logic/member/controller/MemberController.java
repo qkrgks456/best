@@ -1,5 +1,6 @@
 package com.gudi.best.logic.member.controller;
 
+import com.gudi.best.logic.loveBoard.mapper.GoodMapper;
 import com.gudi.best.logic.loveBoard.service.BoardService;
 import com.gudi.best.logic.member.mapper.MemberMapper;
 import com.gudi.best.logic.member.service.KaKaoService;
@@ -7,6 +8,7 @@ import com.gudi.best.logic.member.service.MemberService;
 import com.gudi.best.logic.myInfo.service.MyInfoService;
 import com.gudi.best.util.NewApiUtil;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,18 +21,15 @@ import java.util.HashMap;
 
 @Controller
 @Log4j2
+@RequiredArgsConstructor
 public class MemberController {
 
-    @Autowired
-    MemberService memberService;
-    @Autowired
-    MyInfoService myInfoService;
-    @Autowired
-    BoardService boardService;
-    @Autowired
-    MemberMapper mapper;
-    @Autowired
-    KaKaoService kaKaoService;
+    private final MemberService memberService;
+    private final MyInfoService myInfoService;
+    private final BoardService boardService;
+    private final MemberMapper mapper;
+    private final KaKaoService kaKaoService;
+    private final GoodMapper goodMapper;
 
     @GetMapping(value = "/")
     public String loginForm() throws Exception {
@@ -123,10 +122,18 @@ public class MemberController {
     }
 
     @GetMapping("/member/proFileDetail")
-    public String proFileDetail(String id, Model model) {
+    public String proFileDetail(String id, Model model, HttpSession session) {
+        String loginId = (String) session.getAttribute("loginId");
         model.addAttribute("dto", myInfoService.proFileDetail(id));
         model.addAttribute("map", myInfoService.myBoardList(1, id));
         model.addAttribute("boardList", mapper.proFileBoard(0, id));
+        model.addAttribute("proFileId", id);
+        String check = goodMapper.goodCheck(loginId, id);
+        if (check == null) {
+            model.addAttribute("goodCheck", false);
+        } else {
+            model.addAttribute("goodCheck", true);
+        }
         return "logic/proFile/proFileDetail";
     }
 }

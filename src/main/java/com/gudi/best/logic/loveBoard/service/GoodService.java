@@ -1,17 +1,23 @@
 package com.gudi.best.logic.loveBoard.service;
 
+import com.gudi.best.dto.GoodDTO;
 import com.gudi.best.logic.loveBoard.mapper.GoodMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Service
 @Log4j2
+@RequiredArgsConstructor
 public class GoodService {
-    @Autowired
-    GoodMapper mapper;
+
+    private final GoodMapper mapper;
+    private final SimpMessagingTemplate template;
 
     public boolean goodCheck(String divisionNum, String id) {
         boolean result = false;
@@ -25,7 +31,7 @@ public class GoodService {
         return mapper.goodCount(divisionNum);
     }
 
-    public HashMap<String, Object> goodData(int boardNum, String id, String division) {
+    public HashMap<String, Object> goodData(String boardNum, String id, String division) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         boolean result = false;
         if (goodCheck(String.valueOf(boardNum), id)) {
@@ -36,6 +42,17 @@ public class GoodService {
         }
         map.put("goodCount", goodCount(String.valueOf(boardNum)));
         map.put("check", result);
+       /* if (division.equals("people")) {
+            //상대에게 알람 보내기
+            HashMap<String, String> alarmMap = new HashMap<String, String>();
+            alarmMap.put("person", id);
+            alarmMap.put("alarmText", " 님으로부터 메세지가 도착했습니다.");
+            template.convertAndSend("/sub/alarm/chatAlarm", alarmMap);
+        }*/
         return map;
+    }
+
+    public ArrayList<GoodDTO> goodList(String loginId, String division) {
+        return mapper.goodList(loginId, division);
     }
 }

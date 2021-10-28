@@ -7,7 +7,7 @@
     <div id="content">
         <!-- 여기서 부터 내용 넣으세요 -->
         <div class="d-flex justify-content-center">
-            <div class="w-50 bg-white">
+            <div class="w-75 bg-white">
                 <div class="text-center mt-1">
                     <th:block th:if="${dto ne null}">
                         <img th:src="${dto.imgPath}"
@@ -22,68 +22,28 @@
                              style="width: 400px;height: 400px">
                     </th:block>
                 </div>
+                <th:block th:if="${dto eq null}">
+                    <h3 class="text-center" th:text="${proFileId}"></h3>
+                    <div class="text-center mt-2">
+                        <div th:attr="goodCheck=${goodCheck}" class="good btn btn-outline-danger rounded-0"><i
+                                class="bi bi-emoji-heart-eyes me-1"></i>관심
+                        </div>
+                    </div>
+                </th:block>
                 <th:block th:if="${dto ne null}">
                     <h3 class="text-center" th:text="${dto.id}"></h3>
                     <h5 th:if="${dto.name ne null}" th:text="${dto.name} +'('+${dto.age} + ')'"
                         class="text-center mt-2"></h5>
-                    <div class="d-flex justify-content-center">
-                        <button class="btn btn-danger rounded-0" data-bs-toggle="modal"
-                                data-bs-target="#follow">
-                            팔로우 1
-                        </button>
-                        <button class="ms-2 btn btn-danger rounded-0" data-bs-toggle="modal"
-                                data-bs-target="#follower">팔로워 2
-                        </button>
-                    </div>
-                    <!-- 팔로우 모달 -->
-                    <div class="modal fade" id="follow" tabindex="-1" aria-labelledby="followLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="followLabel">팔로우 목록</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">
-                                        닫기
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 팔로워 모달 -->
-                    <div class="modal fade" id="follower" tabindex="-1" aria-labelledby="followerLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="followerLabel">팔로워 목록</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">
-                                        닫기
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="text-center mt-2">
-                        <div class="btn btn-outline-danger rounded-0"><i class="bi bi-emoji-heart-eyes me-1"></i>팔로우
+                        <div th:attr="goodCheck=${goodCheck}" class="good btn btn-outline-danger rounded-0"><i
+                                class="bi bi-emoji-heart-eyes me-1"></i>관심
                         </div>
                     </div>
                     <hr/>
                     <div class="mb-3 text-center mt-2" th:if="${dto ne null}">
                         <th:block th:if="${dto.intro ne null}">
                             <h3>자기소개</h3>
-                            <p th:text="${dto.intro}"></p>
+                            <p class="text-dark" th:text="${dto.intro}"></p>
                         </th:block>
                     </div>
                     <th:block th:if="${dto ne null}">
@@ -100,29 +60,40 @@
                 <th:block th:if="${dto eq null}">
                     <p class="text-center text-muted mt-2">프로필이 등록되지 않았습니다</p>
                 </th:block>
-                <div class="mb-3 text-center mt-2">
-                    <h3 class="mb-3">일상, 기록</h3>
-                    <div th:each="list : ${boardList}" class="card mb-3 mt-2">
-                        <a th:href="@{/loveBoard/boardDetail/{boardNum}/1/all(boardNum=${list.boardNum})}">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img th:src="${list.path}" class="img-fluid rounded-start"
-                                         style="height: 275px;width: 270px">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 th:text="${list.title}" class="card-title titleTarget"></h5>
-                                        <p th:text="${list.content}" class="card-text targets"></p>
+                <div th:if="${#arrays.length(boardList) > 0}" class="mb-3 mt-2">
+                    <h3 class="mb-3 text-center">일상, 기록</h3>
+                    <div th:each="list : ${boardList}" class="d-flex justify-content-center">
+                        <div class="card mb-3 mt-2" style="width: 650px">
+                            <a th:href="@{/loveBoard/boardDetail/{boardNum}/1/all(boardNum=${list.boardNum})}">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img th:src="${list.path}" class="img-fluid rounded-start"
+                                             style="height: 200px;width: 200px">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 th:text="${list.title}" class="card-title titleTarget"></h5>
+                                            <p th:text="${list.content}" class="card-text targets"></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<th:block th:if="${dto eq null}">
+    <input th:attr="divisionNum=${proFileId},goodDivision='people'" type="hidden"
+           class='divisionNum'>
+</th:block>
+<th:block th:if="${dto ne null}">
+    <input th:attr="divisionNum=${dto.id},goodDivision='people'" type="hidden"
+           class='divisionNum'>
+</th:block>
 </body>
 <th:block th:replace="fix/fixFooter.html"></th:block>
+<script th:src="@{/js/good.js}"></script>
 </html>
