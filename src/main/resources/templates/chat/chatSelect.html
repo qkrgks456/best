@@ -283,20 +283,16 @@ $(function() {
  				/*  
  				//3. send(path, header, message) 로 메세지를 보낼 수 있음
  				 stomp.send('/pub/chat/enter', {},JSON.stringify({roomNum: roomNum, id: loginId}))	
- 				*/
- 				
- 				//유효성 위반시 경고창
- 				stomp.subscribe("/sub/chat/errorMsg", function(data){
- 					alert(data.body);
- 					
- 				});
- 				
- 				
+ 				*/ 				
  			});
+ 			
+ 			
  			
  				//메시지 전송
  				$("#button-send").on("click",function(e){
  					var msg = document.getElementById("msg");
+				
+ 					if( (msg.value.length < 1000) && (msg.value.trim() != "") ) {
  					
  					let msgArea = document.getElementById('msgArea');
  					msgArea.scrollTop = msgArea.scrollHeight;
@@ -304,6 +300,10 @@ $(function() {
  					console.log(loginId+ ":" + msg.value);
  					stomp.send('/pub/chat/message', {}, JSON.stringify({roomNum: roomNum, message: msg.value, id: loginId}));
  					msg.value='';
+ 					}else{
+ 						alert("공백은 보낼수 없으며, 1000자 이하로 입력해 주세요!");
+ 					}
+ 						
  				});
  				
  				//엔터키로 전송

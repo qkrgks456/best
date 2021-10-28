@@ -60,7 +60,6 @@ public class RoomController {
 		//채팅방 삭제
 		@GetMapping("/roomDelete")
 		public String roomDelete(String roomNum, HttpSession session, RedirectAttributes rttr, Model model) {
-			
 			log.info("# 채팅방 삭제 요청... roomNum :: " + roomNum);
 			String loginId = (String) session.getAttribute("loginId");
 			chatMapper.deleteChat(roomNum);
