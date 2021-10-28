@@ -102,7 +102,7 @@ public class RoomController {
 		String loginId = (String) session.getAttribute("loginId");
 		model.addAttribute("loginId", loginId);
 		
-		//왼쪽에 채팅리스트 뿌려주기용
+		//왼쪽에 채팅방 리스트 뿌려주기용
 		List<ChatRoomDTO> result = chatMapper.findAllRooms(loginId);
 		model.addAttribute("list", result);
 		
@@ -119,7 +119,10 @@ public class RoomController {
 		
 		//이전 채팅기록도 담아서 뿌려줘야함!
 		//내거, 상대방 메세지 구분 필요함
-		List<ChatDTO> chatDTO =  chatMapper.chatFind(roomNum);
+		chatMapper.initRownum();
+		int maxRowNum = chatMapper.getMaxRownum(roomNum).getMaxRowNum();
+		chatMapper.initRownum();
+		List<ChatDTO> chatDTO =  chatMapper.chatFind(roomNum, maxRowNum);
 		log.info("List ChatDTO 의 형태를 보자!! :: " + chatDTO);
 		model.addAttribute("chatDTO", chatDTO);
 		

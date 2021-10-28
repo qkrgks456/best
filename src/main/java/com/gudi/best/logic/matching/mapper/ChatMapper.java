@@ -35,10 +35,20 @@ public interface ChatMapper {
 	@Update("UPDATE chatRoom SET lastchatdates = SYSDATE() WHERE roomNum = #{param1}")
 	void lastChatDatesUpdate(Integer roomNum);
 
+	/*
 	@Select("SELECT * FROM\r\n"
 			+ "(SELECT roomnum, id, message, dates FROM chat WHERE roomNum = #{param1}) AS sub\r\n"
 			+ "ORDER BY dates ASC")
 	List<ChatDTO> chatFind(String roomNum);
+	*/
+	
+	@Select("    SELECT *\r\n"
+			+ "    FROM (SELECT @rowNum := @rowNum + 1 AS rowNum, roomnum, id, message, dates FROM\r\n"
+			+ "    (SELECT roomnum, id, message, dates FROM chat WHERE roomNum = 23) AS sub\r\n"
+			+ "    ORDER BY dates ASC) AS sub2\r\n"
+			+ "    WHERE rowNum BETWEEN (#{param2}-100) AND #{param2};\r\n"
+			+ "")
+	List<ChatDTO> chatFind(String roomNum, int maxRowNum);
 
 	@Update("UPDATE chatRoom SET lastMessage = #{param2} WHERE roomNum = #{param1}")
 	void lastMessageUpdate(Integer integer, String message);
@@ -60,6 +70,13 @@ public interface ChatMapper {
 
 	@Delete("DELETE FROM chat WHERE roomNum = #{param1}")
 	void deleteChat(String roomNum);
+
+	@Update("SET @rowNum := 0")
+	void initRownum();
+
+	@Select("SELECT MAX(@rowNum := @rowNum + 1) AS maxRowNum\r\n"
+			+ "FROM (SELECT roomnum, id, message, dates FROM chat WHERE roomNum = #{param1}) AS sub")
+	ChatDTO getMaxRownum(String roomNum);
 
 	
 	

@@ -10,4 +10,5 @@ public class ChatDTO {
 	private String message;
 	private String dates;
 	private String imgPath;
+	private Integer maxRowNum;
 }
