@@ -41,12 +41,35 @@
 							<div style="border-bottom: solid 2px lightgray; padding-bottom: 20px; padding-top: 20px">
 							
 								<div class="col-3" style="text-align: center; padding-top: 10px; float: left;">
+								
 									<th:block data-th-if="${#strings.equals(loginId, room.person)}">
-										<img th:src=@{${room.personPath}} style="width:40px;height:40px" class="rounded-circle" onerror="src='/img/noImg.png'">
+										<div class="dropdown-toggle-split" data-bs-toggle="dropdown" style="cursor: pointer;">
+											<img th:src=@{${room.personPath}} style="width:40px;height:40px" class="rounded-circle" onerror="src='/img/noImg.png'">
+										</div>
+									
+	                                    	<ul class="dropdown-menu">
+		                                    	<li><a class="dropdown-item" th:href="@{/member/proFileDetail(id=${room.id})}">프로필</a></li>
+		                                        <li><a class="dropdown-item" th:href="@{/couple/applyCouple(id=${room.id})}">커플맺기신청</a></li>
+		                                        <li><a class="dropdown-item" th:href="@{/report(id=${room.id})}">신고하기</a></li>
+		                                        <li>
+		                                    		<a class="dropdown-item" th:href="@{/chat/roomDelete(roomNum=${room.roomNum})}" onclick="if(!confirm('정말로 채팅방을 나가시겠습니까? \n ( 삭제된 채팅 내용은 복구할 수 없습니다. )')){return false;}">채팅삭제</a>
+	                                       		</li>
+	                                    	</ul>
 								</th:block>
 								
-								<th:block data-th-if="${#strings.equals(loginId, room.id)}">
+								<th:block data-th-if="${#strings.equals(loginId, room.id)}">								
+									<div class="dropdown-toggle-split" data-bs-toggle="dropdown" style="cursor: pointer;">
 										<img th:src=@{${room.idPath}} style="width:40px;height:40px" class="rounded-circle" onerror="src='/img/noImg.png'">
+									</div>
+									
+											<ul class="dropdown-menu">
+		                                    	<li><a class="dropdown-item" th:href="@{/member/proFileDetail(id=${room.person})}">프로필</a></li>
+		                                        <li><a class="dropdown-item" th:href="@{/couple/applyCouple(id=${room.person})}">커플맺기신청</a></li>
+		                                        <li><a class="dropdown-item" th:href="@{/report(id=${room.person})}">신고하기</a></li>
+	                                    		<li>
+		                                    		<a class="dropdown-item" th:href="@{/chat/roomDelete(roomNum=${room.roomNum})}" onclick="if(!confirm('정말로 채팅방을 나가시겠습니까? \n ( 삭제된 채팅 내용은 복구할 수 없습니다. )')){return false;}">채팅삭제</a>
+	                                       		</li>
+	                                    	</ul>
 								</th:block>
 								</div>
 								
@@ -86,22 +109,30 @@
 								<h4 th:if="${room.person.toString().equals(loginId)}" th:text="${room.id}" style="font-weight: bold;">아이디표시</h4>
 								<h4 th:unless="${room.person.toString().equals(loginId)}" th:text="${room.person}" style="font-weight: bold;">아이디표시</h4>
 							</div>
-	                                    <ul class="dropdown-menu">
+	                                   
 	                                    	<th:block th:if="${room.person.toString().equals(loginId)}">
+	                                    	 <ul class="dropdown-menu">
 		                                    	<li><a class="dropdown-item" th:href="@{/member/proFileDetail(id=${room.id})}">프로필</a></li>
 		                                        <li><a class="dropdown-item" th:href="@{/couple/applyCouple(id=${room.id})}">커플맺기신청</a></li>
 		                                        <li><a class="dropdown-item" th:href="@{/report(id=${room.id})}">신고하기</a></li>
+		                                        <li>
+		                                    		<a class="dropdown-item" th:href="@{/chat/roomDelete(roomNum=${room.roomNum})}" onclick="if(!confirm('정말로 채팅방을 나가시겠습니까? \n ( 삭제된 채팅 내용은 복구할 수 없습니다. )')){return false;}">채팅삭제</a>
+	                                       		</li>
+	                                    	</ul>
 	                                    	</th:block>
+	                                    	
 	                                    	<th:block th:unless="${room.person.toString().equals(loginId)}">
+	                                    	 <ul class="dropdown-menu">
 		                                    	<li><a class="dropdown-item" th:href="@{/member/proFileDetail(id=${room.person})}">프로필</a></li>
 		                                        <li><a class="dropdown-item" th:href="@{/couple/applyCouple(id=${room.person})}">커플맺기신청</a></li>
 		                                        <li><a class="dropdown-item" th:href="@{/report(id=${room.person})}">신고하기</a></li>
+	                                    		<li>
+		                                    		<a class="dropdown-item" th:href="@{/chat/roomDelete(roomNum=${room.roomNum})}" onclick="if(!confirm('정말로 채팅방을 나가시겠습니까? \n ( 삭제된 채팅 내용은 복구할 수 없습니다. )')){return false;}">채팅삭제</a>
+	                                       		</li>
+	                                    	</ul>	
 	                                    	</th:block>
-	                                       <li>
-		                                    	<a class="dropdown-item" th:href="@{/chat/roomDelete(roomNum=${room.roomNum})}" onclick="if(!confirm('정말로 채팅방을 나가시겠습니까? \n ( 삭제된 채팅 내용은 복구할 수 없습니다. )')){return false;}">채팅삭제</a>
-	                                       </li>
-	                                        
-	                                    </ul>
+	                                         
+	                                    
 	                     </div>
 				</div>
 				
