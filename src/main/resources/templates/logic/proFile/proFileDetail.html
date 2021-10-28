@@ -28,6 +28,9 @@
                         <div th:attr="goodCheck=${goodCheck}" class="good btn btn-outline-danger rounded-0"><i
                                 class="bi bi-emoji-heart-eyes me-1"></i>관심
                         </div>
+                        <a class="btn btn-danger rounded-0">
+                            <i class="bi bi-chat-dots me-1"></i>러브톡
+                        </a>
                     </div>
                 </th:block>
                 <th:block th:if="${dto ne null}">
@@ -38,6 +41,9 @@
                         <div th:attr="goodCheck=${goodCheck}" class="good btn btn-outline-danger rounded-0"><i
                                 class="bi bi-emoji-heart-eyes me-1"></i>관심
                         </div>
+                        <a th:href="@{/chat/chatCon(person=${dto.id})}" class="btn btn-danger rounded-0">
+                            <i class="bi bi-chat-dots me-1"></i>러브톡
+                        </a>
                     </div>
                     <hr/>
                     <div class="mb-3 text-center mt-2" th:if="${dto ne null}">
@@ -63,12 +69,12 @@
                 <div th:if="${#arrays.length(boardList) > 0}" class="mb-3 mt-2">
                     <h3 class="mb-3 text-center">일상, 기록</h3>
                     <div th:each="list : ${boardList}" class="d-flex justify-content-center">
-                        <div class="card mb-3 mt-2" style="width: 650px">
+                        <div class="card mt-2" style="width: 650px">
                             <a th:href="@{/loveBoard/boardDetail/{boardNum}/1/all(boardNum=${list.boardNum})}">
                                 <div class="row g-0">
                                     <div class="col-md-4">
-                                        <img th:src="${list.path}" class="img-fluid rounded-start"
-                                             style="height: 200px;width: 200px">
+                                        <img th:src="${list.path}" class="img-fluid rounded-start w-100"
+                                             style="height: 200px;">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">

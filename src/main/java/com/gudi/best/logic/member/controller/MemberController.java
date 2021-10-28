@@ -128,7 +128,7 @@ public class MemberController {
         model.addAttribute("map", myInfoService.myBoardList(1, id));
         model.addAttribute("boardList", mapper.proFileBoard(0, id));
         model.addAttribute("proFileId", id);
-        String check = goodMapper.goodCheck(loginId, id);
+        String check = goodMapper.goodCheck(id, loginId);
         if (check == null) {
             model.addAttribute("goodCheck", false);
         } else {
