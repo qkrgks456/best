@@ -80,9 +80,29 @@
 			<div class="col-9" style="height:100%">
 			
 				<!-- 상단(아이디표시) -->
-				<div class="row" style="border-bottom: solid #CD7070 2px; margin-top: 30px; margin-bottom: 15px; padding-bottom: 21px; padding-right:30px; text-align: right; font-weight: bold;">
-						<h4 th:if="${room.person.toString().equals(loginId)}" th:text="${room.id}" style="font-weight: bold;">아이디표시</h4>
-						<h4 th:unless="${room.person.toString().equals(loginId)}" th:text="${room.person}" style="font-weight: bold;">아이디표시</h4>
+				<div class="row" style="border-bottom: solid #CD7070 2px; margin-top: 30px; margin-bottom: 15px; padding-bottom: 21px; padding-right:30px; font-weight: bold;">
+						<div class="btn-group dropstart justify-content-end">
+							<div class="dropdown-toggle-split" data-bs-toggle="dropdown" style="cursor: pointer;">
+								<h4 th:if="${room.person.toString().equals(loginId)}" th:text="${room.id}" style="font-weight: bold;">아이디표시</h4>
+								<h4 th:unless="${room.person.toString().equals(loginId)}" th:text="${room.person}" style="font-weight: bold;">아이디표시</h4>
+							</div>
+	                                    <ul class="dropdown-menu">
+	                                    	<th:block th:if="${room.person.toString().equals(loginId)}">
+		                                    	<li><a class="dropdown-item" th:href="@{/member/proFileDetail(id=${room.id})}">프로필</a></li>
+		                                        <li><a class="dropdown-item" th:href="@{/couple/applyCouple(id=${room.id})}">커플맺기신청</a></li>
+		                                        <li><a class="dropdown-item" th:href="@{/report(id=${room.id})}">신고하기</a></li>
+	                                    	</th:block>
+	                                    	<th:block th:unless="${room.person.toString().equals(loginId)}">
+		                                    	<li><a class="dropdown-item" th:href="@{/member/proFileDetail(id=${room.person})}">프로필</a></li>
+		                                        <li><a class="dropdown-item" th:href="@{/couple/applyCouple(id=${room.person})}">커플맺기신청</a></li>
+		                                        <li><a class="dropdown-item" th:href="@{/report(id=${room.person})}">신고하기</a></li>
+	                                    	</th:block>
+	                                       <li>
+		                                    	<a class="dropdown-item" th:href="@{/chat/roomDelete(roomNum=${room.roomNum})}" onclick="if(!confirm('정말로 채팅방을 나가시겠습니까? \n ( 삭제된 채팅 내용은 복구할 수 없습니다. )')){return false;}">채팅삭제</a>
+	                                       </li>
+	                                        
+	                                    </ul>
+	                     </div>
 				</div>
 				
 					<!-- 중단(메세지표시) -->
@@ -125,21 +145,19 @@
 			  <div class="modal-dialog">
 			    <div class="modal-content">
 			      <div class="modal-header">
-			        <h5 class="modal-title" id="exampleModalLabel">새로운 메시지</h5>
+			        <h5 class="modal-title" id="exampleModalLabel">ID 검색</h5>
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			      </div>
 			      <div class="modal-body">
 			       	<form th:action="@{/chat/roomCreate}" method="post">
-						상대방ID<input type="text" id="searchId" name="person" class="form-control"  style="margin-bottom: 10px;"/>
-						<div id="suggestion_box" class="border-dark"></div>
-						<button class="btn btn-secondary btn-create" style="float: right;">다음</button>
+						상대방 ID 를 입력해 주세요<input type="text" id="searchId" name="person" class="form-control"  style="margin-bottom: 10px;"/>
+						<div id="suggestion_box" style="height:auto; overflow: hidden auto; border-bottom: solid 2px lightgray; border-left: solid 2px lightgray; border-right: solid 2px lightgray; visibility: inherit;"></div>
+						<button class="btn btn-secondary btn-create" style="float: right; margin-top: 5px">다음</button>
 					</form>
 			    </div>
 			  </div>
 			</div>
-		 
-		
-	</div>
+		</div>
 	
 </div>
 
@@ -155,9 +173,27 @@
 </body>
 <th:block th:replace="fix/fixFooter.html"></th:block>
 
-<!-- <script th:src="@{/js/alarm.js}"></script> -->
-
 <script th:inline="javascript">
+//채팅방 생성
+$(".btn-create").on("click", function(e){
+		e.preventDefault();
+		var person = $("input[name='person']").val();
+			
+		if(person == ""){
+			alert("상대방 아이디를 입력해주세요!.");
+		}else{
+			$("form").submit();
+		}
+});
+
+//채팅방 삭제
+function chatDel(){
+	if(confirm("정말로 채팅방을 나가시겠습니까? (채팅내용은 복구할 수 없습니다.)") == true){
+		$("#chatDelForm").submit();
+	}else{
+		return false;
+	}
+}
 
 $(function() {
 	// <input>요소에 문자가 입력될 때마다 호출됨.
@@ -177,17 +213,7 @@ $(function() {
 	})
 });
 		
-		//채팅방 생성
- 		$(".btn-create").on("click", function(e){
- 			e.preventDefault();
- 			var person = $("input[name='person']").val();
- 				
- 			if(person == ""){
- 				alert("상대방 아이디를 입력해주세요!.");
- 			}else{
- 				$("form").submit();
- 			}
- 		});
+		
  			
  		//보냈을때 스크롤 맨 아래로
 		let msgArea = document.getElementById('msgArea');

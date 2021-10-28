@@ -3,6 +3,7 @@ package com.gudi.best.logic.matching.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -53,6 +54,12 @@ public interface ChatMapper {
 
 	@Select("SELECT id FROM member WHERE id like '${param1}%'")
 	ArrayList<String> searchId(String id);
+
+	@Delete("DELETE FROM chatRoom WHERE roomNum = #{param1}")
+	void deleteRoom(String roomNum);
+
+	@Delete("DELETE FROM chat WHERE roomNum = #{param1}")
+	void deleteChat(String roomNum);
 
 	
 	

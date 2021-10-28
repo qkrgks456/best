@@ -95,22 +95,21 @@
 			  <div class="modal-dialog">
 			    <div class="modal-content">
 			      <div class="modal-header">
-			        <h5 class="modal-title" id="exampleModalLabel">새로운 메시지</h5>
+			        <h5 class="modal-title" id="exampleModalLabel">ID 검색</h5>
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			      </div>
 			      <div class="modal-body">
 			       	<form th:action="@{/chat/roomCreate}" method="post">
-						상대방ID<input type="text" id="searchId" name="person" class="form-control"  style="margin-bottom: 10px;"/>
-						<div id="suggestion_box" style="border-bottom: solid 2px lightgray; border-left: solid 2px lightgray; border-right: solid 2px lightgray;"></div>
+					    상대방 ID 를 입력해 주세요<input type="text" id="searchId" name="person" class="form-control"  style="margin-bottom: 10px;"/>
+						<div id="suggestion_box" style="height:auto; overflow: hidden auto; border-bottom: solid 2px lightgray; border-left: solid 2px lightgray; border-right: solid 2px lightgray; visibility: inherit;"></div>
 						<button class="btn btn-secondary btn-create" style="float: right; margin-top: 5px">다음</button>
 					</form>
 			    </div>
 			  </div>
 			</div>
-			
-			
-				
 		</div>
+		
+		
 		</div>
 		
 		
