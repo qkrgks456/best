@@ -117,11 +117,10 @@ public class RoomController {
 		log.info("dto 속을보자::" + dto);;
 		model.addAttribute("room",dto);
 		
-		//이전 채팅기록도 담아서 뿌려줘야함!
-		//내거, 상대방 메세지 구분 필요함
-		chatMapper.initRownum();
-		int maxRowNum = chatMapper.getMaxRownum(roomNum).getMaxRowNum();
-		chatMapper.initRownum();
+		//최신 채팅 100개 불러오기
+		chatMapper.initRownum(); //로우넘 초기화
+		int maxRowNum = chatMapper.getMaxRownum(roomNum).getMaxRowNum(); //맥스로우넘 구해오기
+		chatMapper.initRownum(); //로우넘 초기화2
 		List<ChatDTO> chatDTO =  chatMapper.chatFind(roomNum, maxRowNum);
 		log.info("List ChatDTO 의 형태를 보자!! :: " + chatDTO);
 		model.addAttribute("chatDTO", chatDTO);
