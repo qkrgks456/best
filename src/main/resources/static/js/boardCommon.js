@@ -1,6 +1,4 @@
-let uploadFiles = [];
 $('#loveBoardBtn').attr("aria-expanded", "true");
-
 // 글자수 체킹 해주는거 및 유효성
 $('#contents').on("change keyup paste input", function () {
     if ($(this).val().trim().length > 0) {
@@ -29,6 +27,7 @@ $('#title').on("change keyup paste input", function () {
     $('#titleNum').text($(this).val().trim().length + "/100");
 })
 
+let uploadFiles = [];
 // 드래그 이벤트 주기
 $(document).on("dragleave", "#drop", function (e) { //드래그 요소가 나갔을때
     $(this).removeClass('bg-light');

@@ -25,6 +25,15 @@ html, body {
     text-overflow: ellipsis;
 }
 
+.goodListTarget {
+    /* 한 줄 자르기 */
+    display: inline-block;
+    width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .targets {
     /* 여러 줄 자르기 추가 스타일 */
     white-space: normal;
