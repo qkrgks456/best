@@ -38,8 +38,8 @@
                     <h5 th:if="${dto.name ne null}" th:text="${dto.name} +'('+${dto.age} + ')'"
                         class="text-center mt-2"></h5>
                     <div class="text-center mt-2">
-                        <div th:attr="goodCheck=${goodCheck}" class="good btn btn-outline-danger rounded-0"><i
-                                class="bi bi-emoji-heart-eyes me-1"></i>관심
+                        <div th:attr="goodCheck=${goodCheck}" class="good btn btn-outline-danger rounded-0">
+                            <i class="bi bi-emoji-heart-eyes me-1"></i>관심
                         </div>
                         <a th:href="@{/chat/chatCon(person=${dto.id})}" class="btn btn-danger rounded-0">
                             <i class="bi bi-chat-dots me-1"></i>러브톡

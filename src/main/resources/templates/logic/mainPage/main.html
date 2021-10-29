@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:include="fix/fixHead.html"></th:block>
+<style>
+    .mainText:hover {
+        text-decoration: underline;
+    }
+</style>
 <body>
 <div class="wrapper">
     <th:block th:include="fix/fixSideBar"></th:block>
@@ -19,53 +24,54 @@
 							<span class="fa-stack fa-4x"><i
                                     class="bi bi-emoji-sunglasses fs-1"></i> </span>
                         <h4 class="my-2 fw-bold">자신을 꾸며보세요</h4>
-                        <p class="text-dark" style="height: 90px">자신의 프로필을 꾸미고 가꾸세요.
-                            당신은 언제나 대단하고 멋진 사람이니까요.</p>
+                        <a th:href="@{/myInfo/proFile}" class="mainText" style="height: 90px">자신의 프로필을
+                            꾸미고 가꾸세요. 당신은 언제나 대단하고 멋진 사람이니까요. 프로필을 등록하면 좋은 인연을 찾게 될겁니다.</a>
                     </div>
                     <div class="col-md-4">
 							<span class="fa-stack fa-4x"> <i
                                     class="bi bi-calendar-check fs-1"></i>
 							</span>
                         <h4 class="my-2 fw-bold">소중한 인연과의 약속을 지키세요</h4>
-                        <p class="text-dark" style="height: 90px">캘린더를 통하여 소중한 연인과의
-                            약속 혹은 지인들의 약속을 등록하고 확인하세요.</p>
+                        <a th:href="@{/couple/loveCalender}" class="text-dark mainText" style="height: 90px">
+                            캘린더를 통하여 소중한 연인과의 약속 혹은 지인들의 약속을 등록하고 확인하세요.
+                        </a>
                     </div>
                     <div class="col-md-4">
 							<span class="fa-stack fa-4x"> <i
                                     class="bi bi-chat-square-dots fs-1"></i>
 							</span>
                         <h4 class="my-2 fw-bold">추억을 공유하세요</h4>
-                        <p class="text-dark" style="height: 90px">사랑하는 사람과의 추억을
-                            공유하세요. 작은 일들도 기록하다보면 서로의 사랑이 더 애틋해짐을 느낄 수 있습니다.</p>
+                        <a th:href="@{/couple/loveMemory/1}" class="text-dark mainText" style="height: 90px">
+                            사랑하는 사람과의 추억을 공유하세요. 작은 일들도 기록하다보면 서로의 사랑이 더 애틋해짐을 느낄 수 있습니다.
+                        </a>
                     </div>
                     <div class="col-md-4 mt-3">
 							<span class="fa-stack fa-4x"><i
                                     class="bi bi-heart-fill fs-1"></i> </span>
                         <h4 class="my-2 fw-bold">새로운 만남을 가져보세요</h4>
-                        <p class="text-dark" style="height: 90px">사랑의 시작은 작은것에서
-                            시작입니다. 꼭 사랑이 아닐지라도 소중한 인연이 될 수 있을거에요.</p>
+                        <a th:href="@{/chat/rooms}" class="text-dark mainText" style="height: 90px">
+                            마음이 맞는 사람에게 실시간 메세지를 보낼 수 있습니다. 여러분의 마음을 표현해보세요.</a>
                     </div>
                     <div class="col-md-4 mt-3">
 							<span class="fa-stack fa-4x"> <i
                                     class="bi bi-suit-spade-fill fs-1"></i>
 							</span>
                         <h4 class="my-2 fw-bold">행복한 시간을 가지세요</h4>
-                        <p class="text-dark" style="height: 90px">맛집,여행지,이색데이트 등 많은
+                        <p class="text-dark mainText" style="height: 90px">맛집,여행지,이색데이트 등 많은
                             정보가 있습니다. 여러분들은 행복한 시간을 가질 자격이 있습니다.</p>
                     </div>
                     <div class="col-md-4 mt-3">
 							<span class="fa-stack fa-4x"><i
                                     class="bi bi-journal-richtext fs-1"></i> </span>
                         <h4 class="my-2 fw-bold">소중한 일상을 기록하세요</h4>
-                        <p class="text-dark" style="height: 90px">여러분들의 소중한 일상을
-                            자랑해보세요. 누구라도 좋아할겁니다.</p>
+                        <a th:href="@{/loveBoard/list/all/1}" class="text-dark mainText" style="height: 90px">
+                            여러분들의 소중한 일상을 자랑해보세요. 누구라도 좋아할겁니다.</a>
                     </div>
                 </div>
             </div>
         </section>
         <section class="text-center">
             <div class="container">
-                <h2 class="mb-5">개발자</h2>
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="testimonial-item mx-auto mb-5 mb-lg-0">
