@@ -76,7 +76,7 @@
                 </tbody>
             </table>
              <th:block th:if="${map.get('list').size()>0}">
-            <!-- <ul class="pagination justify-content-center">
+             <ul class="pagination justify-content-center">
                 <li class="page-item" th:if="${map.get('startPage') ne 1}">
                     <a aria-label="Previous" class="page-link rounded-0"
                        th:href="@{${path}/{page}(path=${map.get('path')},page=${map.get('startPage') - 1})}">
@@ -100,7 +100,7 @@
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
-            </ul> -->
+            </ul> 
             </th:block>
             </div>
         </div>
@@ -146,7 +146,7 @@
     	        eventLimitText: "more",
     	          events:function(info, successCallback, failureCallback){
     	            $.ajax({
-    	                  url:"readMemory",
+    	                  url:"/couple/readMemory",
     	                   dataType: 'json',
     	                   success: function(result) {
     	 	

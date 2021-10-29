@@ -5,8 +5,10 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gudi.best.dto.memberDTO;
+import com.gudi.best.dto.reportDTO;
 import com.gudi.best.logic.admin.mapper.AdminMapper;
 import com.gudi.best.util.PageNation;
 
@@ -41,6 +43,41 @@ public class AdminService {
 			 mapper.change(chk,id);
 		 }
 		 return chk;
+	}
+
+
+	public HashMap<String, Object> reportMemberList(int page) {
+		int total = mapper.reportTotal();
+		HashMap<String, Object> map = PageNation.pagination(page, 10, total);
+		if(page==1) {
+			page =0;
+		}else {
+			page = (page - 1) * 10 ;
+		}
+		ArrayList<reportDTO> list = mapper.reportMemberList(page);
+		map.put("list", list);
+		return map;
+	}
+
+	public ArrayList<reportDTO> reportMemberDetail(int reportNum) {
+		ArrayList<reportDTO> list = mapper.reportMemberDetail(reportNum);
+		return list;
+	}
+
+	@Transactional
+	public int answerEnter(HashMap<String, String> param) {
+		int reportNum = Integer.parseInt(param.get("rNum"));
+		String answer = param.get("answer");
+		mapper.answerEnter(answer, reportNum);
+		return reportNum;
+		
+	}
+
+	public int bye(HashMap<String, String> param) {
+		String id = param.get("id");
+		int reportNum = Integer.parseInt(param.get("rNum"));
+		mapper.bye(id);
+		return reportNum;
 	}
 	
 }
