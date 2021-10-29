@@ -43,12 +43,11 @@ public interface ChatMapper {
 	
 	// 채팅 기록불러오기 세트 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
-	@Select("    SELECT *\r\n"
+	@Select("  SELECT *\r\n"
 			+ "    FROM (SELECT @rowNum := @rowNum + 1 AS rowNum, roomnum, id, message, dates FROM\r\n"
-			+ "    (SELECT roomnum, id, message, dates FROM chat WHERE roomNum = 23) AS sub\r\n"
+			+ "    (SELECT roomnum, id, message, dates FROM chat WHERE roomNum = #{param1}) AS sub\r\n"
 			+ "    ORDER BY dates ASC) AS sub2\r\n"
-			+ "    WHERE rowNum BETWEEN (#{param2}-100) AND #{param2};\r\n"
-			+ "")
+			+ "    WHERE rowNum BETWEEN (#{param2}-100) AND #{param2}\r\n")
 	List<ChatDTO> chatFind(String roomNum, int maxRowNum);
 	
 	@Update("SET @rowNum := 0")

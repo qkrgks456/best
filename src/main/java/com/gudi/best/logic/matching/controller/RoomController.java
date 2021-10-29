@@ -119,7 +119,11 @@ public class RoomController {
 		
 		//최신 채팅 100개 불러오기
 		chatMapper.initRownum(); //로우넘 초기화
-		int maxRowNum = chatMapper.getMaxRownum(roomNum).getMaxRowNum(); //맥스로우넘 구해오기
+		ChatDTO test = chatMapper.getMaxRownum(roomNum); //맥스로우넘 구해오기
+		int maxRowNum = 0;
+		if(test != null) {
+			maxRowNum = test.getMaxRowNum();		
+		}
 		chatMapper.initRownum(); //로우넘 초기화2
 		List<ChatDTO> chatDTO =  chatMapper.chatFind(roomNum, maxRowNum);
 		log.info("List ChatDTO 의 형태를 보자!! :: " + chatDTO);
