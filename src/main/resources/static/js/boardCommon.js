@@ -40,20 +40,8 @@ $(document).on("dragleave", "#drop", function (e) { //드래그 요소가 나갔
 }).on('drop', "#drop", function (e) { //드래그한 항목을 떨어뜨렸을때
     e.preventDefault();
     $(this).removeClass('bg-light');
-    let fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
     let files = e.originalEvent.dataTransfer.files;
-    for (let i = 0; i < files.length; i++) {
-        let file = files[i];
-        if (file.name.match(fileForm)) {
-            $('#imgText').remove();
-            let size = uploadFiles.push(file); //업로드 목록에 추가
-            preview(file, size - 1); //미리보기 만들기
-        } else {
-            alert("이미지 파일만 등록해주세요!")
-            $('#thumbnails').empty();
-            return;
-        }
-    }
+    fileCheck(files);
 });
 
 // 이미지 삭제
@@ -81,5 +69,21 @@ function preview(file, idx) {
         };
     })(file, idx);
     reader.readAsDataURL(file);
+}
+
+function fileCheck(files) {
+    let fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
+    for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+        if (file.name.match(fileForm)) {
+            $('#imgText').remove();
+            let size = uploadFiles.push(file); //업로드 목록에 추가
+            preview(file, size - 1); //미리보기 만들기
+        } else {
+            alert("이미지 파일만 등록해주세요!")
+            $('#thumbnails').empty();
+            return;
+        }
+    }
 }
 

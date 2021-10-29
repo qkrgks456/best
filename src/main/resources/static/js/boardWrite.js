@@ -55,14 +55,6 @@ $(document).on('click', '#boardWriteBtn', function () {
 
 $("#fileSecond").on("change", function (e) {
     let fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
-    let file = $(this)[0].files[0];
-    if (file.name.match(fileForm)) {
-        $('#imgText').remove();
-        let size = uploadFiles.push(file); //업로드 목록에 추가
-        preview(file, size - 1); //미리보기 만들기
-    } else {
-        alert("이미지 파일만 등록해주세요!")
-        $('#thumbnails').empty();
-        return;
-    }
+    let files = $(this)[0].files;
+    fileCheck(files);
 })
