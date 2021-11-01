@@ -73,11 +73,26 @@ public class AdminService {
 		
 	}
 
-	public int bye(HashMap<String, String> param) {
+	@Transactional
+	public String bye(HashMap<String, String> param) {
 		String id = param.get("id");
-		int reportNum = Integer.parseInt(param.get("rNum"));
 		mapper.bye(id);
-		return reportNum;
+		mapper.status(id);
+		return "정지";
 	}
+
+	public HashMap<String,Object> byeList(int page) {
+		int total = mapper.byeTotal();
+		HashMap<String, Object> map = PageNation.pagination(page, 10, total);
+		if(page==1) {
+			page =0;
+		}else {
+			page = (page - 1) * 10 ;
+		}
+		ArrayList<memberDTO> list = mapper.byeList(page);
+		map.put("list", list);
+		return map;
+	}
+	
 	
 }

@@ -106,12 +106,10 @@
 	
 	$(document).on('click', '#bye', function () {
 		  let id = $('#bye').val();
-		  let rNum = $('#enter').val();
 		  if(confirm( id+' 회원을 정지 시키겠습니까? 확인 후 진행해주세요.')){
 		  
 			 let formData = new FormData();
 			 formData.append("id", id);
-			 formData.append("rNum", rNum);
 			 $.ajax({
                url: '/admin/bye',
                data: formData,

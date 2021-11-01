@@ -40,4 +40,16 @@ public interface AdminMapper {
 	@Update("update member set delCheck='Y' where id=#{param1}")
 	void bye(String id);
 
+	@Update("update report set status='Y' where id=#{param1}")
+	void status(String id);
+
+	@Select("select * from member where delCheck='Y' LIMIT #{param1},10")
+	ArrayList<memberDTO> byeList(int page);
+
+	@Select("select count(id) from member where delCheck='Y'")
+	int byeTotal();
+	
+	@Update("update member set delCheck='N' where id=#{param1}")
+	void comeBack(String id);
+	
 }

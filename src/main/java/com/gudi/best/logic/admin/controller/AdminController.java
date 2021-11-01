@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gudi.best.dto.memberDTO;
 import com.gudi.best.dto.reportDTO;
+import com.gudi.best.logic.admin.mapper.AdminMapper;
 import com.gudi.best.logic.admin.service.AdminService;
 
 import ch.qos.logback.classic.Logger;
@@ -26,6 +28,7 @@ import lombok.extern.log4j.Log4j2;
 public class AdminController {
 
 	@Autowired AdminService service;
+	@Autowired AdminMapper mapper;
 	
 	@GetMapping("/main")
     public String main(Model model) {
@@ -79,7 +82,23 @@ public class AdminController {
 	
 	@ResponseBody
 	@PostMapping("/bye")
-    public int bye(@RequestParam HashMap<String, String> param) {
+    public String bye(@RequestParam HashMap<String, String> param) {
         return service.bye(param);
     }
+	
+	@GetMapping("/byeList/{page}")
+    public String byeList(@PathVariable int page, Model model) {
+		HashMap<String, Object> map = service.byeList(page);
+		model.addAttribute("map", map);
+        return "logic/admin/byeList";
+    }
+	
+	@GetMapping("/comeBack/{id}")
+    public String comeBack(@PathVariable String id, Model model) {
+		mapper.comeBack(id);
+		HashMap<String, Object> map = service.byeList(1);
+		model.addAttribute("map", map);
+        return "logic/admin/byeList";
+    }
+	
 }
