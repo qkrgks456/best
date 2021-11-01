@@ -32,8 +32,7 @@ public class MemberController {
     private final GoodMapper goodMapper;
 
     @GetMapping(value = "/")
-    public String loginForm() throws Exception {
-        log.info(NewApiUtil.culList("32", "1", "1"));
+    public String loginForm() {
         return "startForm/loginForm";
     }
 
