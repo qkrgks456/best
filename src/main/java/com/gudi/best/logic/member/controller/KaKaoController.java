@@ -31,15 +31,15 @@ public class KaKaoController {
     public String loginForm() {
         String ip = IPUtil.getServerIp();
         /* 배포용 */
-        /*String reqUrl = "redirect:https://kauth.kakao.com/oauth/authorize"
-                + "?client_id=510dfee7db026dbcc8df7b0a51993201"
-                + "&redirect_uri=http://3.36.65.111:8100/kakao/callback"
-                + "&response_type=code";*/
-
         String reqUrl = "redirect:https://kauth.kakao.com/oauth/authorize"
                 + "?client_id=510dfee7db026dbcc8df7b0a51993201"
-                + "&redirect_uri=http://localhost:8100/kakao/callback"
+                + "&redirect_uri=http://lovegamepro.site/kakao/callback"
                 + "&response_type=code";
+
+        /*String reqUrl = "redirect:https://kauth.kakao.com/oauth/authorize"
+                + "?client_id=510dfee7db026dbcc8df7b0a51993201"
+                + "&redirect_uri=http://localhost:8100/kakao/callback"
+                + "&response_type=code";*/
 
 
         return reqUrl;

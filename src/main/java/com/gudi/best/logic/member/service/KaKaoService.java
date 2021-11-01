@@ -27,8 +27,8 @@ public class KaKaoService {
         params.put("client_id", "510dfee7db026dbcc8df7b0a51993201");
         String ip = IPUtil.getServerIp();
         // 배포용 url
-        // params.put("redirect_uri", "http://3.36.65.111:8100/kakao/callback");
-        params.put("redirect_uri", "http://localhost:8100/kakao/callback");
+        params.put("redirect_uri", "http://lovegamepro.site/kakao/callback");
+        /*params.put("redirect_uri", "http://localhost:8100/kakao/callback");*/
         params.put("code", code);
         // url
         String url = "https://kauth.kakao.com/oauth/token";
