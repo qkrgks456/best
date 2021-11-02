@@ -10,17 +10,18 @@ stompForAlarm.connect({},function(sock){
 		console.log("알람용 STOMP 연결!");
 		console.log("sock :: "+ sock);
 		 
-		//채팅알람
+		//신고, 관심, 채팅 알람
 		stompForAlarm.subscribe("/sub/alarm/chatAlarm", function(data){
 						
 			var person = JSON.parse(data.body).person;
 			var alarmText = JSON.parse(data.body).alarmText;
 			
-				if(loginIds != person){	
+				if(loginIds == person){	
 					 $("#alarmArea").empty();
-					 printAlarm(person + alarmText);
+					 printAlarm(alarmText);
 				}
 		})
+		
 })
 
 

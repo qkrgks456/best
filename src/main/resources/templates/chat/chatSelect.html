@@ -106,8 +106,8 @@
 				<div class="row" style="border-bottom: solid #CD7070 2px; margin-top: 30px; margin-bottom: 15px; padding-bottom: 21px; padding-right:30px; font-weight: bold;">
 						<div class="btn-group dropstart justify-content-end">
 							<div class="dropdown-toggle-split" data-bs-toggle="dropdown" style="cursor: pointer;">
-								<h4 th:if="${room.person.toString().equals(loginId)}" th:text="${room.id}" style="font-weight: bold;">아이디표시</h4>
-								<h4 th:unless="${room.person.toString().equals(loginId)}" th:text="${room.person}" style="font-weight: bold;">아이디표시</h4>
+								<h4 th:if="${room.person.toString().equals(loginId)}" th:text="${room.id}" id="receiver" th:attr="receiver=${room.id}" style="font-weight: bold;">아이디표시</h4>
+								<h4 th:unless="${room.person.toString().equals(loginId)}" th:text="${room.person}" id="receiver" th:attr="receiver=${room.person}" style="font-weight: bold;">아이디표시</h4>
 							</div>
 	                                   
 	                                    	<th:block th:if="${room.person.toString().equals(loginId)}">
@@ -318,6 +318,7 @@ $(function() {
  			});
  			
  			
+ 			let receiver = $("#receiver").attr("receiver");
  			
  				//메시지 전송
  				$("#button-send").on("click",function(e){
@@ -329,7 +330,7 @@ $(function() {
  					msgArea.scrollTop = msgArea.scrollHeight;
  					
  					console.log(loginId+ ":" + msg.value);
- 					stomp.send('/pub/chat/message', {}, JSON.stringify({roomNum: roomNum, message: msg.value, id: loginId}));
+ 					stomp.send('/pub/chat/message', {}, JSON.stringify({roomNum: roomNum, message: msg.value, id: loginId, receiver: receiver}));
  					msg.value='';
  					}else{
  						alert("공백은 보낼수 없으며, 1000자 이하로 입력해 주세요!");

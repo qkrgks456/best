@@ -31,7 +31,7 @@ public class StompChatController {
 	
 	@MessageMapping(value = "/chat/message")
 	public void message(ChatDTO message) {
-		log.info("message 의 형태를 보자!!:: " + message); //ChatMessageDTO(roomNum=1, id=qkrgks456, dates=null, message=123, roomName=테스트)
+		log.info("message 의 형태를 보자!!:: " + message); //roomNum=34, id=qustkd456, message=ttt, dates=null, imgPath=null, maxRowNum=null, receiver=qkrgks456
 
 			//chat 테이블에 대화기록하고, chatroom 의 마지막 대화일인 lastChatDates 를 SYSDATE 로 업뎃해주자
 			chatMapper.chatInsert(message.getRoomNum(),message.getId(),message.getMessage());
@@ -44,8 +44,8 @@ public class StompChatController {
 			
 			//상대에게 알람 보내기
 			HashMap<String, String> alarmMap = new HashMap<String, String>();
-			alarmMap.put("person", message.getId());
-			alarmMap.put("alarmText", " 님으로부터 메세지가 도착했습니다.");
+			alarmMap.put("alarmText", message.getId() + " 님으로부터 메세지가 도착했습니다.");
+			alarmMap.put("person", message.getReceiver()); //상대방
 			template.convertAndSend("/sub/alarm/chatAlarm", alarmMap);
 	}
 

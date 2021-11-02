@@ -25,7 +25,7 @@ $('#proFileInputBtn').on('click', function () {
 
 // 콘텐츠 수정 :: 사진 수정 시 이미지 미리보기 및 유효성 체크
 $("input[name='proFileImg']").on('change', function () {
-    let fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/;
+    let fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
     if (this.files.length > 0) {
         if (!$(this).val().match(fileForm)) {
             alert("이미지 파일만 업로드 해주세요");
