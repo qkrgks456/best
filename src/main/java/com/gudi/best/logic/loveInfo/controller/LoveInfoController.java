@@ -26,7 +26,7 @@ public class LoveInfoController {
 	@Autowired
 	LoveInfoMapper loveInfoMapper;
 
-	@GetMapping("/menu/tourPick")
+	@GetMapping("/tourPick")
 	public String tourPick() {
 		return "logic/dateInfo/menu/tourPick";
 
@@ -50,9 +50,16 @@ public class LoveInfoController {
 		HashMap<String, Object> map = PageNation.pagination(Integer.parseInt(page), 15, Integer.parseInt(totalCount));
 		list.remove(lastIndex);
 		model.addAttribute("list", list);
-		model.addAttribute("map",map);
+		model.addAttribute("map", map);
 		return "logic/dateInfo/menu/map";
+	}
 
+	@GetMapping("/infoDetail/{contentid}/{contenttypeid}")
+	public String infoDetail(@PathVariable String contentid, @PathVariable String contenttypeid, Model model)
+			throws Exception {
+		HashMap<String, Object> map = NewApiUtil.culList(contentid, contenttypeid);
+		model.addAttribute("map", map);
+		return "logic/dateInfo/menu/detail";
 	}
 
 }

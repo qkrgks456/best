@@ -226,4 +226,40 @@ public class NewApiUtil {
 		return list;
 	}
 
+	public static HashMap<String, Object> culList(String contentid, String contenttypeid) throws Exception {
+
+		HashMap<String, String> header = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("ServiceKey",
+				"YRc1yhIuj+SEq19P4LqBXRmFAtACpby0jiZKx+pSOyMnQ+5EX18dxJ+heYZ+4Ls/hYTVS6+FqoIZDjj2XmsmRg==");
+		params.put("MobileApp", "culList");
+		params.put("MobileOS", "ETC");
+		// params.put("contentTypeId", contenttypeid);
+		params.put("contentId", contentid);
+		params.put("_type", "json");
+		params.put("numOfRows", "1");
+		params.put("defaultYN", "Y");
+		params.put("firstImageYN", "Y");
+		params.put("addrinfoYN", "Y");
+		params.put("mapinfoYN", "Y");
+		params.put("overviewYN", "Y");
+		String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon";
+		String result = sendSeverMsg(url, header, params, "GET");
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		HashMap<String, Object> map = mapper.readValue(result, HashMap.class);
+		result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map.get("response"));
+		HashMap<String, Object> map2 = mapper.readValue(result, HashMap.class);
+		result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map2.get("body"));
+		HashMap<String, Object> map3 = mapper.readValue(result, HashMap.class);
+		result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map3.get("items"));
+		HashMap<String, Object> map4 = mapper.readValue(result, HashMap.class);
+		result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map4.get("item"));
+		TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() {
+		};
+		HashMap<String, Object> resultMap = mapper.readValue(result, typeRef);
+
+		return resultMap;
+	}
 }

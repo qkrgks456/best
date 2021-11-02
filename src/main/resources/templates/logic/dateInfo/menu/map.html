@@ -20,9 +20,9 @@
 					<div>
 						<!-- 카드를 가운데로 유지 -->
 						<div th:each="map : ${list}" class="card mb-3" style="width: 900px; max-height: 500px">
-							<div class="row g-0">
+							<a class="row g-0"  th:href="@{/dateInfo/infoDetail/{contentid}/{contenttypeid}(contentid=${map.get('contentid')},contenttypeid=${map.get('contenttypeid')})}">
 								<div class="col-md-4">
-									<img onerror="src='/img/noListImg.jpg'" th:src="@{${map.get('firstimage')}}" class="img-fluid rounded-start" style="height: 200px; width: 300px">
+									<img onerror="src='/img/noListImg.jpg'" th:src="@{${map.get('firstimage')}}" class="img-fluid rounded-start" style="height: 200px; width: 300px">	
 								</div>
 								<div class="col-md-8">
 									<div class="card-body">
@@ -30,7 +30,7 @@
 										<p th:text="${map.get('addr1')}" class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
 									</div>
 								</div>
-							</div>
+							</a>
 						</div>
 					</div>
 				</div>
