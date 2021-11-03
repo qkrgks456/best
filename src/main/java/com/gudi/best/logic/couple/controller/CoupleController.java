@@ -80,11 +80,11 @@ public class CoupleController {
 		String id = (String) session.getAttribute("loginId");
 		if (param.get("sTime") != null) {
 			param.put("start", param.get("start") + "T" + param.get("sTime"));
-			// System.out.println(param.get("start"));
+			 System.out.println(param.get("start"));
 		}
-		if (param.get("eTime") != null) {
+		if (param.get("eTime") != null && param.get("eTime") != "") {
 			param.put("end", param.get("end") + "T" + param.get("eTime"));
-			// System.out.println(end);
+			System.out.println(param.get("end"));
 		}
 		service.calenderEnter(id, param);
 		return "logic/couple/loveCalender";
@@ -105,16 +105,16 @@ public class CoupleController {
 
 	@PostMapping("/calenderUpdate")
 	public String calenderUpdate(@RequestParam HashMap<String, String> param, HttpSession session) {
-		System.out.println("업데이트 실행");
+		//System.out.println("업데이트 실행");
 		System.out.println("파라미터 값" + param);
 		String id = (String) session.getAttribute("loginId");
 		if (param.get("sTime") != null) {
 			param.put("start", param.get("start") + "T" + param.get("sTime"));
 			// System.out.println(param.get("start"));
 		}
-		if (param.get("eTime") != null) {
-			String end = param.get("end") + "T" + param.get("eTime");
-			// System.out.println(end);
+		if (param.get("eTime") != null && param.get("eTime") != "") {
+			param.put("end", param.get("end") + "T" + param.get("eTime"));
+			 System.out.println(param.get("end"));
 		}
 		service.calenderUpdate(id, param);
 		return "redirect:/couple/CalenderDetail/" + param.get("Cnum");
@@ -133,8 +133,11 @@ public class CoupleController {
 		String id = (String) session.getAttribute("loginId");
 		HashMap<String, Object> map = service.readMemoryP(id,page);
 		model.addAttribute("map", map);
+		log.info(map);
 		return "logic/couple/loveMemory";
 	}
+	
+	
 
 	@GetMapping("/addCoupleIdForm")
 	public String addCoupleIdForm() {
@@ -268,7 +271,7 @@ public class CoupleController {
 			param.put("start", param.get("start") + "T" + param.get("sTime"));
 			// System.out.println(param.get("start"));
 		}
-		if (param.get("eTime") != null) {
+		if (param.get("eTime") != null && param.get("eTime") != "") {
 			param.put("end", param.get("end") + "T" + param.get("eTime"));
 			// System.out.println(end);
 		}
@@ -308,7 +311,7 @@ public class CoupleController {
 			param.put("start", param.get("start") + "T" + param.get("sTime"));
 			// System.out.println(param.get("start"));
 		}
-		if (param.get("eTime") != null) {
+		if (param.get("eTime") != null && param.get("eTime") != "") {
 			param.put("end", param.get("end") + "T" + param.get("eTime"));
 			// System.out.println(end);
 		}

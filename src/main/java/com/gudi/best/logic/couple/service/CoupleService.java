@@ -106,6 +106,10 @@ public class CoupleService {
 		if(mapper.historyTotal(id)>0) {
 			map.put("history", "Y");
 		};
+		ArrayList<CalenderDTO> list = mapper.readMomory(id,chk);
+		map.put("list", list);
+		map.put("chk", "Y");
+		map.put("couple", chk);
 		if(chk.equals("없음")) {
 		map.put("chk", "N");
 		} else if(chk.length()>9) {
@@ -114,12 +118,8 @@ public class CoupleService {
 			}	else if(chk.substring(0, 8).equals("Response")) {
 				map.put("chk", "R"); // 요청자의 프로필과 수락창 보여주기 -> 만들예정
 			}
-			}else {
-			ArrayList<CalenderDTO> list = mapper.readMomory(id,chk);
-			map.put("list", list);
-			map.put("chk", "Y");
-			map.put("couple", chk);
 			}
+			
 		return map;
 	}
 	
@@ -133,6 +133,12 @@ public class CoupleService {
 		}else {
 			page = (page - 1) * 10 ;
 		}
+		
+		ArrayList<CalenderDTO> list = mapper.readMomoryP(id,chk,page);
+		map.put("list", list);
+		map.put("chk", "Y");
+		map.put("couple", chk);
+		
 		if(chk.equals("없음")) {
 		map.put("chk", "N");
 		} else if(chk.length()>9) {
@@ -141,12 +147,10 @@ public class CoupleService {
 			}	else if(chk.substring(0, 8).equals("Response")) {
 				map.put("chk", "R"); // 요청자의 프로필과 수락창 보여주기 -> 만들예정
 			}
-			}else {
-			ArrayList<CalenderDTO> list = mapper.readMomoryP(id,chk,page);
-			map.put("list", list);
-			map.put("chk", "Y");
-			map.put("couple", chk);
-			}
+			
+			};
+			
+			
 		return map;
 	}
 

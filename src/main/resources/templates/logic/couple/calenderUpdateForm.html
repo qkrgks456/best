@@ -106,5 +106,17 @@ $('#title').on("change keyup paste input", function () {
     }
     $('#titleNum').text($(this).val().trim().length + "/20");
 })
+
+$("#sTime").change(function(){
+	$("#sTime").val($(this).val()+":00");
+});
+
+$("#eTime").change(function(){
+	$("#eTime").val($(this).val()+":00");
+	if($("#eTime").val()<$("#sTime").val()){
+		alert("마지막일정 시간이 시작시간보다 빠릅니다.");
+		$("#eTime").val("");
+	}
+});
 </script>
 </html>

@@ -39,7 +39,7 @@
                 <div class="mb-3">
                     <label for="title" class="form-label"><h5>제목</h5></label>
                     <div class="input-group">
-                    <input type="text" class="form-control" id="title" name="title">
+                    <input type="text" class="form-control" id="title" name="title" required>
                     <span class="ps-2">
     				<input type="color"  class="form-control form-control-color" id="color" name="color" value="#bb2d3b"></span></div>
                     <div id="titleNum" class="form-text">0/20</div>
@@ -49,7 +49,7 @@
                 <div class="mb-3">
                     <label for="content" class="form-label">내용</label>
                     <textarea class="form-control" id="content1" rows="10"
-                              style="resize: none" name="content"></textarea>
+                              style="resize: none" name="content" required></textarea>
                     <div id="contentNum" class="form-text">0/1000</div>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback"></div>
@@ -76,11 +76,21 @@
 <script>
 $("#sTime").change(function(){
 	$("#sTime").val($(this).val()+":00");
+	
 });
 
 $("#eTime").change(function(){
 	$("#eTime").val($(this).val()+":00");
+	if($("#eTime").val()<$("#sTime").val()){
+		alert("마지막일정 시간이 시작시간보다 빠릅니다.")
+		$("#eTime").val("");
+	}
 });
+
+if($("#eTime").val()<$("#sTime").val()){
+	alert("마지막일정 시간이 시작시간보다 빠릅니다.")
+	$("#eTime").val("");
+}
 
 //글자수 체킹 해주는거 및 유효성
 $('#content1').on("change keyup paste input", function () {
