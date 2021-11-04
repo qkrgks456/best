@@ -13,6 +13,7 @@
 ![skill](https://user-images.githubusercontent.com/76519060/140243114-81bad43c-4dbe-4d2a-8a68-4e4030b830ef.png)
 
 # AWS EC2,S3,RDS를 이용한 실제 배포 및 도메인 연결
+![aws](https://user-images.githubusercontent.com/76519060/140251500-de1fe76c-7fe2-476d-b2a1-455acbd1d0b0.png)
 
 # SMTP 프로토콜을 이용한 이메일 인증
 ![email](https://user-images.githubusercontent.com/76519060/140242980-a6d96062-c731-4504-8366-d309646da680.png)
