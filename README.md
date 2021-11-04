@@ -1,6 +1,7 @@
 ![20211007_115236](https://user-images.githubusercontent.com/76519060/139390570-098d3529-c681-4e5f-8d33-53dd34ba851c.png)
 
-*** 배포 사이트 http://lovegamepro.site/ ***
+배포 사이트 http://lovegamepro.site/
+
 # 소개
 - 우연치 않게 소중한 인연을 만들거나 커플이라면 여러 정보와 본인들의 추억을 나누세요.
 행복은 아주 가까이에 있습니다.
@@ -10,7 +11,6 @@
 
 # 사용기술 및 API
 ![skill](https://user-images.githubusercontent.com/76519060/140243114-81bad43c-4dbe-4d2a-8a68-4e4030b830ef.png)
-
 
 # AWS EC2,S3,RDS를 이용한 실제 배포 및 도메인 연결
 
