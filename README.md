@@ -22,6 +22,7 @@
 ![date](https://user-images.githubusercontent.com/76519060/140243104-e2bad69e-fd61-457d-81ba-fc0b7d718b9b.png)
 
 # 공공데이터 한국관광공사_국문 관광정보 서비스 API를 활용한 데이트 정보제공
+![info](https://user-images.githubusercontent.com/76519060/140249008-25476065-02b3-4be8-9699-3672c71b25d4.png)
 
 # 웹소켓,Sockjs,STOMP를 통한 실시간 채팅 기능
 ![chat](https://user-images.githubusercontent.com/76519060/140243110-83f52a87-de10-4a5a-bcb0-0d52602c00f0.png)
