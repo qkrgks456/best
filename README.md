@@ -9,8 +9,10 @@
 # AWS EC2,S3,RDS를 이용한 실제 배포 및 도메인 연결
 
 # SMTP 프로토콜을 이용한 이메일 인증
+![email](https://user-images.githubusercontent.com/76519060/140242980-a6d96062-c731-4504-8366-d309646da680.png)
 
 # OAuth2 카카오 로그인 연동
+![kakaoLogin](https://user-images.githubusercontent.com/76519060/140242981-2915c7e9-035c-4f53-b41e-4c66636e9853.png)
 
 # Full calendar js를 활용한 일정 기록
 
