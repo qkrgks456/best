@@ -12,6 +12,8 @@
 # 사용기술 및 API
 ![skill](https://user-images.githubusercontent.com/76519060/140243114-81bad43c-4dbe-4d2a-8a68-4e4030b830ef.png)
 
+- 한국관광공사_국문 관광정보 서비스 : https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15057787
+
 # AWS EC2,S3,RDS를 이용한 실제 배포 및 도메인 연결
 ![aws](https://user-images.githubusercontent.com/76519060/140251500-de1fe76c-7fe2-476d-b2a1-455acbd1d0b0.png)
 
