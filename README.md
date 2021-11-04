@@ -1,7 +1,8 @@
 ![20211007_115236](https://user-images.githubusercontent.com/76519060/139390570-098d3529-c681-4e5f-8d33-53dd34ba851c.png)
 
 # 소개
-- 소중한 인연을 만들거나 행복을 만드세요!
+- 우연치 않게 소중한 인연을 만들거나 커플이라면 여러 정보와 본인들의 추억을 나누세요.
+행복은 아주 가까이에 있습니다.
 - 팀장: 박한솔
 - 팀원: 변상현,민석기,김주환
 - 개발기간: 2021년 10월 11일 ~ 2021년 10월 27일
@@ -28,3 +29,10 @@
 ![chat](https://user-images.githubusercontent.com/76519060/140243110-83f52a87-de10-4a5a-bcb0-0d52602c00f0.png)
 
 # 관심사 등록에 의한 혹은 무작위 매칭 시스템
+![matching](https://user-images.githubusercontent.com/76519060/140249188-0aa35206-aecc-4088-9e2b-99ae67e4775f.png)
+
+# 일상, 기록을 통한 일상공유 시스템
+![board](https://user-images.githubusercontent.com/76519060/140249363-1914c2f6-6db7-4db7-bee3-5ca4c89b41e7.png)
+
+# 커플 등록을 통해 커플만의 추억공유 시스템
+![cupple](https://user-images.githubusercontent.com/76519060/140249881-faabba9b-786b-48b3-94c0-0bb01e39039e.png)
